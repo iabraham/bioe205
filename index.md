@@ -11,7 +11,7 @@ Use the menu elements above to navigate through the website.
 
 ## Course Information 
 
-**Lecture Time:** 1000 $-$ 1050 hrs \\
+**Lecture Time:** 1000 $-$ 1050 hrs on MWF\\
 **Location:** [Room](https://cif.illinois.edu/cif-4025-images/) [4025](https://cif.illinois.edu/building-layout/) in [Campus Instructional Facility](https://cif.illinois.edu) \\
 
 **Instructor:** [Ivan T. Abraham](https://itabrah2.web.engr.illinois.edu/) \\

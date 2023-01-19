@@ -62,7 +62,7 @@ given. In case of an event that greatly interferes with your ability to
 complete assignments this semester, grading will be determined by the
 University policy on such extenuating circumstances.
 
-Assignments can be found [here.](/homeworks#assignments)
+Assignments can be found [here.](/homework#assignments)
 
 ## Midterms and Exams
 There will be **two** midterms for this course and a **final exam** as

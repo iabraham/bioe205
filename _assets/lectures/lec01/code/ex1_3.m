@@ -18,7 +18,7 @@ title('Lightened');
  
 subplot(2,2,3);
 I1 = 1.75*I;			% Increase image contrast by multiplying by 1.75
-pcolor(I1);           		% Display original image 
+pcolor(I1);           		% Display new image 
 colormap(bone);             	% Grayscale color map
 caxis([0 1]);        		% Fix pcolor scale
 title('Contrast Enhansed');
@@ -35,7 +35,7 @@ for k = 1:r
         end
     end
 end
-pcolor(I1);           		% Display original image 
+pcolor(I1);           		% Display new image 
 colormap(bone);             	% Grayscale color map
 caxis([0 1]);        		% Fix pcolor scale
 title('Thresholded');       
