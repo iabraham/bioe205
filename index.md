@@ -17,7 +17,7 @@ Use the menu elements above to navigate through the website.
 **Instructor:** [Ivan T. Abraham](https://itabrah2.web.engr.illinois.edu/) \\
 **E-mail:** itabrah2 `at` illinois `dot` edu \\
 **Office hours:** Wednesdays 1300 - 1430 hrs in [EVRT
-3100](https://www.campus-maps.com/uiuc/everitt-lab/) and via
+2254](https://www.campus-maps.com/uiuc/everitt-lab/) and via
 [Zoom](https://illinois.zoom.us/s/82161550101?pwd=ZjJGdG1ZTEdLWFNXZ1NGZDU2ekhvZz09)
 
 
