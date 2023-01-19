@@ -21,8 +21,9 @@ the repository. Of course this assumes you have a functioning installation of
 
 In the Julia prompt running:
 
-```> using Franklin
-   > serve()
+```
+> using Franklin
+> serve()
 ```
 
 will open a webpage with a live development preview of the course website. For
@@ -43,7 +44,7 @@ To get started, see [this resource](https://answers.uillinois.edu/illinois.engin
 hosting on the `courses.grainger.illinois.edu` website; the typical usage is to
 copy contents of the
 [`__site/`](https://franklinjl.org/workflow/deploy/#deploying_on_an_existing_web_server)
-folder obtained after running `optimize` from the REPL using your favourite
+folder obtained after running [`optimize()`](https://franklinjl.org/workflow/index.html#pre-rendering_and_compression) from the REPL using your favourite
 `sftp` tool (e.g. FileZilla, CyberDuck etc.) to the particular term/semester:
 
 ```sftp.courses.grainger.illinois.edu/courses/bioe205/<term>```
@@ -51,7 +52,7 @@ folder obtained after running `optimize` from the REPL using your favourite
 
 ## TODO Items
 
- - Add search functionality with [lunr](https://franklinjl.org/extras/lunr/)
+ - Add search functionality with [lunr](https://franklinjl.org/extras/lunr/).
  - Set up [Literate](https://github.com/fredrikekre/Literate.jl) as discussed
    [here](https://franklinjl.org/extras/literate/) so we can eventually turn
    this to well-indexed website (e.g. like
