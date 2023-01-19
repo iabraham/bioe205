@@ -56,4 +56,3 @@ folder obtained after running `optimize` from the REPL using your favourite
    [here](https://franklinjl.org/extras/literate/) so we can eventually turn
    this to well-indexed website (e.g. like
    [this](https://juliaai.github.io/DataScienceTutorials.jl/) example).
-
