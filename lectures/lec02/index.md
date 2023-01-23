@@ -66,12 +66,7 @@ Noise can arise in a biological system primarily from four sources.
 
 Table 1.4 from the textbook summarizes this information. 
 
-| Source 				| Cause 							| Potential Remedy 					|
-|---------------------------------------|---------------------------------------------------------------|-------------------------------------------------------|
-| Physiological indeterminacy 		| Measurement indirectly related to variable of interest 	| Modify overall approach 				|
-| Environmental (internal or external) 	| Other sources of similar energy 				| Apply noise cancellation; Alter transducer design 	|
-| Measurement artifact  		| Transducer responds to other energy sources  			| Alter transducer design 				|
-| Electronic 				| Thermal or shot noise 					| Alter transducer or electronic design 		|
+\tableinput{}{./noise_sources.csv}
 
 ### Common forms of electrical noise
 
@@ -235,19 +230,21 @@ As you can see:
   the behavior is no longer as well ordered or predictable while the describing
   equation (2) remains still completely deterministic [^4].
 
-Chaos theory is a deep and rich topic within the field of dynamical systems and
-could serve as a topic for a semester long course in itself $\dots$ and so we will end
-our discussion on it with this lecture. For more information on the logistic
+For more information on the logistic
 map, see [here](https://www.complexity-explorables.org/flongs/logistic/), which
 is a tool that allows you to experiment with various parameters in the logistic
 map system.
+
+\emphasis{Chaos theory is a deep and rich topic within the field of dynamical
+systems and could serve as a topic for a semester long course in itself $\dots$
+and so we will **end** our discussion on it with this lecture.}
 
 ### Deterministic signals: periodic, aperiodic, and transient behaviors
 
 Brushing aside chaotic systems for now, let us return to some properties and
 definitions that serve to characterize simpler deterministic systems. 
 
-**Periodic Signal** \\
+**Periodic signal** \\
 We briefly mentioned periodic signals above. More precisely, a _periodic
 signal_ is one that repeats the sequence of values exactly after a fixed length
 of time, known as the _"period"_. The mathematical property that is obeyed by a
@@ -270,11 +267,12 @@ Sine waves are classic examples of periodic signals.
 **Aperiodic signals**\\
 Aperiodic signals (using the textbook definition) are signals that have
 [bounded](https://en.wikipedia.org/wiki/Bounded_set#Definition_in_the_real_numbers)
-[_support_](https://en.wikipedia.org/wiki/Support_(mathematics)). That is to say, they exist for a definite period of time and are
-treated as being zero outside that interval of existence. Therefore operations
-on aperiodic signals need only be applied to their finite, non-zero segments.
-One mathematically convenient way to view aperiodic signals is as periodic
-signals where the period goes to infinity. 
+[_support_](https://en.wikipedia.org/wiki/Support_(mathematics)). That is to
+say, they exist for a definite period of time and are treated as being zero
+outside that interval of existence. Therefore operations on aperiodic signals
+need only be applied to their finite, non-zero segments. One mathematically
+convenient way to view aperiodic signals is as periodic signals where the
+period goes to infinity. 
 
 **Transient signals**\\
 Transient signals are ones that do not repeat in time, but also do not have a
@@ -282,12 +280,13 @@ bounded support. Examples given in the textbook include step functions, signals
 that reach a steady state asymptotically as well as signals that grow
 ever larger on their domain. 
 
-> **Note:** The terminology used in the textbook to describe all signals with
-> unbounded support as transient is _**not standard**_. In electrical
-> engineering more often we call [transient
-> signals](https://en.wikipedia.org/wiki/Transient_response) as ones that die out with
-> time. So within this context, the third bullet above (in describing the logistic
-> map outputs) refers to a plot with a transient portion in the very beginning. 
+\caution{**Note:** The terminology used in the textbook to describe all signals
+with unbounded support as transient is _**not standard**_. In electrical
+engineering, mathematics & physics, more often we call [transient
+signals](https://en.wikipedia.org/wiki/Transient_response) as ones that die out
+with time. So within this context, the third bullet above (in describing the
+logistic map outputs) refers to a plot with a transient portion in the very
+beginning.}
 
 ## Other classifications
 
@@ -310,7 +309,7 @@ We can write:
 \dfrac{d}{dt}\left(g(t)\right)\\
 &= f'(t) + k g'(t)
 \end{align*}
-which obeys the definition of linearity and so we are done.}{
+which obeys the definition of linearity and so we are done ... or are we?}{
 **Or are we?**\\
 We cheated a bit and split/distributed the $\dfrac{d}{dt}$
 operation over addition. How do we know we allowed to do this? The answer is to
@@ -319,9 +318,29 @@ use the [limit definition](https://en.wikipedia.org/wiki/Derivative#Definition) 
 h'(x) := \lim \limits _{\epsilon \to 0} \dfrac{h(x+\epsilon) -
 h(x)}{\epsilon}
 $$
+Let our $h(x) = f(x) + k g(x)$. So we have,
+\begin{align*}
+h'(x) &= \lim \limits _{\epsilon \to 0} \dfrac{f(x+\epsilon) +k g (x + \epsilon) - f(x) - kg(x)}{\epsilon} \\ 
+& = \lim \limits _{\epsilon \to 0} \dfrac{f(x+\epsilon) - f(x) +k g (x + \epsilon) - kg(x)}{\epsilon}
+\end{align*}
+where we have just rearranged the terms. Next we split the fraction and move the limit inside (we assume we know we can
+distribute it over addition):
+\begin{align*}
+h'(x) &= \lim \limits _{\epsilon \to 0} \dfrac{f(x+\epsilon) - f(x)}{\epsilon} + \dfrac{k g (x + \epsilon) - kg(x)}{\epsilon} \\
+& = \lim \limits _{\epsilon \to 0} \dfrac{f(x+\epsilon) - f(x)}{\epsilon} + k \cdot \dfrac{g (x + \epsilon) - g(x)}{\epsilon} \\ 
+& = \lim \limits _{\epsilon \to 0} \dfrac{f(x+\epsilon) - f(x)}{\epsilon} + k \cdot \lim \limits _{\epsilon \to 0} \dfrac{ g (x + \epsilon) - g(x)}{\epsilon}
+\end{align*}
+But the above is just the definition of differentiation. Thus, 
+\begin{align*}
+h'(x) =\dfrac{d}{dx}f(x) + k \dfrac{d}{dx} g(x) = f'(x) + kg'(x)
+\end{align*}
 }
-Integration is left as an exercise.
+and differentiation is indeed a linear operator. Integration is also linear but
+showing that requires a bit more mathematical machinery than we have at our
+disposal in this course. It is left as an exercise for the mathematically
+inclined.
 }
+
 
 The next bit describes one way to examine if a system is linear or not. 
 
@@ -329,11 +348,15 @@ The next bit describes one way to examine if a system is linear or not.
 In truth, most real systems will likely exhibit nonlinearity if they are tested
 over a wide enough range of inputs. Example 1.7 of the textbook takes a few
 sinusoids of different amplitudes as input to an unknown system and then
-examines the output relative to the input as a test for linearity. Make sure
-you understand the example well.
-}
+examines the output relative to the input as a test for linearity. 
+Make sure you understand the example well.}
 
-### Time-invariant vs non-stationary
+\note{It is common to call equations like $y = 5x + 3$ as the equation of a
+line and thus "linear". We invite the reader to think if the function $y(x) = 5x
++3$ is actually linear or [something
+else.](https://en.wikipedia.org/wiki/Affine_transformation#Over_the_real_numbers)}
+
+### Time-invariant vs. non-stationary
 Time-invariant systems are one where the equations describing the system
 dynamics do not change with time. We already saw one example of such a system
 (albeit in discrete time) with the logistic map above. Here, for any fixed

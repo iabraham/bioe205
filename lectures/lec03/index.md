@@ -30,27 +30,29 @@ signals, some common signals and their characterizations and constructions
 
 ## Modeling biological systems
 The textbook discusses two different approaches to modeling biological systems
-as engineers. The first it calls the _analog_ model and the second it calls the
-_systems_ model. We briefly discuss the key themes in each here. 
+as engineers. The first it calls the **analog** model and the second it calls the
+**systems** model. We briefly discuss the key themes in each here. 
 
 ### Analog(ue) approach 
 In this approach, we try to model the properties of the system using mechanical
-or electrical devices. The key point here, is that the differential equations
-which govern the behavior of the mechanical components used in the model, take
-the same (if simplified) form as those biological characteristic we seek to
-represent in the real system. For example, an early model of musculo-skeletal
+or electrical devices. For example, an early model of musculo-skeletal
 systems utilized nonlinear springs, contractile elements, and other such
 mechanical elements in series and parallel connections to mimic the properties
-and behavior shown in actual animal systems. See Figure 1.23 in the textbook.\\ 
+and behavior shown in actual animal systems. 
 
+See Figure 1.23 in the textbook.
 
-Model forces and velocities correspond to biological forces and velocities when
+\emphasis{The key point here is: the differential equations
+which govern the behavior of the mechanical components used in the model, take
+the same (if simplified) form as those biological characteristic we seek to
+represent in the real system.}
+
+The model forces and velocities correspond to biological forces and velocities when
 mechanical elements are utilized to simulate biological mechanics. We could
 also do the same with electrical components if the same principle (that the
 defining dynamical equations are similar/identical) holds. As an
 example, we know from Ohm's law that a resistor provides a linear relationship
-between voltage and current where the constant of proportionality is the
-resistance in Ohms. Then using voltage as a stand-in for force (or pressure)
+between voltage & current. Then, using voltage as a stand-in for force (or pressure)
 and current for velocity, one can model features of the cardiovascular system
 with the resistance of the resistor mimicking the resistance provided by blood
 vessels to blood flow. Of course, blood vessels are not exactly the same as a
@@ -62,19 +64,22 @@ The "analog" in the title of this section thus is also rightly interpreted as
 "analogous" approach and not just in the sense of analog vs. digital modeling.  
 
 ### Systems approach 
-In this approach, one does not seek to create models that mimic the exact
+In this approach, one does **not** seek to create models that mimic the exact
 behavior of a biological system with mechanical, electrical or pneumatic
-elements. Arguably, this is the more modern of the two approaches and also more
-abstract. In this conceptual framework, one wants to model the _input-output_
-behavior of different systems or system components. Rather than concentrate on
-the specifics of _how_ each operation is implemented, the focus now is on
-accurately describing _what_ the system does. Since the key is now to describe
-accurately (often via differential equations) how the input or stimulus to the
-system is _tranformed_ into the output or response of the system, these models
-are frequently called transfer function models which are traditionally
-represented via _system diagrams_.
+elements. Instead a more abstract approach is taken. Arguably, this is the more
+modern of the two approaches. In this conceptual
+framework, one wants to model the _input-output_ behavior of different systems
+or system components. Rather than concentrate on the specifics of _how_ each
+operation is implemented, the focus now is on accurately describing _what_ the
+system does. 
 
-A key innovation in this approach is the separation of the process into a
+\emphasis{Since the key is now to describe accurately (often via
+differential equations) how the input or stimulus to the system is _tranformed_
+into the output or response of the system, these models are frequently called
+**transfer function** models which are traditionally represented via _system
+diagrams_.}
+
+An important innovation in this approach is the separation of the process into a
 _plant_ & a _controller_ as well as the introduction of _feedback_ to the
 system[^1]. Consider a simple system that must regulate or keep some variable
 $x$ of interest within an acceptable reference $r$. Here $x$ could be the
@@ -97,6 +102,7 @@ is for later lectures). The figure below illustrates this abstraction.
 
 \fig{sysdiag.png}
 
+\note{Here we transition to material of Chapter 2 of CSSB.}
 
 ## Elementary operations on signals
 
@@ -284,8 +290,8 @@ Note that we add some styling elements using `xlabel` and `ylabel` commands.
 
 ## Review of some basics regarding $\mathbb{C}$
 We will have the opportunity to work with Eulers formula and the complex
-numbers as well as complex sinusoids in this course. Therefore at this stage it
-is instructive to review the basic laws of logarithms and exponents. This
+numbers as well as complex exponentials in this course. Therefore at this stage
+it is instructive to review the basic laws of logarithms and exponents. This
 should be very familiar material. 
 
 For a real number $a \neq 0$ we _define_, $a^0:=1$. Then, for two real numbers
@@ -299,8 +305,8 @@ $a, b$ and two integers $m, n$ the following laws hold.
 
 The logarithm is defined as an operation using the following:
 
-> **Definition**: We say $y = \log _a x$ if and only if $x = a^y$ for positive
-> nonzero $a$.
+\definition{Logarithm}{We say $y = \log _a x$ if and only if $x = a^y$ for positive
+nonzero $a$}
 
 One should read the operation $\log _a x$ as "logarithm to the base $a$ of
 $x$". When the _base_, $a=e$, we replace the notation $\log$ with $\ln$
@@ -327,7 +333,9 @@ x y = a^{\log _a x} a^{\log _a y} &= a^{\log _a x + \log _a y}  \\
 xy = a^{\log _a (xy)} &= a^{\log _a x + \log_a y} 
 \end{align*}
 The first line uses the properties of exponents. In the second line, the first
-equality arises by doing $z = a^{\log _a z}$ with $z=xy$. Since the second 
+equality arises by doing $z = a^{\log _a z}$ with $z=xy$. 
+
+Since the second 
 equality in the last line above has the same base then the two exponents must
 be equal. Thus follows the identity.}
 
@@ -339,6 +347,9 @@ $\mathbb{C}$ are two dimensional, having both a _real_ coordinate and an
 _imaginary coordinate_. All complex numbers therefore can be written in a
 _Cartesian_ form $z = (a, b)$ (often written $z = a+ib$) and as well as a
 _polar_ form $z = (r, \theta)$. 
+
+\emphasis{**Appendix F** in CSSB has a primer on complex arithmetic which you should
+peruse if you haven't seen them in a long time.}
 
 \collaps{**Question:** What is the relationship between $(x, y)$ and $(r, \theta)$?}{**Answer:** Left as an exercise. Might help to draw out a diagram and recall some basic trigonometry.}
 
@@ -352,16 +363,17 @@ it):
 > understand it, and we don't know what it means. But we have proved it, and
 > therefore we know it is the truth._
 
-Let us therefore prove it, starting with the basics of calculus and only the
+Let us therefore prove it, starting with the only the
 supposition that a complex number as an exponent to $e$ should return a
-complex number. 
+complex number[^4] and examining what calculus can tell us.
 
 Let $e^{ix}$, being a complex number, have _some_ polar
 representation:
 $$ \label{eulerdef}
 e^{ix} = r \left( \cos \theta + i \sin \theta \right) 
 $$
-Differentiate both sides and follow the product rule of calculus:
+Differentiate both sides (with respect to $x$ and not assuming anything about
+$r$ or $\theta$) and follow the product rule of calculus:
 $$ \label{polardef}
 i e^{ix} = \left( \cos \theta + i \sin \theta \right) \dfrac{dr}{dx} + r \left(
 - \sin \theta + i \cos \theta \right) \dfrac{d\theta}{dx}
@@ -424,5 +436,5 @@ Thus,
 [^1]: The term _plant_ is a relic from the old times when these concepts were first introduced in the setting of large industrial production plants (often for chemicals). 
 [^2]: Technically this encompasses arbitrary changes to the timeline $t' = \phi(t)$ but we don't discuss that here. 
 [^3]: It is _natural_ in many senses that are beyond the scope of the course; but it suffices to note that $e$ is a [very important](https://en.wikipedia.org/wiki/E_(mathematical_constant)) mathematical constant on par with $\pi$.
-
+[^4]: A much more natural assumption than Appendix A in CSSB which admittedly seems to start out of nowhere. 
 

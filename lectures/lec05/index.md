@@ -48,7 +48,7 @@ this vector $u$ along with the construction: $v=(-b, a)$. Note that $\langle u,
 v \rangle \equiv 0$!. 
 
 ~~~
-<iframe scrolling="no" title="Two orthogonal vectors" src="https://www.geogebra.org/material/iframe/id/hmf6fxby/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"> </iframe>
+<iframe scrolling="no" title="Two orthogonal vectors" src="https://www.geogebra.org/material/iframe/id/hmf6fxby/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false" width="760px" height="500px" style="border:0px;"> </iframe>
 ~~~
 
 This concept extends to higher dimensions as well as to continuous time
@@ -82,7 +82,9 @@ reader to work out the following.
 
 \collaps{**Question:** Use the above result and Euler's identity to show that
 $ f= \sin(nt)$ and $g = \cos(mt)$ where $m, n \in \mathbb{Z}$ are
-orthogonal.}{**Answer:** Homework hint - note that $\cos(mt)$ can be written
+orthogonal.}{**Answer:** \highlight{____}
+
+**Hint:** Note that $\cos(mt)$ can be written
 as:
 $$
 \dfrac{\exp(imt) + \exp{(-imt)}}{2}

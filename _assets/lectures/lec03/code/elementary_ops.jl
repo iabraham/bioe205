@@ -30,3 +30,4 @@ titles = ["Y-axis shifts", "X-axis shifts", "Multiplication",
 final_plot = plot(map(plot_items, traces, labels, titles)..., 
 		  layout=(2,3), size=(850, 500))
 savefig(joinpath(@__DIR__,"output/elementary_ops")) # hide
+savefig(joinpath(@__DIR__,"output/elementary_ops.pdf")) # hide

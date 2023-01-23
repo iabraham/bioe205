@@ -1,0 +1,5 @@
+Transform name,Applicabiliy,Acronynm,Implementation/Usage
+Discrete Fourier Transform,applicable to periodic discrete signals,DFT,all real world applications
+Fourier Series,applicable to periodic and continuous signals,FS,analytical computations 
+Fourier Transform,applicable to aperiodic and continuous signals,FT,analytical computations
+Discrete Time Fourier Transform,theoretically applicable to aperiodic & discrete signals,DTFT,not possible

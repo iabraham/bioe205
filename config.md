@@ -31,7 +31,7 @@ Add here global latex commands to use throughout your pages.
 ~~~<button type="button" class="collapsible">~~~ #1 ~~~</button><div class="collapsiblecontent">~~~ #2 ~~~</div>~~~
 }
 \newcommand{\highlight}[1]{
-~~~<span style="color:blue;">[#1 ]</span>~~~
+~~~<span style="color:blue;">#1</span>~~~
 }
 \newcommand{\figstyled}[2]{
 ~~~
@@ -48,4 +48,19 @@ Add here global latex commands to use throughout your pages.
 <figcaption>#2</figcaption>
 </figure>
 ~~~
+}
+\newcommand{\definition}[2]{
+  @@definition
+  **Definition**: (_!#1_)
+  #2
+  @@
+}
+
+\newcommand{\note}[1]{@@note @@title ⚠️ Note@@ @@content #1 @@ @@} 
+\newcommand{\caution}[1]{@@caution @@title ❗ Caution@@ @@content #1 @@ @@} 
+\newcommand{\warn}[1]{@@warning @@title ⛔ Warning!@@ @@content #1 @@ @@}
+
+
+\newcommand{\emphasis}[1]{
+  @@important #1 @@
 }

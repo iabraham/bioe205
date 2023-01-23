@@ -16,8 +16,15 @@ lectures.
 1. [Lecture notes 03](lec03)
 1. [Lecture notes 04](lec04)
 1. [Lecture notes 05](lec05)
+1. [Lecture notes 06](lec06)
 
-These notes are by no means perfect; and there might be a plethora of typos or
+\note{These notes are by no means perfect; they are being written up for the
+first time and a work-in-progress. There might be a plethora of typos or
 unintentional mistakes peppered through them. Please point them out or bring
-them up. 
+them up.}
+
+\caution{These notes are intentionally **not** mathematically rigorous due to
+various reasons (breadth of topics to cover, curriculum plan, etc.). The
+more mathematically inclined student can find far more meticulous & precise 
+treatment of the subject matter elsewhere.}
 

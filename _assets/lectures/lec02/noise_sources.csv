@@ -1,0 +1,6 @@
+Source,Cause,Potential Remedy
+Physiological indeterminacy,Measurement indirectly related to variable of interest,Modify overall approach
+Environmental (internal or external),Other sources of similar energy,Apply noise cancellation; Alter transducer design
+Measurement artifact,Transducer responds to other energy sources,Alter transducer design
+Electronic,Thermal or shot noise, Alter transducer or electronic design
+

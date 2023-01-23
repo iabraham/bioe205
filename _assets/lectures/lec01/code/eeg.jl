@@ -1,5 +1,5 @@
 # This is Julia code; it will not run in MATLAB/Python
-using MAT, Plots, FFTW
+using MAT, Plots, FFTW, Plots.Measures
 
 filename = joinpath(@__DIR__,"eeg_data1.mat")
 eeg = read(matopen(filename))["eeg"][:]
@@ -12,10 +12,10 @@ freqs = fftshift(fftfreq(length(t), fs))
 l = @layout [a [b
                 c]]
 
-time_domain = plot(t, eeg, title = "Time domain signal", label=false)
+time_domain = plot(t, eeg, title = "Time domain signal", label=false, xlabel="Time units")
 freq_mags = plot(freqs, abs.(F), title = "Magnitude spectrum", xlim=(0, 25),
-		 xticks=0:5:25, label=false,legend=:top) 
+		 xticks=0:5:25, label=false,legend=:top, xlabel="Frequency units")
 freq_phase = plot(freqs, angle.(F), title = "Phase spectrum", xlim=(0, 25),
-		  xticks=0:5:25, label=false,ylim=(-4,4)) 
-plot(time_domain, freq_mags, freq_phase, layout=l, size=(800,400))
+		  xticks=0:5:25, label=false,ylim=(-4,4), xlabel="Frequency units")
+plot(time_domain, freq_mags, freq_phase, layout=l, size=(800,400), bottom_margin=5mm)
 savefig(joinpath(@__DIR__,"output/eeg"))

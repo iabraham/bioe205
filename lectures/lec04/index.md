@@ -54,20 +54,22 @@ While the mean characterizes the average value of a signal over its period of
 observation, the amount of fluctuation is measured by a term called _variance_
 defined as follows. 
 
-### Variance
+### Variance & standard deviation
 $$
 \sigma^2 = \dfrac{1}{N-1} \sum \limits _{n=1}^N \left( x_n - \mu _x \right)^2
 \qquad \textrm{and} \qquad \sigma^2 = \dfrac{1}{T} \int \limits _0 ^T \left(x(t) -
 \mu _x \right) ^2  dt
 $$
 
-The square root of the variance $\sigma ^2$ is defined to be the standard
-deviation $\sigma$. Note that the normalization is by $N-1$ (denoting _sample_
+The square root of the variance $\sigma ^2$ is _defined_ to be the **standard
+deviation** $\sigma$. Then it is easy to see that while the mean and standard
+deviation preserve the original units, the variance does not.
+
+\note{Keep in mind that the normalization is by $N-1$ (denoting _sample_
 variance) and not $N$ (used for _population_ variance) which is a factor
 required to avoid [biased
-estimates](https://en.wikipedia.org/wiki/Bessel%27s_correction). Also note that
-while the mean and standard deviation preserve the original units note that the
-variance does not.
+estimates](https://en.wikipedia.org/wiki/Bessel%27s_correction).}
+
 
 ### Root Mean Square
 A quantity related to standard deviation is the root-mean-square value of a
@@ -217,15 +219,15 @@ subject to the condition:
 \int \limits _{\mathbb{R}} \delta(x) dx = 1
 $$}
 
-Technically, there is no mathematical "function" that satisfies the above
-property (see footnote) however one should think of it as a linear
-[functional](https://en.wikipedia.org/wiki/Functional_(mathematics))
-that maps every continuous function $f(x)$ to its image at the origin $f(0)$. 
-
 While it is not immediately obvious why such an abstraction should be useful,
 it might be useful to think about what the _derivative_ of $h(t)$ above should
 be. We will see concrete examples of how the impulse function is used to
 simplify modeling in future lectures. 
+
+\note{Technically, there is no mathematical "function" that satisfies the above
+property (see footnote) however one should think of it as a linear
+[functional](https://en.wikipedia.org/wiki/Functional_(mathematics))
+that maps every continuous function $f(x)$ to its image at the origin $f(0)$.}
 
 ### Ramp signal
 
@@ -258,7 +260,7 @@ where the $c_k$ usually depend on successive derivatives but now are related
 via $f^{(n)}(x) = f(x)$.
 
 Differentiating the Taylor expansion once we get that a relationship must hold
-between the $c_k$; namely, \highlight{blank} . For example, with
+between the $c_k$; namely, \highlight{_____} . For example, with
 $k=0$ we get $c_1 = c_0$ and $k=5$ we get $c_6 = \dfrac{c_5}{6}$. A little
 recursion then gives that $c_k = \dfrac{c_0}{k!}$. Thus the Taylor expansion
 becomes:
@@ -270,7 +272,7 @@ But the right hand side infinite sum should be familiar from calculus!. Thus we
 get the functions $y(x) = c_0 e^{x}$ are functions whose derivative satisfy $f(x)
 =f'(x)$ with $c_0$ being defined by $f(0)$. 
 
-\highlight{blank} - Homework material!
+\highlight{____} - Homework material.
 }
 
 Moreover, this characterization is a unique; that is (upto some caveats)
@@ -281,11 +283,12 @@ $ce^{x}$ are the only functions who equal their derivatives.
 y(x)$}{**Solution:** Assume there is another class of functions $g(x)$ which are **not** of the form
 $g(x)=k e^{x}$ such that $g'(y) = g(y)$. Now consider the derivative:
 \nonumber{$$
-\left(g(x) e^{-x} \right) '
-$$
-}
-\highlight{blank} - Show in your homework the assumption leads to a
-contradiction!. 
+\left(g(x) e^{-x} \right)'
+$$}
+which by the product rule \highlight{____}.
+
+_You will show in your homework the assumption leads to a
+contradiction._ 😊
 }
 
 The figure below shows the three signals we have discussed so far:
@@ -332,7 +335,7 @@ representing perfect _linear_ anti-correlation or correlation and the middle
 value (zero) implying no correlation. Note the normalization by $N-1$ for
 sample statistics similar to the definition for variance. 
 
-\collaps{**Question:** Provide a heuristic argument why $r_p(x,y)$ is
+\collaps{**Question:** Provide a plausible argument why $r_p(x,y)$ is
 between $-1$ and $1$.}{**Answer:** Let $\bar{x} = x - \mu _x$
 and similarly $\bar{y} = y - \mu _y$ to be the mean centered version of $x$ and $y$. Consider
 \nonumber{$$
