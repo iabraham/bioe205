@@ -382,10 +382,10 @@ markedly different depending on the time interval it is observed across.
 
 [\input{plot}{nonstationary}](/assets/lectures/lec02/code/nonstationary.jl)
 
-\collaps{**Question:** Of the two signals $y_1(t)$ and $y_2(t)$ which one is
+\collaps{**Question:** Of the two signals $y_1(x)$ and $y_2(x)$ which one is
 time invariant?\\
 \nonumber{
-$$y_1(t) = 2t^2 x(t) \qquad \textrm{and} \qquad y_2(t) = 3 e^{3x(t)}$$
+$$y_1(x) = 2t^2 x(t) \qquad \textrm{and} \qquad y_2(x) = 3 e^{3x(t)}$$
 }
 }{**Answer:** Left as an exercise.}
 

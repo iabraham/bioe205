@@ -226,13 +226,23 @@ directions[^3]. They are listed as:
 \tableinput{}{./transformtypes_forward.csv}
 
 Please take care to use the right name because each of the techniques have
-slightly different areas of applicability as listed in the table. 
+slightly different areas of applicability as listed in the table. In the words
+of one bestselling author:
+
+> You might be thinking that the names given to these four types of Fourier
+> transforms are confusing and poorly organized. You're right; the names have
+> evolved rather haphazardly over 200 years. There is nothing you can do but
+> memorize them and move on.
+> \\
+> ~ S. W. Smith
+
+
 We will start with the DFT above, and discuss each in turn, though we
 may not follow the unwieldy notation used in CSSB. We start with the DFT
 because it is directly related to the discussions we have had above. 
 
 ### Discrete Fourier Transform (DFT)
-Given one period of discrete periodic signal $f$ as vector of length $N$
+Given one period of discrete periodic signal $f[n]$ as vector of length $N$
 we define the DFT of it as the sequence of $N$ complex numbers given by:
 $$ \label{fdft}
 F[k] := \dfrac{1}{\sqrt{N}} \sum \limits _{n=0} ^{N-1} f[n] e^{-i n \omega_k}
@@ -242,6 +252,7 @@ $$
 Note the similarity of the above summation with those we have been using to
 express vectors in terms of different basis. This is no coincidence because the
 *inverse* DFT is:
+
 $$ \label{idft}
 f[n] := \dfrac{1}{\sqrt{N}} \sum \limits _{k=0}^{N-1} F[k] e^{i n \omega_k}
 \quad \textrm{for} \quad n=0, 1, 2, \dots, N-1
@@ -249,16 +260,43 @@ $$
 
 We finally hit pay dirt for mining through all the math so far. 
 
-\emphasis{**Key point:** Thus, one can view the DFT (forward) as computing the
-coefficients ($F[n]$) we need to express the original discrete signal $f[k]$ in
-terms of a new basis of complex exponentials.}
+\emphasis{**Key point:** One can view the DFT (forward) as computing the
+coefficients $F[k]$ we need to express the original discrete signal $f[n]$ in
+terms of a new basis of _complex exponentials_.}
 
 One naturally wonders why we would bother to write a signal in terms of
 complex exponentials. Here is where we tie up another thread we introduced a
-couple of lectures back: _complex exponentials are sinusoids_ and sinusoids are 
-the "nicest" periodic functions in a sense[^4]. \highlight{Therefore, we
-are expressing the original signals as a summation of sinusoids of different
-frequencies!}
+couple of lectures back via Euler's formula: **_complex exponentials are sinusoids!_**
+
+
+Thus in the above:
+\nonumber{$$
+e^{in\omega_k} = \cos(n\omega_k) + i \sin(n\omega_k)
+$$}
+
+
+One should think of this as evaluating a sine and cosine of frequency
+$\omega_k$ at the time $n$. 
+
+Note that the summation is over $k$ in \eqref{idft}: \highlight{Therefore, we are expressing
+the original signals as a summation of <em>sinusoids</em> of different
+frequencies!} This is useful because sinusoids are the "nicest" periodic
+functions in a sense[^4].
+
+\note{
+1. Recall from [Lecture 03](/lectures/lec03#manipulating_sinusoids)
+   that a general sinusoid can be written in terms of pures sines & cosines
+   without phases. Therefore, rather than having to find the coefficient for the
+   sine part and the coefficient for the cosine part separately (as we will in
+   next lecture), the complex formulation above does it in one shot.
+2. We have used square brackets $[ \cdot ]$ in the above in the usual sense for 
+   discrete signals but also pay close attention to the use of $F$ vs $f$ (one
+   refers to the signal and the other its transform).
+3. The normalization factor we have used above is $\sqrt{N}$; which lends
+   credence to our the interpretation as a change of basis. CSSB and most other
+   texts/implementations present an unnormalized DFT and normalized iDFT (by
+   $N$); it changes things very little as long as one is consistent.
+}
 
 Fourier's great insight was that theoretically, *any* periodic function can be
 expressed in terms of a summation of sines & cosines $+$ a constant. In
@@ -282,33 +320,14 @@ width="760px" height="500px" style="border:0px;"> </iframe>
 In the above definition we took a complete period of a signal $f[k]$ when we
 computed its transform. This is an implicit assumption whenever we perform the
 DFT. In practice, it is rarely the case that we will have one complete period
-of the signal we are performing DFT on which leads to some artefacts. These
-will be the subject of subsequent lectures. 
+of the signal we are performing DFT on which leads to some artefacts $\dots$. 
+These will be the subject of subsequent lectures. 
 
-Note that while we discuss other flavors of the transform next; the only real
+Note that while we discuss other flavors of the transform next; the only
 one we can implement and perform on real world signals is the DFT via a
 computer. Nevertheless, the other transforms are important to know for purposes of
 analysis and problem solving and we look at these next. 
 
-\note{
-1. We have used square brackets $[ \cdot ]$ in the above in the usual sense to
-   mean discrete signals but also pay close attention to the indices and the
-   use of $F$ vs $f$ (one refers to the signal and the other its transform).
-2. The normalization we have used above for both the DFT and iDFT is
-   $\sqrt{N}$. CSSB and some other texts/implementations present an
-   unnormalized DFT and normalized iDFT (by $N$), which means one must
-   remember where to put the $N$. 
-}
-
-At this point, it might be instructive to take a minute and recall that we
-remarked in [Lecture 01](/lectures/lec01/) that signals admit equivalent time
-and frequency domain representations and referred to this figure below. It is
-precisely via the Fourier transform that we get the frequency domain
-representation. Each coordinate on the right panel gives us three things: a
-frequency, a phase and a magnitude corresponding to a single sinusoid in the
-(possibly infinite) summation required to represent it.  
-
-\input{plot}{eeg}
 
 \collaps{**Question:** Verify that that the two transforms defined by
 \eqref{fdft} and \eqref{idft} are inverses of each
@@ -341,11 +360,6 @@ Finally show that the leftover sum $\sum_m f[m] \left( \dots \right)$ therefore
 is simply $f[n]$ since the only nonzero term arises when $m=n$. 
 }
 
-\caution{Mathematically speaking, the interpretation that we just made, 
-i.e. viewing Fourier transforms and expansions as a change-of-basis might seem
-fraught with difficulties beyond the DFT; but for our purposes in this
-course and for almost all engineering purposes -- this interpretation serves
-just fine.}
 
 ### Fourier Series 
 
@@ -353,41 +367,118 @@ In the above discussion, we had a discrete periodic signal to begin with. What
 happens if instead we have a continuous periodic signal? We no longer have any
 indices to sum over; so we should adjust our equations a bit. While in terms of
 implementation, everything in a computer relies on the DFT, conceptually we
-tend to think in terms of continuous signals and so we get the Fourier series.
+tend to think in terms of continuous signals and so this is a practical
+concern. 
+
+\caution{Mathematically speaking, the interpretation that we just made, 
+i.e. viewing Fourier transforms and expansions as a change-of-basis might seem
+fraught with difficulties beyond the DFT; but for our purposes in this
+course and for almost all engineering purposes -- this interpretation serves
+just fine.}
 
 To go from discrete to continuous recall that we summed over a complete period
 of a signal. For continuous signals the summation becomes an integration and 
-just like before we integrate over a full period $T$. Moreover the summation
-variable $n$ turns into the integration variable $t$. Thus as we replace $f[t]
+just like before we integrate over a full period $T$. Next, the summation
+variable $n$ turns into the integration variable $t$. Moreover as we replace $f[t]
 \mapsto f(t)$ we also do:
+
 \nonumber{$$
 \sum \limits _{n=0} ^{N-1} \dots  \quad \mapsto \quad \int \limits _0 ^T \dots
 \qquad \textrm{and} \qquad e^{-i n \omega_k } \quad \mapsto \quad e^{-i
 \omega_k t}
 $$}
-Thus we get that Fourier Series corresponding to a periodic signal $f(t)$ over
+
+Thus we get that _Fourier Series_ corresponding to a periodic signal $f(t)$ over
 one period $[0, T]$ is given as:
 $$ \label{ffs}
 F[k] = \dfrac{1}{T} \int \limits _{0} ^T f(t) e^{-i k \omega_0 t} dt \quad
 \textrm{where} \quad \omega_0 := \dfrac{2\pi}{T} \quad \textrm{and} \quad
 k=0, \pm 1, \pm 2, \dots 
 $$
-The quantity $\omega_0$ should be familiar to us from our discussion of
-periodic signals and is in the context of Fourier analysis called the
-_fundamental frequency_. Moreover, in literature it is common to call
-\eqref{ffs} and \eqref{fdft} as **forward** or **analysis** equations and the
-inverse transform as in \eqref{idft} as the **synthesis** equation because
-these synthesize our signal out of sinusoids. Thus, for a continuous periodic
-signal, the synthesis equation is given by:
+where we have normalized by the period $T$. The quantity $\omega_0$ should be
+familiar to us from our discussion of periodic signals and is in the context of
+Fourier analysis called the _fundamental frequency_. Moreover, in literature it
+is common to call \eqref{ffs} and \eqref{fdft} as **forward** or **analysis**
+equations and the inverse transform as in \eqref{idft} as the **synthesis**
+equation because these synthesize our signal out of sinusoids. Thus, for a
+continuous periodic signal, the synthesis equation is given by:
 
-$$
+$$ \label{iffs}
 f(t) = \sum \limits _{k=-\infty} ^{\infty} F[k] e^{i k \omega_0 t} \quad
 \textrm{and} \quad t \in [0, T]
 $$
 
 Note that the synthesis equation is still a summation and the analysis
 equations generates an infinite sequence of Fourier coefficients $F[k]$. This
-explains the reason why we call it the Fourier Series.
+explains the reason why we call it the _Fourier Series_. Ideally, we should have
+called the DFT the Discrete Fourier Series but ... oh well 🤷.
+
+Obviously, only a fraction of the signals we see in real life are periodic
+signals. In our discussion so far, we have assumed the signals to be periodic
+regardless of whether discrete or continuous. Next, we will try to relax this
+assumption. 
+
+### Fourier Transform
+
+As stated previously in [Lecture
+02](/lectures/lec02#deterministic_signals_periodic_aperiodic_and_transient_behaviors)
+one convenient way to think of aperiodic signals is to treat them as signals
+whose period $T \to \infty$. To extend the equations above to signals that are
+not periodic, this is exactly what we do. We let $T$ go to $\infty$ and let the
+machinery for mathematical theory of limits take over. We don't work this out
+here but one can easily see that as $T \to \infty$ we have $\omega_0 \to 0$. Yet, in the
+integration, we have $k \omega_0$ with $k= 0, \pm 1, \pm 2, \dots$ all the way
+to $\infty$. Thus the term $k \omega_0$ does not go to zero, rather becomes a
+continuous variable $\omega$ and we perform the necessary integration over the
+whole real line. Then we have for the forward equation:
+
+$$ \label{fft}
+F (\omega) = \dfrac{1}{\sqrt{2 \pi}} \int \limits _{-\infty}^{\infty} f(t) e^{-i\omega t} dt  
+$$
+In tandem, since $k \omega _0$ became a continuous variable $\omega$, it is now
+necessary to replace the sum in \eqref{iffs} with an integral. Therefore we get
+the synthesis equation: 
+$$ \label{ifft}
+f(t) = \dfrac{1}{\sqrt{2 \pi}} \int \limits _{-\infty} ^{\infty} F(\omega) e^{i
+\omega t } d\omega 
+$$
+Intuitively, one can think of it like this: if a periodic signal (like the
+square wave) requires an infinite summation of sines and cosines of _discrete_
+frequencies to represent it, then an aperiodic signal would require even more
+-- an infinite summation of _continuous_ frequencies; in fact an integral.
+
+\note{You might be wondering about the sudden appearance of a normalization
+term in \eqref{fft} and \eqref{ifft}. The short answer is sines/cosines are
+naturally $2\pi$ periodic and the function we are transforming does not have a
+natural period. It is an annoying fact of life that different sources use
+different normalization or sometimes none at all (e.g. MATLAB). Here, we have
+once again chosen symmetry, amongst [other
+things](https://en.wikipedia.org/wiki/Unitary_transformation). But the point is
+to pick one style and stick to it consistently.}
+
+## Wrap up
+
+A this point, it might be instructive to take a minute and recall
+that we remarked in [Lecture
+01](/lectures/lec01#frequency_domain_vs_time_domain) that signals admit
+equivalent time and frequency domain representations and referred to this
+figure below. It is precisely via the Fourier transform that we get the
+frequency domain representation. Each coordinate on the right panel gives us
+three things: a frequency, a phase and a magnitude corresponding to a single
+sinusoid in the (possibly infinite) summation required to represent it.  
+
+\input{plot}{eeg}
+
+We will skip the DTFT because of its limited practical application and in the
+next lecture we will arrive at equations equivalent to the ones shown in this
+lecture but without using imaginary numbers and complex mathematics. 
+
+In this lecture note, the intention was to provide a birds eye view of the
+theory of Fourier transforms and how it fits in the greater scheme of
+things. We have grossly neglected to discuss any implementations or
+calculations; both of which, hopefully will be addressed by homework, and in
+particular the latter which we will rectify with some worked out examples.  
+
 ~~~
 <p align="center"><a href="/lectures/">[back]</a></p>
 ~~~
@@ -396,3 +487,4 @@ explains the reason why we call it the Fourier Series.
 [^2]: Which BIOE205 isn't, so we must wrap up the discussion. 
 [^3]: As you will see on this page, some of the "transforms", especially the first discrete ones, doesn't actually involve integrals, but it is common refer to them all as transforms anyway.
 [^4]: For example, they are infinitely differentiable, admit Taylor series expansions, are orthogonal, etc. 
+ 

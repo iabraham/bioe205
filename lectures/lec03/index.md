@@ -288,6 +288,51 @@ Note that we add some styling elements using `xlabel` and `ylabel` commands.
 
 [\input{plot}{sinusoid}](/assets/lectures/lec03/code/sinusoid.m)
 
+### Manipulating sinusoids 
+It is often convenient to analytically manipulate sine/cosine waves. To add two
+sine waves of the same frequency just add their amplitudes together. 
+\nonumber{$$
+y_k = a_k \sin (\omega t) \implies \sum \limits _k y_k = \left( \sum \limits _k a_k
+\right) \sin (\omega t)
+$$}
+The same applies to cosines. 
+\nonumber{$$
+y_k = a_k \cos (\omega t) \implies \sum \limits _k y_k = \left( \sum \limits _k a_k
+\right) \cos (\omega t)
+$$}
+Therefore, to add a sine wave to a cosine wave, we must first write them *both*
+using the same function; either _sine_ or _cosine_. For example, we
+already noted that $\cos(t - \pi/2) = \sin(t)$ and so $\cos(t) + \sin(t) =
+\cos(t) + \cos(t - \pi/2)$. But this means we will need to
+address how to deal with phase differences:
+\nonumber{$$
+c_1 \cos(\omega t) + c_2 \cos (\omega t - \phi) = \qquad ??
+$$}
+Now it becomes convenient to represent a general sinusoid $y(t) = A \cos(\omega
+t + \phi)$ in terms of pure sines & cosines. This can be done using 
+$$ \label{cosdiff}
+\cos(x - y) = \cos(x) \cos(y) + \sin(x) \sin(y)
+$$
+\collaps{**Question:** Verify that $A\cos(\omega t + \phi) = u\cos(\omega t) -
+v \sin(\omega t)$ where $u = A \cos( \phi)$ and $v = A\sin(\phi)$.}{
+**Answer:** Note that the \eqref{cosdiff} directly gives 
+\nonumber{
+\begin{align}
+A \cos (\omega t + \phi) &= A\cos(\omega t) \cos(-\phi) + A\sin(\omega t)
+\sin(-\phi) \\ 
+&= A\cos(\phi)\cos(\omega t) - A\sin(\phi) \sin(\omega t)
+\end{align}
+}}
+
+A similar relation exists for converting a sinusoid in terms of the sine function
+into a sum of pure sines and cosines as well. Therefore, now we have the
+procedure to analytically add sinusoids. 
+
+\emphasis{To add two sinsuoids, $S_k\sin(\omega t + \phi_k)$ or $C_k
+\sin(\omega t + \phi_k)$ convert them to expressions involving pure sinusoids,
+then add sines to sines and cosines to cosines, converting back to a single
+sinusoid if desired.}
+
 ## Review of some basics regarding $\mathbb{C}$
 We will have the opportunity to work with Eulers formula and the complex
 numbers as well as complex exponentials in this course. Therefore at this stage

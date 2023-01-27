@@ -31,7 +31,7 @@ Also note:
 | Homework #	 | Assigned	 | Due Date	|
 |----------------|---------------|--------------|
 | Problem Set 01 | 01/20	 | 01/30	|
-| Problem Set 02 | TBD		 | TBD		|
+| Problem Set 02 | 01/25	 | 02/03	|
 | Problem Set 03 | TBD		 | TBD		|
 | Problem Set 04 | TBD		 | TBD		|
 | Problem Set 05 | TBD		 | TBD		|
