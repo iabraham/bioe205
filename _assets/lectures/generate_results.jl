@@ -15,7 +15,7 @@ end
 
 isjulia = endswith(".jl")
 jlfiles_in(x) = [z for z in readdir(x) if isjulia(z)]
-lectures = [1, 2, 3, 4, 5, 6]
+lectures = [1, 2, 3, 4, 5, 6, 7]
 folders =  ["lec" * lpad(x, 2, "0") for x in lectures]
 
 
