@@ -1,3 +1,4 @@
+# This is Julia, code will not run in Python/MATLAB
 using Plots
 
 t = -0.6:0.01:0.6
