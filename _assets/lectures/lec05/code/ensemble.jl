@@ -1,3 +1,4 @@
+# This is Julia, code will not run in Python/MATLAB
 using Plots
 
 function awgn(x,snr)

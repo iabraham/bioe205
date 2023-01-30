@@ -1,6 +1,6 @@
 +++
 title = "Homework Assignments"
-hascode = true
+hascode = false
 rss = "Homework Assignments"
 rss_title = "Homework"
 rss_pubdate = Date(2022, 12, 12)
