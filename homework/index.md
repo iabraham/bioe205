@@ -32,7 +32,7 @@ Also note:
 |----------------|---------------|--------------|
 | Problem Set 01 | 01/20	 | 01/30	|
 | Problem Set 02 | 01/25	 | 02/03	|
-| Problem Set 03 | TBD		 | TBD		|
+| Problem Set 03 | 02/01	 | 02/10	|
 | Problem Set 04 | TBD		 | TBD		|
 | Problem Set 05 | TBD		 | TBD		|
 | Problem Set 06 | TBD		 | TBD		|

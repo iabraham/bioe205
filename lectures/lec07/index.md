@@ -12,9 +12,10 @@ hastex = true
 #### Recap 
 All of last lecture we spent building up intuition on what Fourier expansions
 and series do for us. The takeaway was that Fourier series represents a
-continuous periodic function in terms of a new basis of sines and cosines, the
-Fourier transform was the extension of this to aperiodic signals which allowed
-us to move between the time domain and frequency domain representations. 
+continuous periodic function in terms of a new basis of sines and cosines, and
+that the Fourier transform was the extension of this to aperiodic signals which
+allowed us to move between the time domain and frequency domain
+representations. 
 
 In this lecture we will work out a few examples and then present a version of
 the Fourier transforms that don't involve complex numbers[^1].
@@ -25,7 +26,7 @@ the Fourier transforms that don't involve complex numbers[^1].
 
 ### Sine wave
 Let us start simple: What is the Fourier series of a simple sine wave: $f(t) =
-sin(\omega t)$?
+\sin(\omega t)$?
 
 Recall from last lecture that we seek to represent $f(t)$ in terms
 of complex exponentials. 
@@ -64,8 +65,8 @@ Next put $\omega_0 = \dfrac{2 \pi}{T}$ to get:
 \nonumber{$$
 F[k] = -\dfrac{i e^{-2 i \pi  k} \left(-1+e^{i \pi  k}\right)^2}{2 \pi  k}
 $$}
-Recall that $k \in \mathbb{Z}$ and note that for every $k$ the quantity in the parenthesis is zero and so $F[k]=0$ (for $k=0$
-need to take a limit). For $k$ odd, a small calculation shows that the quantity
+Recall that $k \in \mathbb{Z}$ and note that for every _even_ $k$ the quantity in the parenthesis is zero and so $F[k]=0$ (for $k=0$
+need to take a limit). For $k$ that is _odd_, a small calculation shows that the quantity
 reduces to $\dfrac{2}{i\pi k}$. Thus, 
 \nonumber{$$
 F[k] = \dfrac{2}{i\pi k},\qquad \textrm{where} \quad  k= \pm 1, 3, 5, \dots 
@@ -155,8 +156,8 @@ get the $c_0, a_k$ and $b_k$ directly as:
 
 
 $$ \label{fs_trig_analysis}
-c_0 = \dfrac{1}{T} \int \limits_0 ^T f(t) dt, \quad a_k = \dfrac{1}{T} \int \limits
-_0 ^T f(t) \cos(k\omega_0 t) dt, \quad b_k = \dfrac{1}{T} \int \limits_0 ^T
+c_0 = \dfrac{2}{T} \int \limits_0 ^T f(t) dt, \quad a_k = \dfrac{2}{T} \int \limits
+_0 ^T f(t) \cos(k\omega_0 t) dt, \quad b_k = \dfrac{2}{T} \int \limits_0 ^T
 f(t) \sin(k\omega_0t) dt
 $$
 
@@ -235,9 +236,9 @@ series_ for this function consisting of only the $b_n$ coefficients. These can
 be computed as:
 \nonumber{
 \begin{align}
-b_k &= \dfrac{1}{T} \int \limits _0 ^T \sin(k\omega_0t)dt = \dfrac{2}{T} \int \limits _0 ^{T/2} \sin (k\omega_0t) dt \\
-&= \dfrac{2}{T} \left[ -\dfrac{\cos \left(k t \omega _0\right)}{k \omega _0} \right]_{0}^{T/2} = \dfrac{2}{T} \cdot \dfrac{2 \sin ^2\left(k T \omega _0 /4\right)}{k \omega _0}\\
-& = \dfrac{4 \sin ^2\left(\frac{1}{4} k T \omega _0\right)}{k T \omega _0} = \dfrac{2 \sin ^2\left(\frac{\pi  k}{2}\right)}{\pi  k}
+b_k &= \dfrac{2}{T} \int \limits _0 ^T \sin(k\omega_0t)dt = \dfrac{4}{T} \int \limits _0 ^{T/2} \sin (k\omega_0t) dt \\
+&= \dfrac{4}{T} \left[ -\dfrac{\cos \left(k t \omega _0\right)}{k \omega _0} \right]_{0}^{T/2} = \dfrac{4}{T} \cdot \dfrac{2 \sin ^2\left(k T \omega _0 /4\right)}{k \omega _0}\\
+& = \dfrac{8 \sin ^2\left(\frac{1}{4} k T \omega _0\right)}{k T \omega _0} = \dfrac{4 \sin ^2\left(\frac{\pi  k}{2}\right)}{\pi  k}
 \end{align}
 }
 It is easy to verify that the final coefficients are zero for $k$ even which
@@ -245,7 +246,8 @@ dovetails with the fact that the above function also has half-wave symmetry.
 
 \collaps{**Question:** Can you derive the $b_k$ coefficients solely based on
 the complex Fourier series coefficients we calculated in the first set of
-examples?}{**Answer:** Left as an exercise.} 
+examples?}{**Answer:** Left as an exercise. One just needs to do $i\left(F_{k}
+- F_{-k}\right)$ for $k$ that is odd.}
 
 ### Triangle wave (even)
 
@@ -261,7 +263,7 @@ $a_k$. We have
 {2 \over T} \int\limits_0^{ + {T \over 2}} f \left( t \right) \cos \left( \omega _0 t \right)dt
 $$}
 Now note that in the interval $[0, T/2]$ we can write the function as: $f(t) =
-\left(A - \dfrac{4A}{T} \right)$.
+\left(A - \dfrac{4At}{T} \right)$.
 Then,
 \nonumber{$$
 a_k = {2 \over T} \int\limits _0 ^{ + {T \over 2}} \left( A - {4A \over T}t \right) \cos \left( k{\omega _0}t \right)dt  = 
