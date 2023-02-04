@@ -1,5 +1,4 @@
-|Function Type| Symmetry         | Coefficient Value|
-|-------------|------------------|------------------|
-| Even        | $f(-t) = f(t)$   | $b_m=0$          |
-| Odd         | $f(-t) = -f(t)$  | $a_m=0=c_0$      |
-| Half-wave   | $f(t-T/2)=-f(t)$ | $a_m=b_m0$ for $m$ even |
+Function Type, Symmetry, Coefficient Value
+Even, $f(-t) = f(t)$, $b_m=0$
+Odd, $f(-t) = -f(t)$, $a_m=0=c_0$
+Half-wave, $f(t-T/2)=-f(t)$, $a_m=b_m=0$ for $m$ even

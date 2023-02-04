@@ -216,11 +216,17 @@ function $f(t)$. These can be understood in terms of area cancellations or
 additions as alluded to above. Table 3.1 from CSSB summarizes the effect of
 symmetries on the Fourier sine and cosine coefficients. 
 
+{{textableinput lectures/lec07/symm_coeffs.csv}}
+
+~~~
+<!--
 |Function Type| Symmetry         | Coefficient Value|
 |-------------|------------------|------------------|
 | Even        | $f(-t) = f(t)$   | $b_m=0$          |
 | Odd         | $f(-t) = -f(t)$  | $a_m=0=c_0$      |
-| Half-wave   | $f(t-T/2)=-f(t)$ | $a_m=b_m = 0$ for $m$ even |
+| Half-wave   | $f(t-T/2)=-f(t)$ | $a_m=b_m=0$ for $m$ even |
+-->
+~~~
 
 ## More examples
 

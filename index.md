@@ -16,24 +16,20 @@ Use the menu elements above to navigate through the website.
 
 **Instructor:** [Ivan T. Abraham](https://itabrah2.web.engr.illinois.edu/) \\
 **E-mail:** itabrah2 `at` illinois `dot` edu \\
-**Office hours:** Wednesdays 1300 - 1430 hrs in [EVRT
-2254](https://www.campus-maps.com/uiuc/everitt-lab/) and via
-[Zoom](https://illinois.zoom.us/s/82161550101?pwd=ZjJGdG1ZTEdLWFNXZ1NGZDU2ekhvZz09)
-
 
 **Teaching Assistant:** Peibo Xu \\
 **E-mail:** peiboxu2 `at ` illinois `dot` edu \\
-**Office hours:** Thursdays 1400 - 1600 hrs in [EVRT
-3100](https://www.campus-maps.com/uiuc/everitt-lab/) and via
-[Zoom](https://illinois.zoom.us/j/89659616459?pwd=bFdnc0w2cE5HVzZBRExONVFFTEdUQT09)
-
 
 **Courses Assistants:**
   + Maya Miriyala
   + Emily Murray
 
-See [detailed course schedule](\reflink{Course Schedule}).
+**Office hours:** The weekly office hours are listed below. To meet outside
+these or class hours, make appointments via e-mail. 
 
+\tableinput{}{office.csv}
+
+For topics of instruction by week, see [detailed course schedule](\reflink{Course Schedule}).
 ## Catalog Description
 
 > Introduction to signals and linear systems with examples from biology and

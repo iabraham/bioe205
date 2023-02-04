@@ -56,7 +56,7 @@ Table 1.1 of the textbook lists a few types of these.
 
 ### Transducers & biotransducers
 
-A device that is capable of converting between the different types of energy is
+A device that is capable of converting between different types of energy is
 called _transducer_. Thus, generators and motors and piezoelectrics are all
 transducers. However, within the realm of signal processing, by a transducer we
 often mean a device that is used to convert information encoded using one form
