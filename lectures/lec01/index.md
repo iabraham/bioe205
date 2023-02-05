@@ -13,7 +13,7 @@ hascode = true
 ## Systems concepts
 
 A system can be thought of as a collection or set of interconnected components
-and process that work together to achieve some goal. This goal might be as
+and processes that work together to achieve some goal. This goal might be as
 varied as providing energy to the body (the task of the digestive system) to
 assuring optimal body temperature for physiological process (thermoregulatory
 system). 
@@ -27,7 +27,7 @@ various physiological systems in the human body.
 ### System diagrams & signals
 
 Systems are often represented as *system diagrams*, which are useful abstract
-representation of underlying processes as input/output maps. 
+representations of underlying processes as input/output maps. 
 
 \fig{iosystem.png}
 
@@ -35,7 +35,7 @@ For example, our thermoregulatory system can take the ambient temperature as
 the input, and then decide to activate the sweat glands in our body, so as to
 maintain our core body temperature at a level suitable for our physiological
 processes. Then in the above diagram, the stimulus or input would have been the
-increase in ambient temperature while the output/response would have been
+increase in ambient temperature while the output/response would have been the
 activation of the sweat glands. 
 
 The various systems within the human body vary vastly in size and function.
@@ -70,19 +70,20 @@ energy conversion device. When making physiological measurements, by default
 all biosignals are converted to electrical signals for further processing using
 _biotransducers_.
 
-Biotransducers are critical elements in a system because the accuracy and
-resolution of any measurements made on a physiological depend on it. Typically,
-there are three strategies to make measurements from physiological systems. 
+Biotransducers are critical elements in systems because the accuracy and
+resolution of any measurement made on a physiological process depends on them.
+Typically, there are three strategies to make measurements from physiological
+systems. 
 
 - A biotransducer is used to detect energy/signal generated within the body
   (thermometer, pulse-oximeter, etc.)
 
 - An external source of energy is used to turn the body into a signal source
   (PET, MRI, etc.)
-- A external signal source's variation is measured as it passes through the
+- An external signal source's variation is measured as it passes through the
   body (e.g., x-rays).  
 
-The table below lists a few biotransducers which convert physiological signals
+The table below lists a few biotransducers that convert physiological signals
 to electrical ones. 
 
 |Acronym | Full form 		| Organ involved | 
@@ -113,7 +114,7 @@ f: D  & \mapsto R \\
 \end{align*}
 
 from a _domain_ $D$ to its _range_ $R$. The distinction between analog and
-digital signals lie in whether $D\subseteq \mathbb{R}$ or $D \subseteq
+digital signals lies in whether $D\subseteq \mathbb{R}$ or $D \subseteq
 \mathbb{Z}$, i.e. the real line or the integers. 
 
 For example, suppose a temperature transducer encodes room temperature into 
@@ -175,7 +176,7 @@ As mentioned earlier, signals admit equivalent frequency and time domain
 representations. The time-domain graph shows how a signal changes over time,
 whereas a frequency-domain graph shows how much of the signal lies within each
 given frequency band over a range of frequencies. A complete frequency-domain
-representation also include information on the phase shift that must be applied
+representation also includes information on the phase shift that must be applied
 to sinusoids at each frequency in order to be able to recombine[^2] the components
 and recover the original time signal. 
 

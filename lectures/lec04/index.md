@@ -25,7 +25,7 @@ in our work. The primary method of doing this will be by computing certain
 statistical properties and values of the signals. Consider the following to
 signals that show markedly different behaviors. 
 
-Consider the example of two signals shown in below figure. 
+Consider the example of two signals shown in figure below:
 
 [\input{plot}{intro_rms}](/assets/lectures/lec04/code/intro_rms.jl)
 
@@ -37,7 +37,7 @@ performing an elementary operation ($y$-axis shift) but closer inspection
 reveals that more is different: the one on the left seems to have "more energy"
 while the one on the right seems to be more "subdued". 
 
-Two properties that characterizes these differences are the root-mean-square
+Two properties that characterize these differences are the root-mean-square
 value (a.k.a RMS value) and variance both of which we can contrast with the
 mean. Recall the usual definitions. 
 
@@ -93,11 +93,11 @@ Thus the standard deviation is a term characterizing fluctuation about the mean
 whereas the RMS value is more of a statement about the essential magnitude of
 the signal. 
 
-The following table lists the RMS values of a some periodic oscillatory wave
-forms with characteristic amplitude $A$ (i.e. the maximum and minimum amplitude
-is $\pm A$). In case of periodic signals, it suffices to use Eq. \eqref{rms}
-over one period and for symmetric periodic signals, the interval of integration
-can be even shorter.
+The following table lists the RMS values of some periodic oscillatory waveforms
+with characteristic amplitude $A$ (i.e. the maximum and minimum amplitude is
+$\pm A$). In the case of periodic signals, it suffices to use Eq. \eqref{rms} over
+one period and for symmetric periodic signals, the interval of integration can
+be even shorter.
 
 | Wave Type |  RMS | Wave Type | RMS | Wave Type | RMS  |
 |-----------|----- |-----------|-----|-----------|------|
@@ -194,7 +194,7 @@ y (t) = \begin{cases} &0, \quad t < t_0 \\
 &c,\quad t \geq t_0 
 \end{cases}
 $$
-Since we are familiar with amplitude scalings time-axis shifts, it simplifiers
+Since we are familiar with amplitude scalings time-axis shifts, it simplifies
 matters to write everything in terms of the unit step function $h(t)$:
 \nonumber{$$
 h(t) = \begin{cases} &0, \quad t <0 \\
@@ -275,8 +275,8 @@ get the functions $y(x) = c_0 e^{x}$ are functions whose derivative satisfy $f(x
 \highlight{____} - Homework material.
 }
 
-Moreover, this characterization is a unique; that is (upto some caveats)
-$ce^{x}$ are the only functions who equal their derivatives. 
+Moreover, this characterization is unique; that is (upto some caveats)
+$ce^{x}$ are the only functions that equal their derivatives. 
 
 \collaps{**Question:** Prove that the functions $y=c e^{x}$ for $c \in
 \mathbb{R}$ are the only functions whose derivative $y'(x) =
@@ -298,7 +298,7 @@ The figure below shows the three signals we have discussed so far:
 ## Correlation & covariance 
 Given two signals, one natural question to ask is how _similar_ are the
 signals? Can we associate some number or measure to a signal or a pair of
-signals that can tell us how similar they are? We have already defined mean and
+signals that can tell us how similar they are? We have already defined the mean and
 variance for a signal. Thus one naturally asks if they are sufficient. 
 
 \collaps{**Question:** Can you construct two signals $x$ and $y$ such that

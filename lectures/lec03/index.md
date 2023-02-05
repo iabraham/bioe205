@@ -21,7 +21,7 @@ Recall that last lecture we talked about:
 
 --- 
 
-Today we will continue discussion to wrap up Chapter 1 material. Then we will
+In this lecture, we will continue the discussion to wrap up Chapter 1 material. Then we will
 move towards a discussion about processing of signals, including operations on
 signals, some common signals and their characterizations and constructions
 (both in theory & code). 
@@ -61,7 +61,7 @@ the addition of a capacitance or the adoption of a nonlinear resistor is
 required to further capture such intricacies. 
 
 The "analog" in the title of this section thus is also rightly interpreted as
-"analogous" approach and not just in the sense of analog vs. digital modeling.  
+an "analogous" approach and not just in the sense of analog vs. digital modeling.  
 
 ### Systems approach 
 In this approach, one does **not** seek to create models that mimic the exact
@@ -74,7 +74,7 @@ operation is implemented, the focus now is on accurately describing _what_ the
 system does. 
 
 \emphasis{Since the key is now to describe accurately (often via
-differential equations) how the input or stimulus to the system is _tranformed_
+differential equations) how the input or stimulus to the system is _transformed_
 into the output or response of the system, these models are frequently called
 **transfer function** models which are traditionally represented via _system
 diagrams_.}
@@ -169,7 +169,7 @@ signal and if $A < 1$ we have _attenuation_ of signal.
 
 Time axis scaling of a signal $f(t)$ is also called reparametrization[^2] of
 $f(t)$. Mathematically we write $g(t) = f(\lambda t)$ where $\lambda$ is a
-scalar constant. This in essense amounts to speeding up or slowing down of the
+scalar constant. This in essence amounts to speeding up or slowing down of the
 signal. If $ \lambda >1$ then the signal is sped up and if $\lambda<1$ then the
 signal is slowed down. 
 
@@ -206,11 +206,11 @@ The general form of a sinusoidal signal is
 Here $A$, $\omega$, and $\phi$ are parameters that characterize the sinusoidal
 signal. When $A=\omega=1$ and $\phi=0$ we get what we call a _simple_ sinusoid. 
 
-* **Amplitude** $A$, of the signal is determines how large the signal is in
+* **Amplitude** $A$, of the signal determines how large the signal is in
   the dependent axis (height of the signal measured _peak-to-valley_).
   Specifically, the sinusoid oscillates between $+A$ and $-A$ absent any
   $y$-axis shifts. Thus, $A$ acts like a $y$-axis scaling factor on a simple
-  sinusoid. 
+  sinusoid.
 * **Frequency** of the signal measures how fast the signal is in the time or
   independent axis. When it is measured in radians/second (recall that the sine
   function takes an _angle_ as input) it is represented by $\omega$
@@ -328,13 +328,13 @@ A similar relation exists for converting a sinusoid in terms of the sine functio
 into a sum of pure sines and cosines as well. Therefore, now we have the
 procedure to analytically add sinusoids. 
 
-\emphasis{To add two sinsuoids, $S_k\sin(\omega t + \phi_k)$ or $C_k
+\emphasis{To add two sinusoids, $S_k\sin(\omega t + \phi_k)$ or $C_k
 \sin(\omega t + \phi_k)$ convert them to expressions involving pure sinusoids,
 then add sines to sines and cosines to cosines, converting back to a single
 sinusoid if desired.}
 
 ## Review of some basics regarding $\mathbb{C}$
-We will have the opportunity to work with Eulers formula and the complex
+We will have the opportunity to work with Euler's formula and the complex
 numbers as well as complex exponentials in this course. Therefore at this stage
 it is instructive to review the basic laws of logarithms and exponents. This
 should be very familiar material. 
@@ -408,7 +408,7 @@ it):
 > understand it, and we don't know what it means. But we have proved it, and
 > therefore we know it is the truth._
 
-Let us therefore prove it, starting with the only the
+Let us therefore prove it, starting with only the
 supposition that a complex number as an exponent to $e$ should return a
 complex number[^4] and examining what calculus can tell us.
 

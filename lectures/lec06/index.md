@@ -31,7 +31,7 @@ We tend to think of a vector as a tuple or collection of real numbers.
 Intuitively, this makes sense to us because in two and three dimensions these
 correspond to the familiar coordinates from 2D and 3D geometry. Vector
 addition, multiplication etc. are thus intuitively familiar to us and we have
-no qualms with writing: _let_ $x \in \mathbb{R}^3$ to refer to a vector in 3D.
+no qualms with writing: _let_ $x \in \mathbb{R}^3$ refer to a vector in 3D.
 In fact, we are even comfortable with: _let_ $y \in \mathbb{R}^n$. Now let us
 take a step back and think of $\mathbb{R}^n$. 
 
@@ -45,7 +45,7 @@ How is this formalized? Well, recall from
 BIOE210[^1] that we have [field
 axioms](https://mathworld.wolfram.com/FieldAxioms.html) that specify the rules
 followed by elements that we can do algebra with. Similarly, there are axioms
-or rules that a space $V$ must satisfy to be a *vector space*. Note that here
+or rules that a space $V$ must satisfy to be a *vector space*. Note that there
 is no specification in the field axioms on what the elements $a, b$ and $c$
 are: only that they follow some rules. 
 
@@ -58,7 +58,7 @@ which follow those rules; only that the rules are written up in an abstract
 way.
 
 
-\emphasis{**Key point** here is that $\mathbb{R}^n$ is *not* the only thing that follow the
+\emphasis{**Key point** here is that $\mathbb{R}^n$ is *not* the only thing that follows the
 rules of vector space. There are more abstract
 [things/objects](https://en.wikipedia.org/wiki/Examples_of_vector_spaces) that
 we can show are vector spaces! This includes $\dots$ you guessed it: certain classes of
@@ -200,7 +200,7 @@ indeed $[2, 18/5, 2, 2/5]$ in this basis.
 
 ### Why do we care?
 Apart from providing a preview of what will be a major & crucial topic in any
-course on linear algebra[^2]; they main take away here is that representing a
+course on linear algebra[^2]; the main takeaway here is that representing a
 problem or situation in a different basis can often make things simpler or
 provide more insight into a problem. For example polar & spherical coordinates
 often simplify problems in physics as you may recall. 
@@ -285,7 +285,7 @@ functions in a sense[^4].
 
 \note{
 1. Recall from [Lecture 03](/lectures/lec03#manipulating_sinusoids)
-   that a general sinusoid can be written in terms of pures sines & cosines
+   that a general sinusoid can be written in terms of pure sines & cosines
    without phases. Therefore, rather than having to find the coefficient for the
    sine part and the coefficient for the cosine part separately (as we will in
    next lecture), the complex formulation above does it in one shot.
@@ -293,7 +293,7 @@ functions in a sense[^4].
    discrete signals but also pay close attention to the use of $F$ vs $f$ (one
    refers to the signal and the other its transform).
 3. The normalization factor we have used above is $\sqrt{N}$; which lends
-   credence to our the interpretation as a change of basis. CSSB and most other
+   credence to our interpretation as a change of basis. CSSB and most other
    texts/implementations present an unnormalized DFT and normalized iDFT (by
    $N$); it changes things very little as long as one is consistent.
 }
@@ -309,7 +309,7 @@ being added together to create the plot immediately below it (green). The green
 plot can be changed by using the checkboxes to add/remove sine wave of a
 particular frequency. The last plot (brown) shows what happens when you
 increase the number of frequencies being summed together (using the slider). At
-its maximum value, we see that we get very good approximation of a square wave.
+its maximum value, we see that we get a very good approximation of a square wave.
 
 ~~~
 <iframe scrolling="no" title="FourierSquareWaves"
@@ -320,7 +320,7 @@ width="760px" height="500px" style="border:0px;"> </iframe>
 In the above definition we took a complete period of a signal $f[k]$ when we
 computed its transform. This is an implicit assumption whenever we perform the
 DFT. In practice, it is rarely the case that we will have one complete period
-of the signal we are performing DFT on which leads to some artefacts $\dots$. 
+of the signal we are performing DFT on which leads to some artifacts $\dots$. 
 These will be the subject of subsequent lectures. 
 
 Note that while we discuss other flavors of the transform next; the only
@@ -329,7 +329,7 @@ computer. Nevertheless, the other transforms are important to know for purposes 
 analysis and problem solving and we look at these next. 
 
 
-\collaps{**Question:** Verify that that the two transforms defined by
+\collaps{**Question:** Verify that the two transforms defined by
 \eqref{fdft} and \eqref{idft} are inverses of each
 other. You may skip this exercise on the first reading.}{**Answer:** This
 is an exercise that every engineer must do at least once. Hence it is a
@@ -458,7 +458,7 @@ to pick one style and stick to it consistently.}
 
 ## Wrap up
 
-A this point, it might be instructive to take a minute and recall
+At this point, it might be instructive to take a minute and recall
 that we remarked in [Lecture
 01](/lectures/lec01#frequency_domain_vs_time_domain) that signals admit
 equivalent time and frequency domain representations and referred to this
@@ -485,6 +485,6 @@ particular the latter which we will rectify with some worked out examples.
 
 [^1]: No assumption is made that you have taken that class; if you are concurrently registered you will see the field axioms this semester. If not, ignore the statement. 
 [^2]: Which BIOE205 isn't, so we must wrap up the discussion. 
-[^3]: As you will see on this page, some of the "transforms", especially the first discrete ones, doesn't actually involve integrals, but it is common refer to them all as transforms anyway.
+[^3]: As you will see on this page, some of the "transforms", especially the first discrete ones, doesn't actually involve integrals, but it is common to refer to them all as transforms anyway.
 [^4]: For example, they are infinitely differentiable, admit Taylor series expansions, are orthogonal, etc. 
  

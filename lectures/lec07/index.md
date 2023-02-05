@@ -120,15 +120,15 @@ differing conventions.
 
 ## Trigonometric form of Fourier expansions
 It is common to write down the Fourier series in terms of the sine and cosine
-function separately rather than via the complex exponential[^2]. This is easy
+functions separately rather than via the complex exponential[^2]. This is easy
 to do via Euler's identity. Suppose we can write the _Fourier Series_ expansion 
-as for a periodic $f(t)$ as:
+for a periodic $f(t)$ as:
 $$ \label{trigfseries}
 f(t) = c_0 + \sum \limits_{k=1}^{\infty} a_k \cos(k\omega_0t) + b_k
 \sin (k\omega_0t)  
 $$
 then it is not unreasonable to expect that the above formulation must be related to
-\eqref{iffs} via the Euler formula. Indeed we can write:
+\eqref{iffs} via Euler's formula. Indeed we can write:
 \nonumber{\begin{align}
 f(t) &= \sum \limits _{k= -\infty}^\infty F[k] e^{ik\omega_0t} \\
  &= \sum \limits _{k=-\infty} ^{-1} F[k] e^{ik\omega_0t} + F[0] + \sum \limits _{k=1}^\infty F[k] e^{ik\omega_0t}\\
@@ -167,8 +167,8 @@ A2 of CSSB to understand how we get the above!}
 ## Common categories of functions
 
 As noted above often some coefficients in the Fourier expansion will turn out
-to be zero. This can be predicted by looking for specific types/symmetries in a
-functions. Thus we have the following definitions:
+to be zero. This can be predicted by looking for specific types of symmetries in a
+function. Thus we have the following definitions:
 
 #### Even and odd functions
  - A function $f(t)$ is an odd function if $f(-t) = -f(t)$.
@@ -200,7 +200,7 @@ signals.
  - A function $f(t)$ periodic with period $T$ is said to exhibit half-wave
    symmetry if $f(t) = - f(t - T/2)$
  - A periodic function $f(t)$ is said to exhibit quarter wave symmetry if in
-   addition to having half-wave symmetry it is also has odd/even symmetry. 
+   addition to having half-wave symmetry it also has odd/even symmetry. 
 
 Thus in the above figure, the bottom plot is an example of a function that
 exhibits half-wave symmetry. 
@@ -211,7 +211,7 @@ quarter-wave symmetry?}{**Answer:** Skipped}
 ## Effect of symmetries on Fourier coefficients
 
 Since the sine function is odd and the cosine function is even the integrands
-in \eqref{fs_trig_analysis} themselves can be odd or even depending on type of
+in \eqref{fs_trig_analysis} themselves can be odd or even depending on the type of
 function $f(t)$. These can be understood in terms of area cancellations or
 additions as alluded to above. Table 3.1 from CSSB summarizes the effect of
 symmetries on the Fourier sine and cosine coefficients. 
