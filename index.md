@@ -20,9 +20,7 @@ Use the menu elements above to navigate through the website.
 **Teaching Assistant:** Peibo Xu \\
 **E-mail:** peiboxu2 `at ` illinois `dot` edu \\
 
-**Courses Assistants:**
-  + Maya Miriyala
-  + Emily Murray
+**Courses Assistants:** Maya Miriyala & Emily Murray
 
 **Office hours:** The weekly office hours are listed below. To meet outside
 these or class hours, make appointments via e-mail. 

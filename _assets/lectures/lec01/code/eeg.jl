@@ -7,15 +7,15 @@ t0, tmax = 0, 15
 fs = 100000/01875   # Sampling rate (Hz)
 t = t0:1/fs:tmax
 
-F = fftshift(fft(eeg))
+Fc = fftshift(fft(eeg))
 freqs = fftshift(fftfreq(length(t), fs))
 l = @layout [a [b
                 c]]
 
 time_domain = plot(t, eeg, title = "Time domain signal", label=false, xlabel="Time units")
-freq_mags = plot(freqs, abs.(F), title = "Magnitude spectrum", xlim=(0, 25),
+freq_mags = plot(freqs, abs.(Fc), title = "Magnitude spectrum", xlim=(0, 25),
 		 xticks=0:5:25, label=false,legend=:top, xlabel="Frequency units")
-freq_phase = plot(freqs, angle.(F), title = "Phase spectrum", xlim=(0, 25),
+freq_phase = plot(freqs, angle.(Fc), title = "Phase spectrum", xlim=(0, 25),
 		  xticks=0:5:25, label=false,ylim=(-4,4), xlabel="Frequency units")
 plot(time_domain, freq_mags, freq_phase, layout=l, size=(800,400), bottom_margin=5mm)
 savefig(joinpath(@__DIR__,"output/eeg"))
