@@ -63,7 +63,7 @@ That **really** is it, six lines. Here is the whole code and the output:
 \input{plot}{square_recon}
 
 \emphasis{**Note:** Okay, okay, alright. I cheated a bit and used a different
-Programming language than what we used in the course. We will look at the
+programming language than what we used in the course. We will look at the
 MATLAB code now. But really it was just implementing a sum. Therefore, I
 **highly recommend** that you pull out MATLAB and try to do a reconstruction
 before you proceed to look at the MATLAB code below.}
@@ -109,9 +109,10 @@ Let us try to reconstruct the waveform using these:
 \input{plot}{cssb_recon}
 
 \emphasis{**Exercise:** If you have not yet mastered plotting periodic
-functions, try to plot the function in Figure 3.13 in CSSB.}
+functions, try to plot the function in Figure 3.13 in CSSB. Then try to
+reconstruct it using the Fourier coefficients.}
 
-## Computing Fourier Transform
+## Computing the Fourier Transform
 Now that we know how to reconstruct signals - i.e. to implement the _synthesis_
 equations in software, we should think of what tools we have at our disposal to
 implement the _analysis_ equations. 
@@ -122,7 +123,7 @@ will focus on examples of using MATLAB's `fft` function.
 
 \note{**Note:** You are still expected to be familiar with implementing the
 analysis equations in MATLAB. In particular, check Examples 3.6 through 3.10 in
-CSSB}
+CSSB.}
 
 #### MATLAB's fft
 
@@ -134,9 +135,9 @@ are vectors. But this need not be the case. If you check the
 find that you can pass multi-dimensional arrays to `fft` as well. The
 documentation tells us that in such a case, MATLAB prefers to treat N-D arrays
 as vectors along some dimension and then apply DFT to those _vectors_. This is
-different from `fftw` which will perform DFT along all dimensions by default.
-The MATLAB equivalent for this is the `fftn` function. Apart from this
-difference, most of the behavior of the two functions is same. 
+different from vanilla and most other `fftw` which will perform DFT along all
+dimensions by default. The MATLAB equivalent for this is the `fftn` function.
+Apart from this difference, most of the behavior of the two functions is same. 
 
 If `x` is a real or complex vector then MATLAB's `fft(x)` returns a complex
 vector of the same size as `x`. You might think this odd for real valued
@@ -189,15 +190,30 @@ plot(abs.(X), label=false, title="DFT same length as y=$(length(y))")
 ```
 \input{plot}{plain_dft}
 
-which as you can see indeed has three peaks corresponding to three frequencies, 
-but doesn't really line up with the expectation. Let us try to construct the
+which as you can see indeed multiple peaks but doesn't really line up with the
+expectation. 
+ - For one there are six peaks instead of three for a signal with just three
+   frequencies. 
+ - The $x$ axis doesn't list any frequencies instead it simply shows the index
+   along the vector. 
+
+Regarding the first, we already touch upon the reason. The complex vector
+returned by `fft` function for real valued inputs has redundant information
+because half of it is the complex conjugate of the other half. Therefore when
+we use the `abs` function on it, we get twice the number of peaks as there are
+frequencies. 
+
+Regarding the second, let us try to construct the
 frequency vector and plot it. Now recall that the Nyquist frequency statement:
 A sampling frequency of at least $2F$ is needed to capture frequency content up
 to frequency $F$. Therefore, one expects that for an input of sampling
 frequency $fs$, the DFT will return complex sinusoids with frequencies in
-`[-fs/2, fs/2]`[^1]. Hence, we construct the frequency vector `freqs`
-accordingly and normalize by the length of the signal `lx` while multiplying
-with the sampling frequency (1/0.02). 
+properly recovered up to `fs/2`, therefore for complex vector returned by `fft`
+the convention is to make plots with the frequency axis as: `[-fs/2, fs/2]`[^1]. 
+
+Hence, we construct the frequency vector `freqs` accordingly and normalize by
+the length of the signal `lx` while multiplying with the sampling frequency
+(1/0.02). 
 
 ```julia
 lx = length(X)
@@ -240,4 +256,38 @@ vline!(p1, [sqrt(2), 4, sqrt(59)], label="Fundamental freqs.")
 
 \input{plot}{fftshift_dft}
 
-[^1]: A negative frequency $-f$ basically corresponds to the complex conjugate of whatever complex exponential was associated to frequency $f$. 
+\note{**Note:** This part of lecture has intentionally provided very little MATLAB
+code. The rational behind this is to let you get your hands dirty. There is
+less learning involved if copying code is possible when compared to having to
+implement it by hand. Recreating the above example in MATLAB shouldn't be hard
+and I **highly** encourage you to do it.}
+
+In the next lecture note, we will discuss the effects of sampling and aliasing on
+the DFT spectrum. In class, we will also get a chance to examine the DFT of a real world
+signal[^3]. In the mean time, here is a pretty cool video from YouTube-r and
+math popularizer [Grant Sanderson](https://www.3blue1brown.com/about)[^2]. 
+
+## A nice video on the Fourier Transform 
+
+The video below explains the decomposition we have been studying from the
+perspective of sound waves (pure tones, which are essentially sinusoids).
+What is a new perspective here though is the small "winding machine" that is
+introduced to explain the peaks in the frequency-magnitude graphs we have shown
+so far.
+
+~~~
+<iframe width="760" height="500" src="https://www.youtube.com/embed/spUNpyF58BY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+~~~
+
+The same channel has a few more videos on the Fourier transform if you are
+interested. They are a tad bit more involved than the above; particularly
+because sometimes they are part of a playlist on differential equations or some
+other advanced topic. 
+
+~~~
+<p align="center"><a href="/lectures/">[back]</a></p>
+~~~
+
+[^1]: A negative frequency $-f$ basically corresponds to the complex conjugate of whatever complex exponential was associated to frequency $f$.
+[^2]: Apart from a deep respect for his skill and effort, this course, website or author has no affiliation or relations with Mr. Sanderson or his YouTube channel. 
+[^3]: Notebook used available [here](http://146.190.199.141/intro_fft.html).

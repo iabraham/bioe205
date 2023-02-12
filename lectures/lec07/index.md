@@ -242,7 +242,7 @@ series_ for this function consisting of only the $b_n$ coefficients. These can
 be computed as:
 \nonumber{
 \begin{align}
-b_k &= \dfrac{2}{T} \int \limits _0 ^T \sin(k\omega_0t)dt = \dfrac{4}{T} \int \limits _0 ^{T/2} \sin (k\omega_0t) dt \\
+b_k &= \dfrac{2}{T} \int \limits _{-\frac{T}{2}} ^{\frac{T}{2}} \sin(k\omega_0t)dt = \dfrac{4}{T} \int \limits _0 ^{T/2} \sin (k\omega_0t) dt \\
 &= \dfrac{4}{T} \left[ -\dfrac{\cos \left(k t \omega _0\right)}{k \omega _0} \right]_{0}^{T/2} = \dfrac{4}{T} \cdot \dfrac{2 \sin ^2\left(k T \omega _0 /4\right)}{k \omega _0}\\
 & = \dfrac{8 \sin ^2\left(\frac{1}{4} k T \omega _0\right)}{k T \omega _0} = \dfrac{4 \sin ^2\left(\frac{\pi  k}{2}\right)}{\pi  k}
 \end{align}
@@ -293,6 +293,9 @@ $$}
 coefficients gone?}{**Answer:** Because the functions are negatives of each
 other for $A=2$ and because of the half-wave symmetry.}
 
+While this lecture was mostly analytical, in the next one we will get started
+with learning more about different software implementations of and related to
+Fourier Analysis. 
 
 ~~~
 <p align="center"><a href="/lectures/">[back]</a></p>

@@ -19,6 +19,7 @@ lectures.
 1. [Lecture notes 06](lec06)
 1. [Lecture notes 07](lec07)
 1. [Lecture notes 08](lec08)
+1. [Lecture notes 09](lec09)
 
 
 \note{These notes are by no means perfect; they are being written up for the

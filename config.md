@@ -56,6 +56,14 @@ Add here global latex commands to use throughout your pages.
   @@
 }
 
+
+\newcommand{\theorem}[2]{
+  @@definition
+  **Theorem**: (_!#1_)
+  #2
+  @@
+}
+
 \newcommand{\note}[1]{@@note @@title ⚠️ Note@@ @@content #1 @@ @@} 
 \newcommand{\caution}[1]{@@caution @@title ❗ Caution@@ @@content #1 @@ @@} 
 \newcommand{\warn}[1]{@@warning @@title ⛔ Warning!@@ @@content #1 @@ @@}
