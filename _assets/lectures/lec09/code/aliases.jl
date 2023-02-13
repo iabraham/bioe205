@@ -43,25 +43,34 @@ animplot(t, x, y) =  plot!(baseplot("Freq: $t Hz"), x, y,
 end
 
 # ╔═╡ f3d1080c-d08f-44cf-aab2-1df75343917d
+begin
 anim = @animate for i in 1:1:length(t)
 	@views x, y1, y4, y6, y9 = t[1:i], f1[1:i], f4[1:i], f6[1:i], f9[1:i]
-	plots = map(animplot, [1, 4, 6, 9], [x, x, x, x], [y1, y4, y6, y9])
-	plot(plots..., layout=(2, 2), size=(800, 800))
+	p1, p2, p3, p4 = map(animplot, [1, 4, 6, 9], [x, x, x, x], [y1, y4, y6, y9])
+	plot(p3)
 end every 25
+gif(anim, pwd()*"/output/talk/aliases3.gif")
+end
+
+# ╔═╡ 465a22c9-b4a4-476a-9a60-83e47e24cf12
+savefig(baseplot("Sampled points"),  pwd()*"/output/talk/base.pdf")
+
+# ╔═╡ 8140014a-2f2a-4e16-87ff-14f821bb0672
+length(plots)
 
 # ╔═╡ 992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-# gif(anim, pwd()*"/output/aliases.gif")
+# gif(anim, pwd()*"/output/talk/aliases.gif")
 
 # ╔═╡ c9374d39-70b6-4bc8-89e9-98c10c98117f
 begin
 	p1 = baseplot("Sampled points")
 	p2 = plot!(baseplot("1 Hz sinusoid"),t, f1, label=false)
-	pp = plot(p1, p2, layout=(1,2), size=(800,400))
-	savefig(pp, joinpath(@__DIR__, "output", "sampled"))
+	pp = plot(p1, p2, layout=(1,2), size=(800,350))
+	savefig(pp, joinpath(@__DIR__, "output", "sampled.pdf"))
 end
 
 # ╔═╡ 9875c450-2459-4bd4-aa72-2147c9841af5
-savefig(zeropad.result, joinpath(@__DIR__, "output", "zeropadding"))
+savefig(zeropad.result, joinpath(@__DIR__, "output", "zeropadding.pdf"))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -80,7 +89,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "ca4bac5d972a1d04dc3ef43cc46686c532033279"
+project_hash = "fe523f78ece0fd81866941b83ec7698c5db0a1bc"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1039,6 +1048,8 @@ version = "1.4.1+0"
 # ╠═c394f538-c3c0-48a6-8add-b0ceb6d7f60a
 # ╠═69b04b78-1a36-4ed1-b229-8347c83c22f2
 # ╠═f3d1080c-d08f-44cf-aab2-1df75343917d
+# ╠═465a22c9-b4a4-476a-9a60-83e47e24cf12
+# ╠═8140014a-2f2a-4e16-87ff-14f821bb0672
 # ╠═992c7ecc-a9e3-4505-920a-4df7fd0bae4b
 # ╠═c9374d39-70b6-4bc8-89e9-98c10c98117f
 # ╠═33d58d4c-7e31-4b7f-8820-59449a92f347

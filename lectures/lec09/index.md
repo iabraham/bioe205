@@ -66,11 +66,8 @@ Labs in its heyday but before we get to that, here is another question:
 
 The demonstration below allows you to explore this question:
 
-~~~
-<iframe src="http://146.190.199.141/fft_sampling.html" width="760px"
-allowfullscreen="false" scrolling="no" height="1380px" style="border:0px;">
-</iframe>
-~~~
+[\figstyled{/assets/lectures/lec09/code/output/demo1.png}{width:760px;padding-left:0%;}](http://146.190.199.141/fft_sampling.html)
+
 
 In the above we saw that increasing the number of samples that is passed to
 `fft` allows us to get sharper peaks with greater resolution. Thus zero padding
@@ -100,13 +97,7 @@ frequency to $8$ Hz (via the slider) results in a flat line. The same effect
 can also seen in the DFT magnitude spectrum. 
 
 
-~~~
-<iframe
-src="http://146.190.199.141/fft_aliasing.html"
-width="760px" allowfullscreen="false" scrolling="no" height="1280px"
-style="border:0px;"> </iframe>
-~~~
-
+[\figstyled{/assets/lectures/lec09/code/output/demo2.png}{width:740px;padding-left:0%;}](http://146.190.199.141/fft_aliasing.html)
 
 
 ## Power spectral density 
