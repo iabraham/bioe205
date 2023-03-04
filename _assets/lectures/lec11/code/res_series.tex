@@ -1,0 +1,25 @@
+\documentclass[convert={density=200,outext=.png}]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+\begin{document}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}
+}
+}
+
+\begin{tikzpicture}[auto, node distance=2cm,>=latex', scale=0.5]
+	\node [input, name=rinput] (rinput) {};
+    	\node [block, right of=rinput] (plant) {$\mathcal{H}_1 \star
+		\mathcal{H}_2$};
+	\node [output, right of=plant] (output) {};
+    	\draw [->] (rinput) -- node{$x(t)$} (plant);
+    	\draw [->] (plant) -- node{$y(t)$} (output);
+\end{tikzpicture}
+\end{document}

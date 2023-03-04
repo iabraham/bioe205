@@ -1,0 +1,39 @@
+\documentclass[convert={density=300,outext=.png}]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+\usepackage{amsmath}
+\begin{document}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}
+}
+}
+
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+	\node [input, name=start] (start) {};
+	\node [sum, right of=start] (isum) {$+$};
+	\node [block, right of=isum] (gain) {$\dfrac{50}{3}$};
+	\node [block, right of=gain] (plant) {$\dfrac{6}{100j\omega}$};
+	\node [tmp, right of=plant] (opick) {};
+	\node [output, right of=opick] (output) {};
+	\node [tmp, below of=isum] (lpick) {}; 
+	\node [block, right of=lpick] (controller) {$\dfrac{5}{100}$};
+	\node [tmp, below of=opick] (rpick) {};
+	
+	\draw [->] (start) -- node{$x(t)$} (isum);
+	\draw [->] (isum) -- node{} (gain); 
+	\draw [->] (gain) -- node{} (plant); 
+	\draw [-] (plant) -- node{} (opick); 
+	\draw [->] (opick) -- node{$y(t)$} (output); 
+	\draw [->] (lpick) -- node[pos=0.99] {$-$} (isum);
+	\draw [-] (opick) -- node{} (rpick); 
+	\draw [->] (rpick) -- node{} (controller); 
+	\draw [-] (controller) -- node{} (lpick);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[convert={density=300,outext=.png}]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+\begin{document}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}
+}
+}
+\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+	\node [input, name=start] (start) {};
+	\node [tmp, right of=start, name=rinput] (rinput) {};
+	\node [tmp, below of=rinput, name=pick1] (pick1) {};
+    	\node [block, right of=rinput] (plant1) {$\mathcal{H}_1$};
+    	\node [block, below of=plant1] (plant2) {$\mathcal{H}_2$};
+	\node [sum, right of=plant1, node distance=2cm] (output) {$+$};
+	\node [tmp, below of=output] (pick2) {};
+	\node [output, right of=output] (end) {};
+
+	\draw [-] (start) -- node{$x(t)$} (rinput);
+    	\draw [->] (rinput) -- node{} (plant1);
+    	\draw [-] (rinput) -- node{} (pick1);
+    	\draw [->] (pick1) -- node{} (plant2);
+    	\draw [->] (plant1) -- node{$z_1(t)$} (output);
+    	\draw [-] (plant2) -- node{$z_2(t)$} (pick2);
+    	\draw [->] (pick2) -- node{} (output);
+    	\draw [->] (output) -- node{$y(t)$} (end);
+
+\end{tikzpicture}
+\end{document}

@@ -23,8 +23,8 @@ lectures = [
   (num="Lecture 07", pic="lec07", title="Fourier transform I", topic="Introduction to Fourier Transform", link="lec07"),
   (num="Lecture 08", pic="lec08", title="Fourier transform II", topic="Other forms of Fourier Transform", link="lec08"),
   (num="Lecture 09", pic="lec09", title="DFT/Sampling", topic="Sampling theorem & consequences on DFT", link="lec09"),
-  (num="Lecture 10", pic="lec10", title="Impulse response", topic="Introduction to linear systems analysis", link="lec10")
-
+  (num="Lecture 10", pic="lec10", title="Impulse response", topic="Introduction to linear systems analysis", link="lec10"),
+  (num="Lecture 11", pic="lec11", title="System response", topic="Frequency response & transfer functions", link="lec11")
   ]
 
 "@@cards @@row" |> println
