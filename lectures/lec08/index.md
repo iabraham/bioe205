@@ -267,7 +267,7 @@ the DFT spectrum. In class, we will also get a chance to examine the DFT of a re
 signal[^3]. In the mean time, here is a pretty cool video from YouTube-r and
 math popularizer [Grant Sanderson](https://www.3blue1brown.com/about)[^2]. 
 
-## A nice video on the Fourier Transform 
+## Nice videos on the Fourier Transform 
 
 The video below explains the decomposition we have been studying from the
 perspective of sound waves (pure tones, which are essentially sinusoids).
@@ -276,7 +276,7 @@ introduced to explain the peaks in the frequency-magnitude graphs we have shown
 so far.
 
 ~~~
-<iframe width="760" height="500" src="https://www.youtube.com/embed/spUNpyF58BY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="760" height="500" src="https://www.youtube-nocookie.com/embed/spUNpyF58BY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ~~~
 
 The same channel has a few more videos on the Fourier transform if you are
@@ -284,6 +284,12 @@ interested. They are a tad bit more involved than the above; particularly
 because sometimes they are part of a playlist on differential equations or some
 other advanced topic. 
 
+The next video is a very informative video on what is arguably the most
+important algorithm of our time, the _fast Fourier transform_. 
+
+~~~
+<iframe width="760" height="500" src="https://www.youtube-nocookie.com/embed/nmgFG7PUHfo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+~~~
 ~~~
 <p align="center"><a href="/lectures/">[back]</a></p>
 ~~~

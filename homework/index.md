@@ -28,16 +28,16 @@ Also note:
 
 # Assignments
 
-| Homework #	 | Assigned	 | Due Date	|
-|----------------|---------------|--------------|
-| Problem Set 01 | 01/20	 | 01/30	|
-| Problem Set 02 | 01/25	 | 02/03	|
-| Problem Set 03 | 02/01	 | 02/10	|
-| Problem Set 04 | 02/08	 | 02/15	|
-| Problem Set 05 | TBD		 | TBD		|
-| Problem Set 06 | TBD		 | TBD		|
-| Problem Set 07 | TBD		 | TBD		|
-| Problem Set 08 | TBD		 | TBD		|
-| Problem Set 09 | TBD		 | TBD		|
-| Problem Set 10 | TBD		 | TBD		|
-| Problem Set 11 | TBD		 | TBD		|
+| Homework #	     	     | Assigned	     | Due Date	|
+|----------------------------|---------------|----------|
+| [Problem Set 01](hw01.pdf) | 01/20	     | 01/30	|
+| [Problem Set 02](hw02.pdf) | 01/25	     | 02/03	|
+| [Problem Set 03](hw03.pdf) | 02/01	     | 02/10	|
+| [Problem Set 04](hw04.pdf) | 02/08	     | 02/15	|
+| [Problem Set 05](hw05.pdf) | 02/20	     | 03/01	|
+| Problem Set 06     	     | TBD	     | TBD	|
+| Problem Set 07             | TBD	     | TBD	|
+| Problem Set 08             | TBD	     | TBD	|
+| Problem Set 09             | TBD	     | TBD	|
+| Problem Set 10             | TBD	     | TBD	|
+| Problem Set 11             | TBD	     | TBD	|

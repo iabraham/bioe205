@@ -72,3 +72,19 @@ Add here global latex commands to use throughout your pages.
 \newcommand{\emphasis}[1]{
   @@important #1 @@
 }
+
+\newcommand{\card}[5]{
+  @@card
+    ![#1](/assets/lectures/screens/!#2.jpg)
+    @@container
+      ~~~
+      <h2>#1</h2>
+      ~~~
+      @@title #3 @@
+      @@vitae #4 @@
+      ~~~
+      <p><a href="#5"><button class="button">View</button></a></p>
+      ~~~
+    @@
+  @@
+}

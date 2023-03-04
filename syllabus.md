@@ -132,8 +132,7 @@ participation scores.
 
 As noted above, there will be a group project worth 15% of your final grade. It
 will involve modeling a biosystem and/or biosignal analysis in MATLAB. More
-information will be provided when the project topics are assigned later in the
-semester. 
+information about the projects can be found [here.](/project/)
 
 ## Academic Conduct
 

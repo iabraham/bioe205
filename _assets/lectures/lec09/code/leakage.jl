@@ -4,80 +4,173 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 84eca974-aaef-11ed-1cdb-2b04bde00b61
-using Plots, FFTW
-
-# ╔═╡ 33d58d4c-7e31-4b7f-8820-59449a92f347
-module zeropad
-using Plots, FFTW, Base.Iterators
-
-sig(t) = 0<= t < 0.25 ? t : (0.25 <= t < 0.5) ? 0.5-t : 0 
-
-function make_pair(t, s)
-	y = sig.(t)
-	y_fft = fftshift(fft(y))
-	freqs = fftshift(fftfreq(length(y), 100))
-	left = plot(t, y, label=false, title=s)
-	right = scatter(freqs, abs.(y_fft), xlim=(0, 10), label=false, title="Magnitude spectrum")
-	return left, right
-end
-t1, t2, t3 = 0:0.01:1, 0:0.01:2, 0:0.01:6
-p1, p2, p3 = map(make_pair, [t1, t2, t3],
-["Original signal", "Zero-padded signal", "Even more padded"])
-result = plot(flatten([p1, p2, p3])..., layout=(3,2), size=(700, 600))
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
+        el
+    end
 end
 
-# ╔═╡ c394f538-c3c0-48a6-8add-b0ceb6d7f60a
+# ╔═╡ 15fb1cf6-ad26-11ed-0c3b-ff8ae9126ace
+using Plots, QuadGK, PlutoUI, FFTW
+
+# ╔═╡ 06643ec3-6fc0-4e7c-a996-0a320bf984ba
+using LaTeXStrings
+
+# ╔═╡ c22cce4b-6490-490c-97ba-8f17e49b449e
+function cft(g, f)
+    """Numerically evaluate the Fourier Transform of g for the given frequencies"""    
+    result = Array{ComplexF64}(undef, length(f))
+    for (i, ff) in enumerate(f)
+        r, _ = quadgk(t -> g(t)*exp(-2im*π*ff*t), -10, 10)
+		result[i] = r
+	end
+    return result
+end
+
+# ╔═╡ 27640ea2-01ee-431f-99bb-8047e63a2c90
+triang(t) = (1-abs(t)) * (abs(t)<1)
+
+# ╔═╡ fcfa8a44-9c2e-4fd1-af11-7c21a49d33f4
+periodic_triang(t) = triang(mod(t+1, 2)-1)
+
+# ╔═╡ 272a12e1-fba6-4700-be77-85359022b1c8
 begin
-	tp = 0:0.2:2
-	t = 0:0.001:2.1
+	Fs = 1000
+	t = -10:(1/Fs):10
+	f = -3:(1/20):3
 end
 
-# ╔═╡ 69b04b78-1a36-4ed1-b229-8347c83c22f2
-begin 
-baseplot(t) = scatter(tp, cos.(2*π*tp), label=false, ylim=(-1.1, 1.1), title=t)
-f1, f4, f6, f9 = map(f-> cos.(2*π*f*t), [1, 4, 6, 9])
-xlim, ylim = (0, 2.1), (-1.1, 1.1)
-animplot(t, x, y) =  plot!(baseplot("Freq: $t Hz"), x, y, 
-	label=false, xlim=xlim, ylim=ylim)
-end
-
-# ╔═╡ f3d1080c-d08f-44cf-aab2-1df75343917d
+# ╔═╡ 1a0ba762-0838-41ab-b00b-21d3b9601034
 begin
-anim = @animate for i in 1:1:length(t)
-	@views x, y1, y4, y6, y9 = t[1:i], f1[1:i], f4[1:i], f6[1:i], f9[1:i]
-	plots = map(animplot, [1, 4, 6, 9], [x, x, x, x], [y1, y4, y6, y9])
-	plot(plots..., layout=(2,2), size=(800,500))
-end every 25
-# gif(anim, pwd()*"/output/talk/aliases3.gif")
+	local p1 = plot(t, triang.(t), label=false, title="Aperiodic signal")
+	local p2 = plot(f, abs.(cft(triang, f)), label=false, title="CFT Spectrum")
+	local pp = plot(p1, p2, layout=(1,2), size=(800,350))
+	savefig(pp, joinpath(@__DIR__,"output/leakage_aper"))
 end
 
-# ╔═╡ 465a22c9-b4a4-476a-9a60-83e47e24cf12
-# savefig(baseplot("Sampled points"),  pwd()*"/output/talk/base.pdf")
-
-# ╔═╡ 992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-gif(anim, pwd()*"/output/test.gif")
-
-# ╔═╡ c9374d39-70b6-4bc8-89e9-98c10c98117f
+# ╔═╡ edce8b51-e33d-4e5a-82d6-a3c81103b7de
 begin
-	p1 = baseplot("Sampled points")
-	p2 = plot!(baseplot("1 Hz sinusoid"),t, f1, label=false)
-	pp = plot(p1, p2, layout=(1,2), size=(800,350))
-	savefig(pp, joinpath(@__DIR__, "output", "sampled.pdf"))
+local sig =  periodic_triang.(t)
+local p1 = plot(t,sig, label=false, title="Periodic signal")
+local sigF = fftshift(fft(sig))/(Fs*10)
+local freqs = fftshift(fftfreq(length(sig), Fs))
+local p2 = plot(freqs, abs.(sigF), label=false, 
+	title="DFT Spectrum", xlim=(-3, 3))
+# p2 = plot!(f, abs.(cft(triang,f)), label="CFT")
+local pp = plot(p1, p2, layout=(1,2), size=(800,350))
+	savefig(pp, joinpath(@__DIR__, "output/leakage_per"))
 end
 
-# ╔═╡ 9875c450-2459-4bd4-aa72-2147c9841af5
-savefig(zeropad.result, joinpath(@__DIR__, "output", "zeropadding.pdf"))
+# ╔═╡ 03e405de-4bb2-4601-b5e9-693bb2646a9d
+begin
+	# rect(t) = abs(t)<0.5
+	
+end
+
+# ╔═╡ 45dfcfde-fa32-43ee-97a8-aad6b2844bb4
+anim = @animate for ϕ in 0:0.025:3
+	local t = -10:0.01:10
+	window(t) =  abs((t-ϕ)/3.5)<0.5
+	windowed_periodic_triang(t) = periodic_triang(t) * window(t)
+	local p1 = plot(t, window.(t), label=false, title="Window")
+	local p2 = plot(t, periodic_triang.(t), label=false, title="Periodic wave")
+	local p3 = plot(t, windowed_periodic_triang.(t), label=false, 
+	title="Windowed function")
+	local pp = plot(p1, p2, p3, layout=(1, 3), size=(700, 250))
+	# savefig(pp, joinpath(@__DIR__, "output/windowing"))
+end
+
+# ╔═╡ 8b9a75f0-13ba-4052-a84b-e6157615ee40
+gif(anim, "output/window_anim.gif")
+
+# ╔═╡ 38cad4bd-1208-4719-80ed-3c7fb3a4d4df
+myanim = @animate for ϕ in 0:0.025:3
+	window(t) =  abs((t-ϕ)/2)<0.5
+	myfun(t) = (cos(2t)+1)/2
+	local p1 = plot(t, myfun.(t), label=false)
+	local p1 = plot!(p1, t, window.(t), label=false)
+	local p2 = plot(t, myfun.(t).*window.(t), label=false)
+	temp = myfun.(t).*window.(t)
+	idx = (temp .> 0) 
+	dft_seen = repeat(temp[idx], 6)
+	p3 = plot(dft_seen, linestyle=:dot, marker=:o, markersize=1, label=false)
+	plot(p1, p2, p3, layout=(1,3), size=(700,250), ylim=(0,1))
+end
+
+# ╔═╡ 5d8c306a-690a-42e4-9d3e-d015cb70872c
+gif(myanim, "output/window_dft_seen.gif")
+
+# ╔═╡ 1caf8db0-6a1d-4880-a952-bc71b310c37e
+@bind ϕ Slider(-3:0.25:3, default=0)
+
+# ╔═╡ 04de84b1-107a-4d2e-9a28-6df864047b0c
+gauss(t) = exp(-t^2/16)
+
+# ╔═╡ e49885d9-edb5-44cf-a6aa-58edc1cf90dc
+begin
+	hvals = [1, 0.6]
+	vvals = [4*sqrt(-log(3) + log(5)),-4*sqrt(-log(3) + log(5))]
+	vlabel = [L"f_U",L"f_L"]
+	hlabel = ["0 dB", "-3 dB"]
+	plot(t, gauss.(t), label=false, title="Bandwidth", xticks=(vvals,vlabel),
+	yticks=(hvals, hlabel), ylabel=L"\textrm{Magnitude}^2")
+	hline!(hvals, label=false)
+	vline!(vvals, label=false)
+	savefig("output/bandwidth")
+end
+
+# ╔═╡ 36557b4c-cd79-40be-8788-79e4d10d9924
+
+
+# ╔═╡ a6c1ef52-2c95-41dc-afb8-70c19825d282
+# ╠═╡ disabled = true
+#=╠═╡
+function changing_cos(t)
+	if 0 <= t < 5
+		cos(2*pi*10*t)
+	elseif 05 <= t < 10
+		cos(2*pi*25*t)
+	elseif 10 <= t < 15
+		cos(2*pi*50*t)
+	else
+		cos(2*pi*100*t)
+	end
+end
+  ╠═╡ =#
+
+# ╔═╡ 677fd621-d70b-465b-b658-62adea7ce118
+# ╠═╡ disabled = true
+#=╠═╡
+anim2 = @animate for w in 0:0.5:15
+	local t = 0:0.001:20
+	plot(t, changing_cos.(t), xlim=(w, w+2.5), label=false, title="Time varying cosine")
+end
+  ╠═╡ =#
+
+# ╔═╡ 0882014c-043d-43e6-87fb-414e863f1159
+#=╠═╡
+gif(anim2, "cosine.gif", fps=5)
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
 
 [compat]
 FFTW = "~1.5.0"
+LaTeXStrings = "~1.3.0"
 Plots = "~1.38.5"
+PlutoUI = "~0.7.49"
+QuadGK = "~2.8.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -86,13 +179,19 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "fe523f78ece0fd81866941b83ec7698c5db0a1bc"
+project_hash = "6f96972b0edcea33020c1add1bff16e8b1759b7a"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
 git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
 version = "1.2.1"
+
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -280,15 +379,15 @@ version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "350c974a2fc6c73792cc337be3ea6a37e5fe5f44"
+git-tree-sha1 = "660b2ea2ec2b010bb02823c6d0ff6afd9bdc5c16"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.71.6"
+version = "0.71.7"
 
 [[deps.GR_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "b23a8733e5b294a49351b419cb54ff4e5279c330"
+deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "d5e1fd17ac7f3aa4c5287a61ee28d4f8b8e98873"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.71.6+0"
+version = "0.71.7+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -324,6 +423,24 @@ deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll",
 git-tree-sha1 = "129acf094d168394e80ee1dc4bc06ec835e510a3"
 uuid = "2e76f6c2-a576-52d4-95c1-20adfe4de566"
 version = "2.8.1+1"
+
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.4"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.2"
 
 [[deps.IniFile]]
 git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
@@ -497,6 +614,11 @@ git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "1.0.0"
 
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
+
 [[deps.MKL_jll]]
 deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
 git-tree-sha1 = "2ce8695e1e699b68702c03402672a69f54b8aca9"
@@ -642,6 +764,12 @@ git-tree-sha1 = "8ac949bd0ebc46a44afb1fdca1094554a84b086e"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 version = "1.38.5"
 
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "eadad7b14cf046de6eb41f13c9275e5aa2711ab6"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.49"
+
 [[deps.Preferences]]
 deps = ["TOML"]
 git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
@@ -657,6 +785,12 @@ deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll
 git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+2"
+
+[[deps.QuadGK]]
+deps = ["DataStructures", "LinearAlgebra"]
+git-tree-sha1 = "786efa36b7eff813723c4849c90456609cf06661"
+uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+version = "2.8.1"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -785,6 +919,11 @@ deps = ["Random", "Test"]
 git-tree-sha1 = "94f38103c984f89cf77c402f2a68dbd870f8165f"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 version = "0.9.11"
+
+[[deps.Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
 
 [[deps.URIs]]
 git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
@@ -965,10 +1104,10 @@ uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
 version = "1.2.12+3"
 
 [[deps.Zstd_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "c6edfe154ad7b313c01aceca188c05c835c67360"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.2+0"
+version = "1.5.4+0"
 
 [[deps.fzf_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1041,14 +1180,25 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═84eca974-aaef-11ed-1cdb-2b04bde00b61
-# ╠═c394f538-c3c0-48a6-8add-b0ceb6d7f60a
-# ╠═69b04b78-1a36-4ed1-b229-8347c83c22f2
-# ╠═f3d1080c-d08f-44cf-aab2-1df75343917d
-# ╠═465a22c9-b4a4-476a-9a60-83e47e24cf12
-# ╠═992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-# ╠═c9374d39-70b6-4bc8-89e9-98c10c98117f
-# ╠═33d58d4c-7e31-4b7f-8820-59449a92f347
-# ╠═9875c450-2459-4bd4-aa72-2147c9841af5
+# ╠═15fb1cf6-ad26-11ed-0c3b-ff8ae9126ace
+# ╠═c22cce4b-6490-490c-97ba-8f17e49b449e
+# ╠═27640ea2-01ee-431f-99bb-8047e63a2c90
+# ╠═fcfa8a44-9c2e-4fd1-af11-7c21a49d33f4
+# ╠═272a12e1-fba6-4700-be77-85359022b1c8
+# ╠═1a0ba762-0838-41ab-b00b-21d3b9601034
+# ╠═edce8b51-e33d-4e5a-82d6-a3c81103b7de
+# ╠═03e405de-4bb2-4601-b5e9-693bb2646a9d
+# ╠═45dfcfde-fa32-43ee-97a8-aad6b2844bb4
+# ╠═8b9a75f0-13ba-4052-a84b-e6157615ee40
+# ╠═38cad4bd-1208-4719-80ed-3c7fb3a4d4df
+# ╠═5d8c306a-690a-42e4-9d3e-d015cb70872c
+# ╠═1caf8db0-6a1d-4880-a952-bc71b310c37e
+# ╠═04de84b1-107a-4d2e-9a28-6df864047b0c
+# ╠═e49885d9-edb5-44cf-a6aa-58edc1cf90dc
+# ╠═36557b4c-cd79-40be-8788-79e4d10d9924
+# ╠═a6c1ef52-2c95-41dc-afb8-70c19825d282
+# ╠═677fd621-d70b-465b-b658-62adea7ce118
+# ╠═06643ec3-6fc0-4e7c-a996-0a320bf984ba
+# ╠═0882014c-043d-43e6-87fb-414e863f1159
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

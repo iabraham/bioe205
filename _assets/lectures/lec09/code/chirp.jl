@@ -4,80 +4,83 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 84eca974-aaef-11ed-1cdb-2b04bde00b61
-using Plots, FFTW
+# ╔═╡ 712b9680-abb6-11ed-2af1-dd4a909424f6
+using Plots, PlutoUI,  WAV
 
-# ╔═╡ 33d58d4c-7e31-4b7f-8820-59449a92f347
-module zeropad
-using Plots, FFTW, Base.Iterators
+# ╔═╡ 8fb6912d-531e-481c-8681-23be6510b67b
+md"""### Chirp wave/function"""
 
-sig(t) = 0<= t < 0.25 ? t : (0.25 <= t < 0.5) ? 0.5-t : 0 
+# ╔═╡ 27851a0d-aa88-4a90-a0e5-cad27e090ec1
+md""" Chirp wave of function is a waveform that _sweeps_ frequencies. It is a commonly employed waveform in audiology, radar/sonar and laser applications to perform rapid testing of equipment (in order to ascertain it works across all frequencies)
 
-function make_pair(t, s)
-	y = sig.(t)
-	y_fft = fftshift(fft(y))
-	freqs = fftshift(fftfreq(length(y), 100))
-	left = plot(t, y, label=false, title=s)
-	right = scatter(freqs, abs.(y_fft), xlim=(0, 10), label=false, title="Magnitude spectrum")
-	return left, right
+You can read more about it [here](https://en.wikipedia.org/wiki/Chirp).
+
+MATLAB provides a command called [`chirp`](https://www.mathworks.com/help/signal/ref/chirp.html) but it is part of the Signal Processing Toolbox. So we are going to write our own. 
+"""
+
+# ╔═╡ 084a133d-6acf-4efe-b34d-fc191ed10fdb
+md""" ### Defining equations. 
+
+Based on the Wikipedia page we write a function that takes as input a starting frequency `f0`, an ending frequency `f1` and a time vector `t` at whose beginning and ending these frequencies should be available. 
+
+Since we need to _sweep_ across frequency range $[f_0, f_1]$ and have the rate of change of frequency be a linear function, we have to first determine the chirp rate `c`, based on the values in the time vector provided. 
+
+```math
+c = \dfrac{f_1 - f_0}{t_f - t_0}
+```
+
+so that 
+```math
+f(t) = f_0 + ct
+```
+
+Next, we chose the sine wave to do our sweeping and followind the derivation in [Wikipedia](https://en.wikipedia.org/wiki/Chirp#Linear) we get:
+
+$$f(t) = \sin\left(2\pi(ct^2/2 + f_0t)\right)$$
+"""
+
+# ╔═╡ e36b00a2-0666-428c-8f2a-9b3a14e530be
+md""" We implement the function in a straightforward fashion"""
+
+# ╔═╡ 86260771-3d3f-4a48-b448-bdc98fce2b5d
+function chirp(f0, f1,  t) 
+	c = (f1 - f0)./(t[end]- t[1])
+	return sin.(2π*(c.*t.^2/2 + f0.*t))
 end
-t1, t2, t3 = 0:0.01:1, 0:0.01:2, 0:0.01:6
-p1, p2, p3 = map(make_pair, [t1, t2, t3],
-["Original signal", "Zero-padded signal", "Even more padded"])
-result = plot(flatten([p1, p2, p3])..., layout=(3,2), size=(700, 600))
-end
 
-# ╔═╡ c394f538-c3c0-48a6-8add-b0ceb6d7f60a
+# ╔═╡ ef394864-3b9e-4202-8a75-b438ad5773dd
+md""" Let us examine a plot of it"""
+
+# ╔═╡ a5bfbee0-b700-491b-8538-85a9c0f13311
 begin
-	tp = 0:0.2:2
-	t = 0:0.001:2.1
+local t = 0:0.001:10
+plot(t, chirp(2, 30, t), label=false, title = "Chirp function")
 end
 
-# ╔═╡ 69b04b78-1a36-4ed1-b229-8347c83c22f2
-begin 
-baseplot(t) = scatter(tp, cos.(2*π*tp), label=false, ylim=(-1.1, 1.1), title=t)
-f1, f4, f6, f9 = map(f-> cos.(2*π*f*t), [1, 4, 6, 9])
-xlim, ylim = (0, 2.1), (-1.1, 1.1)
-animplot(t, x, y) =  plot!(baseplot("Freq: $t Hz"), x, y, 
-	label=false, xlim=xlim, ylim=ylim)
-end
+# ╔═╡ 121bbfa9-3a1a-4b47-90b1-86edd8ae3c08
+md"""## What does a chirp sound like?"""
 
-# ╔═╡ f3d1080c-d08f-44cf-aab2-1df75343917d
+# ╔═╡ fca7cbd0-f80c-4ea6-bb82-ac1c8fc0dc74
 begin
-anim = @animate for i in 1:1:length(t)
-	@views x, y1, y4, y6, y9 = t[1:i], f1[1:i], f4[1:i], f6[1:i], f9[1:i]
-	plots = map(animplot, [1, 4, 6, 9], [x, x, x, x], [y1, y4, y6, y9])
-	plot(plots..., layout=(2,2), size=(800,500))
-end every 25
-# gif(anim, pwd()*"/output/talk/aliases3.gif")
+	local t = 0:0.0005:10
+	wavwrite(chirp(100, 900, t), "chirpfile.wav")
 end
 
-# ╔═╡ 465a22c9-b4a4-476a-9a60-83e47e24cf12
-# savefig(baseplot("Sampled points"),  pwd()*"/output/talk/base.pdf")
+# ╔═╡ a4290c3d-bfd3-406c-9209-3b3290596f88
+DownloadButton("Download Chirp", "chirpfile.wav")
 
-# ╔═╡ 992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-gif(anim, pwd()*"/output/test.gif")
-
-# ╔═╡ c9374d39-70b6-4bc8-89e9-98c10c98117f
-begin
-	p1 = baseplot("Sampled points")
-	p2 = plot!(baseplot("1 Hz sinusoid"),t, f1, label=false)
-	pp = plot(p1, p2, layout=(1,2), size=(800,350))
-	savefig(pp, joinpath(@__DIR__, "output", "sampled.pdf"))
-end
-
-# ╔═╡ 9875c450-2459-4bd4-aa72-2147c9841af5
-savefig(zeropad.result, joinpath(@__DIR__, "output", "zeropadding.pdf"))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+WAV = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"
 
 [compat]
-FFTW = "~1.5.0"
 Plots = "~1.38.5"
+PlutoUI = "~0.7.49"
+WAV = "~1.2.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -86,13 +89,13 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "fe523f78ece0fd81866941b83ec7698c5db0a1bc"
+project_hash = "6407438fa72ec4b9863e0a86c836fb89961e230a"
 
-[[deps.AbstractFFTs]]
-deps = ["ChainRulesCore", "LinearAlgebra"]
-git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
-uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.2.1"
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -227,17 +230,11 @@ git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
 
-[[deps.FFTW]]
-deps = ["AbstractFFTs", "FFTW_jll", "LinearAlgebra", "MKL_jll", "Preferences", "Reexport"]
-git-tree-sha1 = "90630efff0894f8142308e334473eba54c433549"
-uuid = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
-version = "1.5.0"
-
-[[deps.FFTW_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "c6033cc3892d0ef5bb9cd29b7f2f0331ea5184ea"
-uuid = "f5851436-0d7a-5f13-b9de-f02708fd171a"
-version = "3.3.10+0"
+[[deps.FileIO]]
+deps = ["Pkg", "Requires", "UUIDs"]
+git-tree-sha1 = "7be5f99f7d15578798f338f5433b6c432ea8037b"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.16.0"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -280,15 +277,15 @@ version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "350c974a2fc6c73792cc337be3ea6a37e5fe5f44"
+git-tree-sha1 = "660b2ea2ec2b010bb02823c6d0ff6afd9bdc5c16"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.71.6"
+version = "0.71.7"
 
 [[deps.GR_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "b23a8733e5b294a49351b419cb54ff4e5279c330"
+deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "d5e1fd17ac7f3aa4c5287a61ee28d4f8b8e98873"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.71.6+0"
+version = "0.71.7+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -325,16 +322,28 @@ git-tree-sha1 = "129acf094d168394e80ee1dc4bc06ec835e510a3"
 uuid = "2e76f6c2-a576-52d4-95c1-20adfe4de566"
 version = "2.8.1+1"
 
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.4"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.2"
+
 [[deps.IniFile]]
 git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
 version = "0.5.1"
-
-[[deps.IntelOpenMP_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "d979e54b71da82f3a65b62553da4fc3d18c9004c"
-uuid = "1d5cc7b8-4909-519e-a0f8-d0f5ad9712d0"
-version = "2018.0.3+2"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -403,10 +412,6 @@ deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdow
 git-tree-sha1 = "2422f47b34d4b127720a18f86fa7b1aa2e141f29"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 version = "0.15.18"
-
-[[deps.LazyArtifacts]]
-deps = ["Artifacts", "Pkg"]
-uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -497,11 +502,10 @@ git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "1.0.0"
 
-[[deps.MKL_jll]]
-deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
-git-tree-sha1 = "2ce8695e1e699b68702c03402672a69f54b8aca9"
-uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
-version = "2022.2.0+0"
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -641,6 +645,12 @@ deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers"
 git-tree-sha1 = "8ac949bd0ebc46a44afb1fdca1094554a84b086e"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 version = "1.38.5"
+
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "eadad7b14cf046de6eb41f13c9275e5aa2711ab6"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.49"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -786,6 +796,11 @@ git-tree-sha1 = "94f38103c984f89cf77c402f2a68dbd870f8165f"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 version = "0.9.11"
 
+[[deps.Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
+
 [[deps.URIs]]
 git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
@@ -808,6 +823,12 @@ version = "0.4.1"
 git-tree-sha1 = "ca0969166a028236229f63514992fc073799bb78"
 uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
 version = "0.2.0"
+
+[[deps.WAV]]
+deps = ["Base64", "FileIO", "Libdl", "Logging"]
+git-tree-sha1 = "7e7e1b4686995aaf4ecaaf52f6cd824fa6bd6aa5"
+uuid = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"
+version = "1.2.0"
 
 [[deps.Wayland_jll]]
 deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
@@ -1041,14 +1062,16 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═84eca974-aaef-11ed-1cdb-2b04bde00b61
-# ╠═c394f538-c3c0-48a6-8add-b0ceb6d7f60a
-# ╠═69b04b78-1a36-4ed1-b229-8347c83c22f2
-# ╠═f3d1080c-d08f-44cf-aab2-1df75343917d
-# ╠═465a22c9-b4a4-476a-9a60-83e47e24cf12
-# ╠═992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-# ╠═c9374d39-70b6-4bc8-89e9-98c10c98117f
-# ╠═33d58d4c-7e31-4b7f-8820-59449a92f347
-# ╠═9875c450-2459-4bd4-aa72-2147c9841af5
+# ╠═712b9680-abb6-11ed-2af1-dd4a909424f6
+# ╟─8fb6912d-531e-481c-8681-23be6510b67b
+# ╟─27851a0d-aa88-4a90-a0e5-cad27e090ec1
+# ╟─084a133d-6acf-4efe-b34d-fc191ed10fdb
+# ╟─e36b00a2-0666-428c-8f2a-9b3a14e530be
+# ╠═86260771-3d3f-4a48-b448-bdc98fce2b5d
+# ╟─ef394864-3b9e-4202-8a75-b438ad5773dd
+# ╠═a5bfbee0-b700-491b-8538-85a9c0f13311
+# ╟─121bbfa9-3a1a-4b47-90b1-86edd8ae3c08
+# ╠═fca7cbd0-f80c-4ea6-bb82-ac1c8fc0dc74
+# ╟─a4290c3d-bfd3-406c-9209-3b3290596f88
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

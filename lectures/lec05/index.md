@@ -115,7 +115,7 @@ the procedure of computing correlation between $x$ and lagged versions of $y$
 commonly called _cross correlating_. Mathematically, for each lag $k$ (or lag
 variable $\tau$ in continuous time) we have: 
 $$
-r_{xy}[k] = \dfrac{1}{N} \sum \limits _{n=1}^N x[n] y[n-k]  \qquad \textrm{and} \quad r_{xy}(\tau) = \dfrac{1}{T}  \int \limits _0 ^T x(t) y(t+\tau) dt 
+r_{xy}[k] = \dfrac{1}{N} \sum \limits _{n=1}^N x[n] y[n+k]  \qquad \textrm{and} \quad r_{xy}(\tau) = \dfrac{1}{T}  \int \limits _0 ^T x(t) y(t+\tau) dt 
 $$
 
 The very last plot above and the equations deserve a little bit of explanation.
