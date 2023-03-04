@@ -1,0 +1,10 @@
+Name, Time Domain, Frequency Domain 
+Linearity, $\alpha x_1(t)  + \beta x_2(t)$, $\alpha X_1(\omega) + \beta X_2 (\omega)$
+Time scaling, $x(t/a)$, $aX(\omega a)$
+Time delay, $f(t-a)$, $X(\omega) e^{-i\omega a}$
+Complex shift, $x(t)e^{i\omega_0 t}$, $X(\omega - \omega_0)$
+Time reversal, $f(-t)$, $F(-\omega)$
+Convolution, $x(t) \star h(t)$, $X(\omega)H(\omega)$
+Multiplication, $x(t)y(t)$, $X(\omega) \star Y(\omega)$ 
+Differentiation, $\dfrac{d^n x(t)}{dt^n}$, $(i\omega)^n X(\omega)$
+Time multiplication, $t^n x(t)$, $i^n \dfrac{d^n}{d\omega^n} X(\omega)$

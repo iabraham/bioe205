@@ -1,0 +1,5 @@
+Time domain, Frequency domain 
+$\delta(t)$, $1$ 
+$1$, $2\pi \delta (\omega)$
+$\cos(\omega_0t)$,$\pi \left( \delta( \omega + \omega_0 ) + \delta ( \omega - \omega_0) \right)$
+$\sin(\omega_0t)$,$i \pi \left( \delta( \omega + \omega_0 ) + \delta ( \omega - \omega_0) \right)$
