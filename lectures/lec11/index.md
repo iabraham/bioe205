@@ -162,13 +162,20 @@ Thus we have that the output from the system is still a complex exponential (or
 sinusoid) with the same frequency but now modulated by a $H(j \omega)$ factor
 in front of it. 
 
-\emphasis{**Key point:** Therefore we have that any LTI system responds to sinusoidal inputs
-with sinusoidal output of the same frequency; albeit with changes in amplitude
-and phase}
+\emphasis{**Key point:** Therefore we have that any stable LTI system with zero
+initial conditions responds (in steady state) to sinusoidal inputs with
+sinusoidal output of the same frequency; albeit with changes in amplitude and
+phase.}
 
 How the input sinusoids amplitude and phase are changed is a function of the
 _complex frequency_ $j \omega$, as defined by the _frequency response_ $H(j
 \omega)$. 
+
+\note{The qualifier - "in steady state" - is required because as shown in
+a class activity, there can be transient portions in the system response which
+fade away with time. Similarly, we will deal with nonzero initial conditions
+when we introduce the Laplace transform and stability of a system is a topic
+for later lectures.}
 
 ### Example 1 
 Given an LTI system with impulse response $h(t)$; use the above observations to
@@ -242,6 +249,48 @@ Use the methods on this page to compute the system response and compare
 your answers. 
 
 **Solution:** Left as an exercise. 
+
 ## System Spectrum 
+
+While the spectrum of a signal tells us the how energy in a signal is
+distributed amongst the constituent frequencies in the signal, the spectrum of
+a system tells us how the system _modifies_ an input signal - both by
+amplifying or attenuating its amplitude as well by modifying the phase
+characteristics. Thus, the magnitude spectrum of a system looks very much like
+the magnitude/phase spectrum plots we have seen so far. The blow figure shows
+the spectrum of hypothetical system. 
+
+\input{plot}{systemspec}
+
+We can see that the system characterized by the above spectrum is a low pass
+filter with a cutoff frequency of 100 Hz. How do we know 100 Hz is the cutoff
+frequency? Recall that the cutoff frequency is where you get half power. In the
+above figure, the magnitude plot has no units (not in decibel scale). Since
+power directly related to amplitude squared, we would get half power when the
+magnitude reads $\dfrac{1}{\sqrt{2}} \approx 0.707$ which happens at 100 Hz. 
+
+Since reading and constructing system spectrum diagrams is a necessary skill
+when dealing with systems and signals, we spent the rest of this lecture on how
+to manually construct such diagrams given the system transfer function. The
+starting point is to transform any given function in to the so called _Bode_
+form. 
+
+### Bode form 
+
+\definition{Bode form}{The bode form of a transfer function is a factored form
+where the constant term in each factor is unity:
+\nonumber{$$
+G(j \omega) = K \cdot \dfrac{(1+jw\tau_1)
+\left(\left(\dfrac{j\omega}{\omega_{n_1}}\right)^2 + 2\zeta \dfrac{j\omega}{\omega_{n_1}} + 1\right) \dots }{jw (1+jw\tau_2) 
+\left(\left(\dfrac{j\omega}{\omega_{n_2}}\right)^2 + 2\zeta \dfrac{j\omega}{\omega_{n_2}} + 1\right) \dots}
+$$}
+(see Eq. 6.50 in CSSB)
+}
+It is necessary to examine each of these factors above and learn how they
+contribute to the shape of the system spectrum. We now begin this activity in
+earnest. The three types of factors are:
+
+
+
 
 [^1]: Later we will see that it is better defined in the _Laplace_ domain; but that is a topic for later lectures.

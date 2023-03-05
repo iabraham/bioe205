@@ -35,7 +35,7 @@ Also note:
 | [Problem Set 03](hw03.pdf) | 02/01	     | 02/10	|
 | [Problem Set 04](hw04.pdf) | 02/08	     | 02/15	|
 | [Problem Set 05](hw05.pdf) | 02/20	     | 03/01	|
-| Problem Set 06     	     | TBD	     | TBD	|
+| [Problem Set 06](hw06.pdf) | 03/01	     | 03/10	|
 | Problem Set 07             | TBD	     | TBD	|
 | Problem Set 08             | TBD	     | TBD	|
 | Problem Set 09             | TBD	     | TBD	|

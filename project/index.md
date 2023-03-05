@@ -62,8 +62,40 @@ the team.
 
 
 ### Summary Poster/Video
+Each team will create a poster or video presentation summarizing the background
+information about the dataset, the rationale behind the analysis approach as
+well as key takeaways including results of the modeling and simulation. 
+The results should include a description of each filter and why it was chosen
+and the comparison of the results. This will be the primary final deliverable. 
 
-More information will be forthcoming. 
+The poster should be no larger than 36 inches by 48 inches and in a vector PDF
+format. It can be a traditional [research
+poster](https://undergradresearch.illinois.edu/guidelines.html) or infographic
+as long as it covers the above information. The video summary should be 8-10
+minutes in length (hard upper limit). The video can be created via a service
+such as [Powtoon](https://www.powtoon.com/), recorded with slides on a screen
+in a conference room, or with slides via Zoom. 
+
+### Supplemental report
+In addition to the summary presentation, each team will submit a supplemental
+text document that includes references used in the presentation and a list of
+the contributions of each team member to the project. The references should
+include all sources used from journals, the internet, discussions, etc. The
+references should be documented using the IEEE citation format. See [this
+gude](https://owl.purdue.edu/owl/research_and_citation/ieee_style/ieee_overview.html)
+or our library [reference](https://guides.library.illinois.edu/citingsources)
+and the [official
+documentation](https://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE-Reference-Guide.pdf)
+
+All MATLAB and Simulink files should be well documented using text (in Live
+Scripts or Simulink annotations) and comments. Another group in the course
+should be able to open your LiveScript and understand what you did after
+reading the document. The dataset used should be documented within the files.
+If someone (e.g., a grader, TA or Instructor) has the dataset and the team’s
+MATLAB/Simulink files, they should be able to run the files and recreate the
+plots. Therefore, all data loading, processing, and simulation should be
+contained in one of the files that are submitted.
+
 
 ### Deadlines
 
