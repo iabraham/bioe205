@@ -275,7 +275,7 @@ to manually construct such diagrams given the system transfer function. The
 starting point is to transform any given function in to the so called _Bode_
 form. 
 
-### Bode form 
+## Bode form 
 
 \definition{Bode form}{The bode form of a transfer function is a factored form
 where the constant term in each factor is unity:
@@ -290,6 +290,120 @@ It is necessary to examine each of these factors above and learn how they
 contribute to the shape of the system spectrum. We now begin this activity in
 earnest. The three types of factors are:
 
+- $K_0(j\omega)^n$ where $n$ is a positive integer. 
+- $(j\omega \tau + 1)^{\pm 1}$
+- $\left[\Big(\dfrac{j\omega}{\omega_n}\Big)^2 + 2\zeta \dfrac{j\omega}{\omega_n} + 1\right]^{\pm 1}$ 
+
+For example consider for some constant $K$ the transfer function, 
+\nonumber{$$
+K \cdot G(s) = K\frac{s+\color{red}{3}}{s(s^2 + 2s + \color{blue}{4})},
+$$}
+where $s$ is the complex frequency variable $j\omega$. It can be written as 
+\nonumber{$$
+\begin{align*}
+KG(s) =& \frac{\color{red}{3}K \left(\frac{s}{3}+1\right)}{\color{blue}{4}s \left( \big(\frac{s}{2}\big)^2 + \frac{s}{2} + 1 \right)}\Bigg|_{s=j\omega} \\
+     =& \frac{\color{red}{3}K}{\color{blue}{4}} \frac{\frac{j\omega}{3}+1}{j\omega \left(\big(\frac{j\omega}{2}\big)^2 + \frac{j\omega}{2} + 1\right)}.
+\end{align*}
+$$}
+It can then be expanded as:
+\nonumber{$$
+\begin{align*}
+  KG(j\omega) &= \frac{3K}{4} \frac{\frac{j\omega}{3}+1}{j\omega \left[\Big(\frac{j\omega}{2}\Big)^2 + \frac{j\omega}{2} + 1\right]} \\
+              &= \underbrace{\frac{3K}{4}(j\omega)^{-1}}_{\text{Type 1}} \cdot \underbrace{\left(\frac{j\omega}{3}+1\right)}_{\text{Type 2}} \cdot \underbrace{\left[\Big(\frac{j\omega}{2}\Big)^2 + \frac{j\omega}{2} + 1\right]^{-1}}_{\text{Type 3}}.
+\end{align*}
+$$}
+
+### Type 1: $K_0(j\omega)^n$
+
+Its magnitude is 
+\nonumber{$$
+\begin{align*}
+  \log M &= \log |K_0 (j\omega)^n| \\
+         &= \log |K_0| + n \log \omega.
+\end{align*}
+$$}
+
+It is a linear function of $\log \omega$; hence it gives a line of slope $n$ passing
+through the value $\log |K_0|$ at $\omega = 1$. This line is called a _low-frequency asymptote.
+
+In our example above, we had $K_0(j\omega)^{-1}$. Its magnitude plot is shown
+in the figure below.
+
+\input{plot}{type1}
+
+For Type 1 factor, its phase is
+\nonumber{$$
+\begin{align*}
+  \angle K_0(j\omega)^n &= \angle (j\omega)^n \\
+                        &= n \angle j\omega \\
+                        &= n \cdot 90^\circ.
+\end{align*}
+$$}
+The phase is therefore a constant independent of $\omega$.
+
+In our example above, we had $K_0(j\omega)^{-1}$ . Its phase plot is shown
+above. In this example the phase is $-90^\circ$ for all $\omega$.
+
+### Type 2: $j\omega\tau + 1$
+
+To study $|j\omega\tau+1|$ and
+$\angle(j\omega\tau+1)$ as a function of $\omega$, we will look at different cases as
+below:
+
+- For $\omega \tau \ll 1$, we have $j\omega\tau + 1 \approx 1$.
+- For $\omega \tau \gg 1$ we have $j\omega\tau + 1 \approx j\omega\tau$.In the case, Type 2 factor behaves
+  like Type 1 with $K_0 = \tau, n = 1$
+- This transition from one extreme to the other can be said to occur at $\omega\tau=1\,
+      \Longleftrightarrow \, \omega = 1/\tau$.This frequency is called the
+      _**breakpoint**_ frequency. 
+
+For the magnitude plot, 
+- For small $\omega$ below the breakpoint, $M \approx 1$, a horizontal line. 
+- For large $\omega$ above the breakpoint, 
+\nonumber{$$
+\begin{align*}
+  \log M &\approx \log |j\omega\tau| \\
+         &= \log \omega\tau \\
+         &= \log \tau + \log \omega.
+\end{align*}
+$$}
+
+This gives a line of slope $1$ passing through the point $(1/\tau,1)$ on a plot
+of log-log scale. Note these are just **asymptotes**; the actual value of $M$
+at $\omega = 1/\tau$ is $\sqrt{2}$ The figure below shows the magnitude slope
+"steps up" by $1$ at the breakpoint.
+
+\input{plot}{type2}
+
+As for the phase plot, 
+- For small $\omega$ (below breakpoint), $\phi \approx 0^\circ$. 
+- For large $\omega$ (above breakpoint),
+\nonumber{$$
+\begin{align*}
+   \phi &\approx \angle(j\omega\tau) \\
+	&= 90^\circ.
+\end{align*}
+$$}
+- At breakpoint ($\omega\tau=1$),
+\nonumber{$$
+\begin{align*}
+   \phi &= \angle(j+1) \\
+	&= 45^\circ.
+\end{align*}
+$$}
+
+
+The figure above shows that the phase "steps up" by $90^\circ$ as we go past
+the breakpoint. 
+
+### Type 2: $(j\omega\tau+1)^{-1}$
+
+Since this type of factor is the inverse of the one we just discussed, the
+magnitude and phase plots are **reflections** of the corresponding plots for the
+stable real zero with respect to the horizontal axis,
+
+- at breakpoint frequency, its magnitude plot “steps down” by 1 in magnitude slope and
+- its phase plot “steps down” by $90^\circ$. 
 
 
 

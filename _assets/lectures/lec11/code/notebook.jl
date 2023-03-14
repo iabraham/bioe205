@@ -5,11 +5,11 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 00ec837a-ba98-11ed-029f-a5fe3df4f948
-using ControlSystemsBase, Plots, Plots.Measures
+using ControlSystemsBase, Plots, Plots.Measures, LaTeXStrings
 
 # ╔═╡ 38aa62c4-9b27-4d51-a9ca-4ca62327a28b
 begin
-	sys = tf(100, [1, 100]);
+	local sys = tf(100, [1, 100]);
 	mag, phase, w = bode(sys);
 end;
 
@@ -23,14 +23,39 @@ end
 # ╔═╡ 42895161-af3f-426f-980c-3923de122223
 savefig(sys_spec, joinpath(@__DIR__, "output/systemspec"))
 
+# ╔═╡ ab867b74-3716-4a7a-8050-001001eb57f6
+begin
+	local sys = tf(20, [1, 0])
+	p3 = bodeplot(sys, label=false,layout=(1,2), size=(600,300), plot_title="Type 1", xlabel="Frequency [rad/s]", margins=3mm)
+	hline!(p3[1], [20], linestyle=:dash, label=L"\log(K_0)", title="Magnitude")
+	p3 = plot!(p3[2], title="Phase", ylim=(-120, -60))
+end
+
+# ╔═╡ 7c559c36-b72a-4628-b0ef-3ce50efe226c
+savefig(p3, joinpath(@__DIR__, "output/type1"))
+
+# ╔═╡ 582504c7-a25a-4f74-84b8-a3dc2d7d87b9
+begin
+	local sys = tf([1, 1], [1])
+	p4 = bodeplot(sys, label=false,layout=(1,2), size=(650,300), plot_title="Type 2", xlabel="Frequency [rad/s]", margins=3mm, xticks=[])
+	vline!(p4[2], [1], linestyle=:dash, label=L"1/\tau")
+	hline!(p4[2], [45], linestyle=:dash, label=L"45^\circ")
+	p4 = vline!(p4[1], [1], linestyle=:dash, label=L"1/\tau")
+end
+
+# ╔═╡ 0fd6b02d-9f1f-4af0-96e1-b2eaa370ed06
+savefig(p4, joinpath(@__DIR__, "output/type2"))
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 ControlSystemsBase = "aaaaaaaa-a6ca-5380-bf3e-84a91bcd477e"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 
 [compat]
 ControlSystemsBase = "~1.3.6"
+LaTeXStrings = "~1.3.0"
 Plots = "~1.38.6"
 """
 
@@ -40,7 +65,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "4e03428049769885777fe2e4703ff6146adee022"
+project_hash = "61e4954aa5a865b88a60ad5b143708e45d1767be"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -1183,5 +1208,9 @@ version = "1.4.1+0"
 # ╠═38aa62c4-9b27-4d51-a9ca-4ca62327a28b
 # ╟─b7681f44-525e-427d-9c86-709a02e4b02f
 # ╠═42895161-af3f-426f-980c-3923de122223
+# ╠═ab867b74-3716-4a7a-8050-001001eb57f6
+# ╠═7c559c36-b72a-4628-b0ef-3ce50efe226c
+# ╠═582504c7-a25a-4f74-84b8-a3dc2d7d87b9
+# ╠═0fd6b02d-9f1f-4af0-96e1-b2eaa370ed06
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
