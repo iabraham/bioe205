@@ -43,8 +43,44 @@ begin
 	p4 = vline!(p4[1], [1], linestyle=:dash, label=L"1/\tau")
 end
 
+# ╔═╡ bf420d69-8d27-4f40-bc60-b48a59aa547b
+begin
+	local sys = tf([1, 1, 1], [1])
+	p5 = bodeplot(sys, label=false,layout=(1,2), size=(650,300), plot_title="Type 3", xlabel="Frequency [rad/s]", margins=3mm, xticks=[])
+	vline!(p5[2], [1], linestyle=:dash, label=L"\omega_n")
+	vline!(p5[1], [1], linestyle=:dash, label=L"\omega_n")
+end
+
+
 # ╔═╡ 0fd6b02d-9f1f-4af0-96e1-b2eaa370ed06
-savefig(p4, joinpath(@__DIR__, "output/type2"))
+savefig(p4, joinpath(@__DIR__, "output/type2a"))
+
+# ╔═╡ dd88e450-700a-490a-bc80-e012afdfb944
+savefig(p5, joinpath(@__DIR__, "output/type3a"))
+
+# ╔═╡ 7f9c82da-e604-4ae3-9dd9-5e77dcb6e9a5
+begin
+	local sys = tf([1], [1,1,1])
+	p6 = bodeplot(sys, label=false,layout=(1,2), size=(650,300), plot_title="Type 3 -inverted ", xlabel="Frequency [rad/s]", margins=3mm, xticks=[])
+	vline!(p6[2], [1], linestyle=:dash, label=L"\omega_n")
+	vline!(p6[1], [1], linestyle=:dash, label=L"\omega_n")
+end
+
+
+# ╔═╡ 91d5ade1-da7d-4130-9d92-d8cb29b6edf7
+savefig(p6, joinpath(@__DIR__, "output/type3b"))
+
+# ╔═╡ 359107ed-73a2-4580-b8f9-8094065feb76
+begin
+	local sys = tf([1], [1,1])
+	p7 = bodeplot(sys, label=false,layout=(1,2), size=(650,300), plot_title="Type 2 - inverted", xlabel="Frequency [rad/s]", margins=3mm, xticks=[])
+	vline!(p7[2], [1], linestyle=:dash, label=L"1/\tau")
+	hline!(p7[2], [-45], linestyle=:dash, label=L"-45^\circ")
+	p7 = vline!(p7[1], [1], linestyle=:dash, label=L"1/\tau")
+end
+
+# ╔═╡ 87b30fec-33bb-4f71-ba18-c6cf139b65fb
+savefig(p7, joinpath(@__DIR__, "output/type2b"))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1211,6 +1247,12 @@ version = "1.4.1+0"
 # ╠═ab867b74-3716-4a7a-8050-001001eb57f6
 # ╠═7c559c36-b72a-4628-b0ef-3ce50efe226c
 # ╠═582504c7-a25a-4f74-84b8-a3dc2d7d87b9
+# ╟─bf420d69-8d27-4f40-bc60-b48a59aa547b
 # ╠═0fd6b02d-9f1f-4af0-96e1-b2eaa370ed06
+# ╠═dd88e450-700a-490a-bc80-e012afdfb944
+# ╠═7f9c82da-e604-4ae3-9dd9-5e77dcb6e9a5
+# ╠═91d5ade1-da7d-4130-9d92-d8cb29b6edf7
+# ╠═359107ed-73a2-4580-b8f9-8094065feb76
+# ╠═87b30fec-33bb-4f71-ba18-c6cf139b65fb
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

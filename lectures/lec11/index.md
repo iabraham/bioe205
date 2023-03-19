@@ -138,7 +138,7 @@ The ratio in \eqref{feedbacktf}, the ratio of the output to the input in the
 frequency domain, is an important enough quantity that it gets its own name:
 **transfer function.** We will spend entire lectures talking about transfer
 functions, and so now is as good a time as any to understand its definition -
-_the frequency domain[^1] domain ratio of the output to the input_. 
+_the frequency domain[^1] ratio of the output to the input_. 
 
 ## Frequency response 
 The same quantity as in \eqref{feedbacktf}, that is the ratio of the output to
@@ -235,7 +235,7 @@ y(t) &= M(3/10) \times 0.6 \cos \left( 0.3t - 70 - \varphi (3/10) \right) \\
 relate the two examples with the above? 
 
 **Hint**: They are exactly the same except for an error in CSSB where it does
-the nonsense of converting things to the phasor form. 
+the extra step of converting things to the [phasor](https://en.wikipedia.org/wiki/Phasor) form. 
 }
 
 ### Example 3
@@ -257,7 +257,7 @@ distributed amongst the constituent frequencies in the signal, the spectrum of
 a system tells us how the system _modifies_ an input signal - both by
 amplifying or attenuating its amplitude as well by modifying the phase
 characteristics. Thus, the magnitude spectrum of a system looks very much like
-the magnitude/phase spectrum plots we have seen so far. The blow figure shows
+the magnitude/phase spectrum plots we have seen so far. The below figure shows
 the spectrum of hypothetical system. 
 
 \input{plot}{systemspec}
@@ -373,7 +373,7 @@ of log-log scale. Note these are just **asymptotes**; the actual value of $M$
 at $\omega = 1/\tau$ is $\sqrt{2}$ The figure below shows the magnitude slope
 "steps up" by $1$ at the breakpoint.
 
-\input{plot}{type2}
+\input{plot}{type2a}
 
 As for the phase plot, 
 - For small $\omega$ (below breakpoint), $\phi \approx 0^\circ$. 
@@ -405,6 +405,124 @@ stable real zero with respect to the horizontal axis,
 - at breakpoint frequency, its magnitude plot “steps down” by 1 in magnitude slope and
 - its phase plot “steps down” by $90^\circ$. 
 
+\input{plot}{type2b}
+
+### Type 3: $\left(\frac{j\omega}{\omega_n}\right)^2 + 2\zeta \frac{j\omega}{\omega_n} + 1$
+
+
+Finally we get to the second order term. Here, we start by writing out the
+complex number in its Cartesian form:
+
+\begin{align*} 
+   \left(\frac{j\omega}{\omega_n}\right)^2 + 2\zeta \frac{j\omega}{\omega_n} + 1 = \underbrace{\left(1- \left(\frac{\omega}{\omega_n}\right)^2\right)}_{\text{real part}}  + \underbrace{2\zeta\frac{\omega}{\omega_n}}_{\text{imag. part}}j
+\end{align*}
+
+Note that $\omega_n$ in the form of this term is what is called the "natural
+frequency". As before we will consider different cases: $\omega \ll \omega_n$
+and $\omega \gg \omega_n$. 
+
+For the magnitude plot we have the following:
+
+ - For small frequencies $\omega \ll \omega_n$, we have
+   \nonumber{$$
+   \left(1- \left(\frac{\omega}{\omega_n} \right)^2 \right) +
+   2\zeta\frac{\omega}{\omega_n}j  \to 1 \qquad \textrm{as} \qquad
+   \frac{\omega}{\omega_n} \to 0 $$}
+    and so $M \approx 1$. 
+- Similalry, for  large frequencies $\omega \gg \omega_n$, we have that the
+   square term dominates and 
+   \nonumber{$$
+     M \approx
+      \left(\frac{\omega}{\omega_n}\right)^2 \implies \log M \approx 2 \log
+      \omega - 2 \log \omega_n
+    $$}
+     In this case, the asymptote is a line of slope 2 passing through the point
+     $(\omega, M)  = (\omega_n, 1)$. 
+
+Therefore, for factor of Type 3 above the magnitude slope “steps up” by 2 as we go
+through the breakpoint. 
+
+For the phase plot we have:
+
+ - For $\omega \ll \omega_n$ we are close to positive 1 on the real axis and so
+   $\phi \approx 0$. 
+ - For $\omega = \omega_n$ the real part disappears and a purely imaginary
+   number has $\phi = 90$. 
+ - For $\omega \gg \omega_n$ note that $\operatorname{Re} \to -\omega^2$ and $\operatorname{Im} \to \omega$ and the quantity edges closer to the negative real axis giving us that $\phi \approx 180$. 
+
+The magnitude and phase plots are shown below:
+
+\input{plot}{type3a}
+
+Note that the extremal value (peak or trough) does not happen at $\omega =
+\omega_n$ but rather at a different frequency called the [**resonant
+frequency**](https://en.wikipedia.org/wiki/Resonance). 
+
+### Type 3: $\left[\left(\frac{j\omega}{\omega_n}\right)^2 + 2\zeta \frac{j\omega}{\omega_n} + 1 \right]^{-1}$
+
+Similar to the type 2 case, now the phase and magnitude plots are reflected
+about the $x$ axis as shown in the plot below. 
+
+
+\input{plot}{type3b}
+
+This brings us to the end of our discussion on creating phase/magnitude plots
+for the Bode primitives. Next lecture we will do a full fledged example but
+before that we wrap up the current one with a discussion of resonant frequency. 
+
+### Second order systems 
+
+Systems that are of Type 3, i.e. having the form 
+\begin{equation}
+\left[ \left(\dfrac{j\omega}{\omega_n}\right)^2 + 2\zeta \left(\dfrac{j\omega}{\omega_n}\right) + 1 \right]^{-1} \qquad  \Leftrightarrow \qquad \dfrac{\omega_n^2}{s^2+2\zeta\omega_ns + \omega_n^2}
+\end{equation}
+
+are called second-order systems since they are associated with second order
+ODE's of the form 
+\nonumber{$$
+f''(t) + 2\zeta \omega_n f'(t) + \omega_n^2 f(t) = x(t)
+$$}
+where $x(t)$ is the input to the system. In the above:
+
+ - $\omega_n>0$ is called the natural frequency 
+ - $\zeta \ge 0$ is called the damping coefficient 
+
+For a system with a $G(j\omega)$ as above, we can derive the magnitude response
+as:
+\begin{align*}
+  M(\omega) = |G(j\omega)|
+            &= \left| \frac{\omega^2_n}{-\omega^2 + 2j\zeta\omega_n \omega + \omega^2_n}\right| 
+            = \left| \frac{1}{1 - \big(\frac{\omega}{\omega_n}\big)^2 + 2\zeta \frac{\omega}{\omega_n}j} \right| \\
+            &= \frac{1}{\sqrt{\left[1-\big(\frac{\omega}{\omega_n}\big)^2\right]^2 + 4\zeta^2\big(\frac{\omega}{\omega_n}\big)^2}} \\
+            &= \frac{1}{\sqrt{1 + (4\zeta^2-2)\big(\frac{\omega}{\omega_n}\big)^2 + \big(\frac{\omega}{\omega_n}\big)^4}}
+\end{align*}
+
+if we set $z:= \frac{\omega}{\omega_n}$ as a new variable we can examine the
+new function $M(z)$. As a function of $z$, the function $M(z)$ attains a
+maximum when $z = \pm \sqrt{1-2 \zeta ^2}$. 
+
+\collaps{**Exercise:** Derive the above statement, i.e. that $M(z)$ has an
+extremum at $z = \pm \sqrt{1-2 \zeta ^2}$.}{**Answer:** Full derivation is left
+as an exercise. However, one proceeds by differentiating $M(z)$ with respect to
+$z$. The derivative is zero at extremal points so we can solve for $z$ from
+$M'(z) = 0$. Discarding the $z=0$ solution for obvious reasons we get the above
+statement}
+
+This means $\omega = \omega_n \sqrt{1-2\zeta^2}$ since $\omega_n$ cannot be
+negative. Furthermore we see that there is an extremum for real valued $\omega$
+only for $\zeta \in \left[0, 2^{-1/2}\right]$. This $\omega_r := \omega_n
+\sqrt{1-2\zeta^2}$ is called the **resonant frequency** defined above - a
+frequency at which [bad
+things](https://en.wikipedia.org/wiki/Millennium_Bridge,_London#Resonance)
+_can_ happen. Here, though, is a more fun video on resonance:
+
+~~~
+<iframe width="760" height="500"
+src="https://www.youtube.com/embed/Oc27GxSD_bI" title="YouTube video player"
+frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>
+~~~
 
 
 [^1]: Later we will see that it is better defined in the _Laplace_ domain; but that is a topic for later lectures.
