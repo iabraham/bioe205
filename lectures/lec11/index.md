@@ -428,7 +428,7 @@ For the magnitude plot we have the following:
    \left(1- \left(\frac{\omega}{\omega_n} \right)^2 \right) +
    2\zeta\frac{\omega}{\omega_n}j  \to 1 \qquad \textrm{as} \qquad
    \frac{\omega}{\omega_n} \to 0 $$}
-    and so $M \approx 1$. 
+    and so $M \approx 1$. Therefore $\log M = 0$ and we get a horizontal line.
 - Similalry, for  large frequencies $\omega \gg \omega_n$, we have that the
    square term dominates and 
    \nonumber{$$
@@ -524,5 +524,14 @@ encrypted-media; gyroscope; picture-in-picture; web-share"
 allowfullscreen></iframe>
 ~~~
 
+Finally, second order systems are bi-parametric - i.e. while the general shape
+of the magnitude/phase plots are as discussed above, the exact nature depends
+on both $\omega_n$ as well as $\zeta$. [This
+link](https://lpsa.swarthmore.edu/SecondOrder/SOI.html) allows one to change
+these parameters to visualize how the plots change. 
+
+~~~
+<p align="center"><a href="/lectures/">[back]</a></p>
+~~~
 
 [^1]: Later we will see that it is better defined in the _Laplace_ domain; but that is a topic for later lectures.

@@ -17,5 +17,6 @@ browser may put out a warning.
 
 1. [Sampling & DFT](http://146.190.199.141/fft_sampling.html)
 1. [Aliasing](http://146.190.199.141/fft_aliasing.html)
+1. [Bode primitives](http://146.190.199.141/bodeprimitives.html)
 
 

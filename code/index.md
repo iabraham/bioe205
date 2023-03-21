@@ -55,9 +55,7 @@ companion website for the textbook.
 1. [Chapter 5](https://colab.research.google.com/drive/1shwhthWA-htaIJnvo_GZR9BIryz4ZxUH?usp=sharing) - Linear Systems Analysis - Convolution
 1. [Chapter
    6](https://colab.research.google.com/drive/1g7TAZDhAfHbHHsdFjGRAEIusj5sNhQ48?usp=sharing) - Linear Systems Analysis - Transfer Function
-1. [Chapter
-   7](https://colab.research.google.com/drive/1Lv_6zY2X1RTOSXRRrVgFws5hrFRPMFdj?usp=share_link)
-   - Linear Systems in Complex Frequency Domain
+1. [Chapter 7](https://colab.research.google.com/drive/1Lv_6zY2X1RTOSXRRrVgFws5hrFRPMFdj?usp=share_link) - Linear Systems in Complex Frequency Domain
 
 
 [^1]: Admittedly, there are no comparable open-source pain-free alternatives to Simulink and therefore for material relying on Simulink, we will wholly use Simulink.

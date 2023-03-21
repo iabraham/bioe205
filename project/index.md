@@ -41,7 +41,7 @@ In your project you should try to answer the following:
   * Which one presents important information better? How do you know?
 - Compare the filters on at least 5 trials/participants/runs.
   * Within the dataset select, four additional trials or subjects where at least
-   one variable of the experiment changed. How do the outputs compare?
+    one variable of the experiment changed. How do the outputs compare?
 
 ## Deliverables
 
