@@ -52,10 +52,13 @@ companion website for the textbook.
 1. [Chapter 1](https://colab.research.google.com/drive/1DZe1OWxF7EyoOszDUr3guDUrxaFvS7C4?usp=share_link) - The Big Picture: Bioengineering Signals and Systems
 1. [Chapter 2](https://colab.research.google.com/drive/1UOfQ098hyuomWEXNf-xXH60DIvEcplyN?usp=share_link) - Signal Analysis in the Time Domain
 1. [Chapter 3](https://colab.research.google.com/drive/15X_Xm3JijqNFlMxqavO3MYCOV_78B9Cz?usp=sharing) - The Fourier Series and the Fourier Transformation
+1. [Chapter 4](https://colab.research.google.com/drive/1h2Rk15ahG_Nrx-Ki0KNySu_QgQeNawfe?usp=sharing) - Fourier Series, Sampling, Spectrograms etc. 
 1. [Chapter 5](https://colab.research.google.com/drive/1shwhthWA-htaIJnvo_GZR9BIryz4ZxUH?usp=sharing) - Linear Systems Analysis - Convolution
 1. [Chapter
    6](https://colab.research.google.com/drive/1g7TAZDhAfHbHHsdFjGRAEIusj5sNhQ48?usp=sharing) - Linear Systems Analysis - Transfer Function
 1. [Chapter 7](https://colab.research.google.com/drive/1Lv_6zY2X1RTOSXRRrVgFws5hrFRPMFdj?usp=share_link) - Linear Systems in Complex Frequency Domain
+1. [Chapter
+   8](https://colab.research.google.com/drive/1KVmlVwWjZpv1TdyfhVd811PJ4bO0R2dT?usp=sharing) - Linear filter design & discrete domain
 
 
 [^1]: Admittedly, there are no comparable open-source pain-free alternatives to Simulink and therefore for material relying on Simulink, we will wholly use Simulink.

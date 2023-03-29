@@ -11,7 +11,7 @@ using ControlSystemsBase, Plots, Plots.Measures, LaTeXStrings
 begin
 	local sys = tf(3/4, [1, 0])
 	w = 10 .^ range(-1, 2, 100)
-	p3 = bodeplot(sys,w, label=false,layout=(1,2), size=(600,300), plot_title="Type 1", xlabel="Frequency [rad/s]", margins=3mm, xminorticks=true, yminorticks=true, xlim=(0.1,100))
+	p3 = bodeplot(sys,w, label=false,layout=(1,2), size=(650,300), plot_title="Type 1", xlabel="Frequency [rad/s]", margins=3mm, xminorticks=true, yminorticks=true, xlim=(0.1,100))
 	hline!(p3[1], [3/4], linestyle=:dash, label=L"\log(3/4)", title="Magnitude", ylim=(0.001, 10), yminorticks=true)
 	p3 = plot!(p3[2], title="Phase", ylim=(-200, 100))
 end

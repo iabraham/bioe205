@@ -9,6 +9,8 @@ hascode = false
 1. [February 17](feb17)
 1. [February 22](feb22)
 1. [March 09](mar09)
+1. [March 24](mar24)
+1. [March 27](mar27) | [Answers](mar27/mar27ans)
 
 # Demonstrations
 

@@ -25,7 +25,7 @@ algebra. These notes are available [here](/inclass/mar09/) and class is
 expected to be familiar with the techniques discussed therein and should have
 been useful for completing homework assignments as well. 
 
-\warn{While not part of the lecture notes per the techniques in the link above
+\caution{While not part of the lecture notes per se the techniques in the link above
 are important topics and fair game on exams/quizzes and ignoring them entails
 considerable risk.}
 
@@ -131,7 +131,7 @@ These terms are:
 \nonumber{$$
 a=\left( \dfrac{j \omega}{0.5} + 1\right) \qquad b=\left( \dfrac{j\omega}{10} + 1\right)^{-1} \qquad c=\left(\dfrac{j\omega}{50} +1 \right)^{-1}
 $$}
-with $\tau_a = 2, \tau_b = 1/10$ and $\tau_b = 1/50$. We can consider their
+with $\tau_a = 2, \tau_b = 1/10$ and $\tau_c = 1/50$. We can consider their
 contributions to the magnitude plots as follows:
 
  * The magnitude plot will start with a slope of -1. 
@@ -198,7 +198,7 @@ the above figures. There is an experimental feature saying it should be
 runnable in the cloud (click "Run in Binder"); but it is not guaranteed to
 work.}
 
-#### Example 1 - MATLAB
+### Example 1 - MATLAB
 
 In this example we make use of the Control System Toolbox in MATLAB while in
 the next example we will make plots without relying on the toolbox. Recall that
@@ -236,7 +236,7 @@ legend('Type 1', 'Type 2', 'Type 3')
 \collaps{**Exercise:** Solve this problem in MATLAB without using the Control
 Systems Toolbox.}{**Answer:** Left as an exercise.}
 
-#### Example 2 - MATLAB 
+### Example 2 - MATLAB 
 In this example (i.e. transfer function of \eqref{ex2}), 
 \nonumber{$$
 G(s) = \dfrac{2000\left(s + 0.5\right)}{s \left(s+10\right)\left(s+50\right)}
@@ -269,11 +269,172 @@ sgtitle("Magnitude/phase plot for Example 2 above")
 
 \input{plot}{ex3_matlab}
 
-#### Example 3 - MATLAB
+### Example 3 - MATLAB
 
 Left as an exercise. Plot in MATLAB the transfer function of \eqref{ex3}. 
 
 \caution{Practice, practice, practice. Do not skip the exercises.}
+
+## Introduction to the Laplace transform 
+
+So far we have had a great run, so this now is as good a place as any to take
+stock of how far we have come: 
+
+ - we started the semester by defining what signals are for our purposes 
+ - we have learned to manipulate signals mathematically 
+ - we have explored in depth the most basic of signals (i.e. sinusoids)
+ - we have become capable of decomposing a vast class of signals into these
+   basic constituents (i.e. transformation to frequency domain) 
+ - we have developed skills necessary to make deeper characterization of
+   signals using their frequency domain representations
+ - along the way, we picked up a plethora of statistical concepts and
+   techniques including correlations, orthogonality, etc. 
+ - next we extended our tools to not just analyze signals, but also systems that
+   act on signals
+ - for a large class of systems (i.e. LTI systems) we can now compute how they
+   respond to arbitrary inputs by studying their transfer functions
+
+Having accomplished this much, it is pertinent to ask how extensible and
+generic are the techniques we have developed?
+
+#### Omission #1
+
+Admittedly we glossed over a few (possibly important) details in our treatment
+of systems so far. Consider the two systems below:
+
+\input{plot}{mass_spring}
+
+On the left we have a mass-spring system where the spring is in its elongated
+state whereas on the right we have the same system where the spring is in its
+equilibrium state. 
+
+\collaps{**Question:** If at time $t>0$, the same input $x(t)$ was applied
+identically to both systems, are their responses going to be
+identical?}{**Answer:** Their steady state responses will be identical but
+their initial responses (or transient responses) will be different because for
+each case, the same system started at different **initial conditions.**}
+
+Thus, one glaring omission/fault in our treatment of system responses so far
+has been the neglect of initial conditions and its effect on the system
+response[^1]. More precisely speaking, in all our treatments so far, we have
+_implicitly_ assumed that all the initial conditions are zero. 
+
+#### Omission #2 
+
+Arguably, one of the great advantages or benefits we derived from ploughing
+through all the math regarding Fourier analysis is the ability to turn a
+complicated integration in the time domain to a simple multiplication in the
+frequency domain. In more mathematical terms, we transformed an integral operation
+on one hand to an algebraic manipulation on the other - **_provided_** that we are
+able to take the Fourier transform. This naturally begs the question:
+
+\collaps{**Question:** Are there signals whose Fourier transform does not
+exist?}{**Answer:** Well, this is a no-brainer because the answer is a
+resounding yes. For example try to take the Fourier transform of $\sinh(at)$
+where $a$ is a positive constant[^2]. 
+
+To see why, we can attempt to compute the Fourier transform directly:
+
+\nonumber{
+$$F(\omega) = \int_{-\infty}^{\infty} \sinh(at) e^{-i\omega t} dt$$}
+
+Using the definition of hyperbolic sine, we can rewrite $\sinh(at)$ as
+$\dfrac{1}{2}(e^{at}-e^{-at})$. Substituting this expression into the above
+integral and integrating by parts twice, we get:
+
+\nonumber{
+$$F(\omega) = \frac{1}{\omega^2 + a^2} \int_{-\infty}^{\infty} (a - i\omega) e^{at} dt$$
+}
+
+The integral $\int \limits _{-\infty}^{\infty} e^{at} dt$ does not converge since $a$ is
+positive, and so $F(\omega)$ is undefined. 
+}
+
+### Enter the Laplace transform 
+
+The (classical) Fourier transform can be seen as a special case of the
+Laplace transform which attempts to fix the above issues.  First off, as must
+be true of a _generalization_, there are some functions that do not have a
+(classical) Fourier transform representation that do have a Laplace transform
+representation. So, we can use the Laplace transform to handle those functions
+that the Fourier transform cannot. Second, the Laplace transform, naturally
+admits a way to incorporate nonzero initial conditions when solving for system
+responses [^3]. 
+
+The central idea behind the generalization (at least for the purposes of this
+class) is this: interpret the Fourier transform integral 
+$$
+F(\omega) = \int \limits _{-\infty} ^{\infty} f(t) e^{-i\omega t} dt 
+$$
+as evaluating
+the integral of a function multiplied by a complex exponential where $\omega$
+is **only** allowed to move along the _imaginary axis_ of the complex plane.
+The key generalization is to **relax** this restriction and to allow the complex
+exponential to take value _off_ the imaginary axis as well: 
+
+\nonumber{
+$$e^{-i \omega t}  \to e^{-st} \quad \textrm{where} \quad s := \sigma + i\omega \quad \textrm{for} \quad \sigma>0 $$
+}
+
+where the intuition is $e^{-st} = e^{-\sigma t} e^{-i\omega t}$ and the
+$e^{-\sigma t}$ is fast decaying exponential for large enough $\sigma >0$ and
+will make most functions $f(t)$ go to zero so the integral will converge.
+Thus we get the definition of the _bilateral_ (or two-sided) Laplace transform
+as:
+
+
+\nonumber{$$
+\mathcal{B}\left[f(t)\right] := \int \limits _{-\infty} ^{\infty} f(t) e^{-st} dt 
+$$}
+
+This integral is supposed to be understood in the sense of an improper integral
+that only converges if each of the pieces 
+
+\nonumber{$$
+\int \limits _{-\infty} ^{0} f(t) e^{-st} dt  \qquad \textrm{and} \qquad \int \limits _{0} ^{\infty} f(t) e^{-st} dt 
+$$}
+
+themselves converge. _More importantly_ for us, the above is **not** the
+definition of the Laplace transform we will use; rather we will mostly concern
+ourselves, with the **unilateral** (or one-sided) Laplace transform:
+
+$$
+\mathcal{L}\left[f(t)\right] := \int \limits _{0} ^{\infty} f(t) e^{-st} dt 
+$$
+
+The precise technical reasons for this choice is beyond the scope of these
+notes; but the short & sloppy version is to recall we deal with _causal_ systems, i.e.
+cause (stimulus) precedes effect (response) and so the more appropriate
+integral[^4] is the one that starts at $t\ge 0$. It is also precisely this
+choice that will allow us to readily encode the initial value, i.e. value at
+$t=0$ into our analysis framework as we will see in later lectures. We end this
+one with a straightforward computation showing that the Laplace transform of
+the hyperbolic sine exists (above we showed it didn't work for the Fourier
+transform).  We have:
+\begin{align*}
+\mathcal{L}\left(\sinh(at) \right) &= \int \limits _{0} ^{\infty} e^{-st} \left( \dfrac{e^{at} - e^{-at}}{2} \right) dt = \dfrac{1}{2} \int \limits _{0} ^{\infty} e^{-st}e^{at} dt - \dfrac{1}{2} \int \limits _{0} ^{\infty} e^{-st}e^{-at} dt \\
+=& \dfrac{1}{2} \mathcal{L}\left(e^{at}\right) - \dfrac{1}{2} \mathcal{L}\left(e^{-at}\right)dt = \dfrac{1}{2} \left( \dfrac{1}{s-a} - \dfrac{1}{s+a} \right) \\
+&=\dfrac{a}{s^2-a^2}
+\end{align*}
+
+where in the above we have used the fact that the Laplace transform
+$\mathcal{L}\left( e^{at} \right)$ is $\dfrac{1}{s-a}$. We leave it as an
+exercise to prove this fact. 
+
+\collaps{**Exercise:** Show that the Laplace transform of $e^{at}$ is 
+\nonumber{$$
+\mathcal{L}\left( e^{at} \right) = \dfrac{1}{s-a} 
+$$}}{**Answer:** Left as an exercise.}
+
 ~~~
 <p align="center"><a href="/lectures/">[back]</a></p>
 ~~~
+
+[^1]: The astute reader will note that this neglect did rear its head before once; see note at the bottom of [this section](/lectures/lec10/#code_examples) vis-a-vis convolution and FFT. Specifically, the FFT method only gave the _steady state_ response!
+
+[^2]: A more traditional approach is to consider the Fourier transform of $e^{at}$ where $a>0$; however in this case while the Fourier transform does not exist in the usual sense of functions, one can concoct an answer in terms of the Dirac delta and distributions (i.e. generalized functions). 
+
+[^3]: Technically, we could do this with the Fourier approach as well, but it the payoff for the effort is negligible compared to the versatility we get by simply using the Laplace transform. 
+
+[^4]: Why didn't this apply to the Fourier transform? Again, beyond the scope - but recall that was predicated on periodic functions which repeated indefinitely in either direction of the time axis.
+

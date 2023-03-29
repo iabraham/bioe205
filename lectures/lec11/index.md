@@ -324,7 +324,7 @@ Its magnitude is
 $$}
 
 It is a linear function of $\log \omega$; hence it gives a line of slope $n$ passing
-through the value $\log |K_0|$ at $\omega = 1$. This line is called a _low-frequency asymptote.
+through the value $\log |K_0|$ at $\omega = 1$. This line is called a _low-frequency_ asymptote.
 
 In our example above, we had $K_0(j\omega)^{-1}$. Its magnitude plot is shown
 in the figure below.

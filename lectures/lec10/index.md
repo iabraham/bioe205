@@ -155,7 +155,8 @@ signals in the time domain looks like graphically. See this excellent
 
 ### Example
 
-Let us find the convolution of $f(t) = e^{-t}$ and $g(t)=\sin(t)$. By
+Let us find the convolution of $f(t) = e^{-t}$ and $g(t)=\sin(t)$ over the
+non-negative real line. By
 definition we have that 
 \begin{align*}
 f(t) \star g(t) &= \int \limits _{0} ^{t} e^{-\tau} \sin (t- \tau) d \tau \\

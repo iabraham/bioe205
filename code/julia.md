@@ -9,7 +9,9 @@ rss = "Examples of code in textbook converted to Julia"
 
 Are you curious about the Julia language that was used to create the course
 webapage? [Julia](https://julialang.org) is an up and coming language that 
-is being [widely adopted](https://julialang.org/learning/classes/) around [the world](https://juliahub.com/case-studies/). It will not replace MATLAB (or
+is being widely adopted: both in [academia](https://julialang.org/learning/classes/), 
+[industry](https://en.wikipedia.org/wiki/Julia_(programming_language#Adoption) and elsewhere around [the
+world](https://juliahub.com/case-studies/). It will not replace MATLAB (or
 Python) any time soon, but it is being actively developed with a lot of
 interesting & promising features. 
 
