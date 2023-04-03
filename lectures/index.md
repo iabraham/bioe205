@@ -26,6 +26,7 @@ lectures = [
   (num="Lecture 10", pic="lec10", title="Impulse response", topic="Introduction to linear systems analysis", link="lec10"),
   (num="Lecture 11", pic="lec11", title="System response", topic="Frequency response & transfer functions", link="lec11"),
   (num="Lecture 12", pic="lec12", title="Bode plots", topic="Bode plot examples & MATLAB", link="lec12")
+  (num="Lecture 13", pic="lec13", title="Laplace transform", topic="Laplace transforms, ODEs and IVPs", link="lec13")
   ]
 
 "@@cards @@row" |> println
