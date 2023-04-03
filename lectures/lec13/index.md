@@ -22,6 +22,19 @@ both ordinary differential equations as well as initial value problems.
 
 
 ## Basic Laplace transforms
+In the last lecture we introduced the Laplace transform as a necessary
+generalization of the Fourier transform integral that is able to accommodate
+wider class of signals. We showed this by computing the Laplace transform of a
+hyperbolic sin for which the Fourier transform did not exist. However, there
+is far simpler and more ubiquitous signal whose Fourier transform doesn't exist
+but the Laplace transform does. This is the so called "on" signal or _step_
+signal (recall [Lecture 04](/lectures/lec04/#step_signal)) defined as
+$$
+y (t) = \begin{cases} &0, \quad t < t_0 \\ &c,\quad t \geq t_0 \end{cases} 
+$$
+
+The Laplace transform of the step signal is computed as follows:
+
 
 
 ## Mathematical operations & Laplace transforms 
