@@ -107,7 +107,6 @@ that particular bit of math works out to look like:
 X(s) + \dfrac{1}{s} \int \limits_{-\infty} ^{0} x(t) dt
 $$}
 
-
 Therefore in the presence of all zero initial conditions we can equate
 integration in time domain with division by $s$ in the Laplace domain - often
 called multiplication by $\frac{1}{s}$ for obvious reasons. 
@@ -116,12 +115,283 @@ called multiplication by $\frac{1}{s}$ for obvious reasons.
 function?}{**Solution:** Recall that the integration of the step function gives
 rise to the ramp function. Thus, the Laplace transform of the ramp function is
 the Laplace transform of the step function multiplied by $s$, i.e.
-$\frac{1}{s^2}$}
+$\dfrac{1}{s^2}$}
 
 
 ### Solving convolutions
 
+Another major result that we had when we learnt about Fourier analysis was the
+fact that convolutions in the time domain became multiplications in the
+frequency domain. Once again, as should be true of any generalization, this
+result remains unchanged in the Laplace domain. In other words 
+
+\nonumber{$$
+f(t) \star g(t) = F(s) G(s)
+$$}
+
+
+#### Example
+
+Let us try to solve the following convolution using Laplace domain. 
+
+\input{plot}{conv}
+
+The functions in the above plot are as follows:
+
+\nonumber{$$
+h(t) = u(t)-u(t-1) \qquad \textrm{and} \qquad f(t) = e^{-2t} \quad \textrm{for}
+\quad t \ge 0
+$$}
+
+Then we have that
+\nonumber{$$
+\mathcal{L} \left( h(t) \right) = \frac{1}{s} - e^{-s}\frac{1}{s}
+$$}
+and
+\nonumber{$$
+\mathcal{L} \left( f(t) \right) = \frac{1}{s+2}
+$$}
+
+\emphasis{Verify that the above claims are true! In particular, we made use of
+the following result:
+\nonumber{$$
+\mathcal{L}\left[x(t-T)\right] =e^{-sT}\mathcal{L}\left[x\left(t\right)\right]
+$$}
+which you should be able to prove.}
+
+Therefore 
+\nonumber{$$
+f(t) \star h(t) \implies F(s) H(s) = \left( \frac{1}{s} - e^{-s}\frac{1}{s}
+\right) \frac{1}{s+2} = \frac{1}{s(s+2)} - e^{-s}\frac{1}{s(s+2)}
+$$}
+
+Now to find the result $y(t) = f(t) \star h(t)$ we need to take the inverse
+Laplace transform of $F(s)H(s)$ which we can do using Laplace transform tables
+if we can find the above functions in them. Often the tables of Laplace
+transforms will only have basic generic forms listed in them and the onus is on
+us to convert our functions into the forms given in the tables. 
+
+One particular technique that is useful here is to be able to break apart
+complex fractions like the above into their constituents. This is called the
+technique of _partial fractions_ which is powerful and very useful one to have
+under our repertoire. Here we will show the technique in action for now but
+relegate the general treatment to the next section. 
+
+Consider:
+\nonumber{$$
+\dfrac{1}{s(s+2)} = \frac{A}{s} + \dfrac{B}{s+2}
+$$
+}
+where we have made the assumption that we can rewrite the rational form on the
+left using two constants $A$ and $B$ on the right. A little manipulation of the
+quantity on the right and then equating the numerators gives:
+\nonumber{$$
+ \dfrac{1}{s(s+2)}  = \dfrac{A(s+2)+Bs}{s(s+2)} \quad \implies \quad A(s+2) +Bs
+= 1
+$$
+}
+The equation on the extreme right should hold for all values of $s$. In
+particular, using $s=0$ and $s=-2$ we get that
+\nonumber{$$
+2A = 1 \quad \implies \quad A = 1/2 $$}
+and
+\nonumber{$$
+\quad -2B =1 \quad \implies \quad B = -1/2
+$$}
+Therefore, 
+\nonumber{$$
+\dfrac{1}{s(s+2)} = \dfrac{1}{2s} - \dfrac{1}{2(s+2)} 
+$$}
+These fractions can be commonly found in tables: for example [here.](https://tutorial.math.lamar.edu/pdf/laplace_table.pdf)
+
+Taking the inverse Laplace transform gives:
+\nonumber{$$
+y(t) = = \frac{1}{2}\left(1- e^{-2t}\right) - u(t-1) \frac{1}{2}\left(1- e^{-2(t-1)}\right)
+$$}
+
+which we plot below along with the original functions. 
+\input{plot}{conv_ans}
+\emphasis{**Exercise:** Verify that the above claim is true using a Laplace
+transform table.}
+
+## General method of partial fractions
+
+The basic objective in the method of partial fractions is to decompose a
+_proper_ rational fraction (a rational fraction is proper only if the degree of
+the numerator is lower than the degree of the denominator) into simpler
+constituents. Here is the general strategy:
+
+1. Start with a proper rational fraction. If improper, then perform polynomial
+   long division first. 
+2. Factor the denominator into linear and irreducible higher order term. A term
+   or factor is called irreducible if it cannot be factored further using
+   rational numbers: e.g. $s^2+36s+25$ is irreducible because factoring it
+   requires writing:
+   \nonumber{$$
+   s^2 + 36s + 25 = -\left(\left(-s+\sqrt{299}-18\right)
+   \left(s+\sqrt{299}+18\right)\right)
+   $$}
+3. Write out a sum of partial fractions for each factor (and every exponent of each
+   factor). 
+4. Multiply the whole equation by the bottom and solve for the coefficients. 
+
+The form of the partial fraction written in Step 3 depends on the form of the
+factor in the denominator as elucidated in the following table:
+
+
+
+|           Type                | Partial Fraction Decomposition |
+| ------------------------------| -------------------------- | 
+| Non-repeated linear factor    | $\dfrac{A_1}{ax+b}$          |  
+| Repeated linear factor        | $\dfrac{A_1}{ax+b} + \dfrac{A_2}{(ax+b)^2} + \dots + \dfrac{A_n}{(ax+b)^n}$ |
+| Non-repeated quadratic factor | $\dfrac{B_1x+C_1}{ax^2+bx+c}$ | 
+| Repeated quadratic factor     | $\dfrac{B_1x+C_1}{ax^2+bx+c} + \dfrac{B_2x+C_2}{(ax^2+bx+c)^2} + \dots + \dfrac{B_nx+C_n}{(ax^2+bx+c)^n}$ |
+
+We now do an example to illustrate the above steps. 
+
+#### Partial fractions example:
+
+Find the partial fraction decomposition of:
+$$ \label{simple}
+\dfrac{3s+1}{\left(2s-1\right)\left(s+2\right)^2} 
+$$
+
+**Solution:** 
+Fortunately the denominator is already factored for us and consists of two
+repeated linear terms and a non-repeated linear term. So we have:
+\nonumber{$$
+\dfrac{3s+1}{\left(2s-1\right)\left(s+2\right)^2}  = \dfrac{A_1}{2s-1} +
+\dfrac{A_2}{s+2} + \dfrac{A_3}{(s+2)^2}
+$$}
+Multiply throughout by $(2s-1)(s+2)^2$ to get rid of the denominator. We get
+\nonumber{$$
+3s+1 = A_1(s+2)^2 + A_2(s+2)(2s-1) + A_3(2s-1)
+$$}
+Now we can solve for the uppercase coefficients by plugging in different values
+of $s$. For example $s=-2$ gives us $A_3 = 1$. Similarly, $s=1/2$ gives us that
+$A_1 = \dfrac{2}{5}$. Using the values of $A_3$ and $A_1$ with $s=0$ gives us
+that $A_2 = -\dfrac{1}{5}$. Thus, 
+$$ \label{easy}
+\dfrac{3s+1}{\left(2s-1\right)\left(s+2\right)^2}  = \dfrac{2/5}{2s-1} -
+\dfrac{1/5}{s+2} + \dfrac{1}{(s+2)^2}
+$$
+
+\emphasis{**Exercise:** Verify that the equality above holds!}
+
+It may not always be the case that the method of partial fractions will be
+solvable by trying different values of $s$ as in \eqref{simple}. Sometimes we
+may need to set up a system of linear equations to solve for the coefficients
+or resort to using software. 
+
+#### Example redux 
+
+Find the partial fraction expansion of:
+
+$$
+\dfrac{s^2+15}{(s+3)^2(s^2-3)}
+$$
+
+**Solution:**
+Again the denominator is already factored for us and consists of a twice
+repeated linear terms and a single quadratic term. Therefore as per the table
+above we get that 
+
+\nonumber{$$
+\dfrac{s^2+15}{(s+3)^2(s^2-3)} = \dfrac{A_1}{s+3} + \dfrac{A_2}{(s+3)^2} +
+\dfrac{B_1s+C_1}{s^2-3}
+$$}
+Now multiply both sides with $(s+3)^2(s^2-3)$ to get rid of the denominator:
+\nonumber{$$
+s^2+15 = (s+3)(s^2-3)A_1 + (s^2-3)A_2 + (s+3)^2(B_1s+C_1)
+$$}
+Now our task is to solve for the uppercase coefficients using different values
+of $s$. For example, using $s=-3$ we get:
+
+\nonumber{$$
+6A_2 = 24 \qquad \implies \qquad A_2 = 4
+$$}
+
+But that is pretty much the only headway we can make here to get at the
+uppercase coefficients directly. What we will need to do next is to substitute
+in this value of $A_2$ into the above equations and collect like powers of $s$
+to compare coefficients. This will give us a linear system of three equations
+in three unknowns. One can verify that these are:
+
+\begin{align*}
+-9A_1 + 9C_1 &= 27 \\
+3A_1 + 6B_1 + C_1 &= -3 \\
+-4A_1 + 8B_1 + 6C_1 &= 0
+\end{align*}
+
+\collaps{**Exercise:** Verify that these equations are indeed correct and
+solve them.}{**Solution:** One gets $2A_1 = C_1 = 6$ and $B_1=-A_1$. We leave
+it as an exercise to write down and verify the partial fraction expansion in
+this case.}
+
+### Partial fractions in software
+
+Fortunately, we can use MATLAB (or some other software package) to solve
+partial fraction problems[^1]. In this section we will show examples of using
+software to solve the above problems. As usual with software toolkits, using
+the right tool for the correct job makes life easier. 
+
+The most straightforward method is to use a CAS. For example Mathematica
+implements this as
+[`Apart`](https://reference.wolfram.com/language/ref/Apart.html). 
+
+\input{plot}{apart_mma}
+
+but our go-to software in this course is either MATLAB or Python so we look at
+MATLAB next. In MATLAB the command we will use is called
+[`residue`](https://www.mathworks.com/help/matlab/ref/residue.html) and the
+code snippet below shows how we solve the **first** problem above. 
+
+\input{matlab}{matlab_ex.m}
+
+which gives 
+
+\output{matlab_ex}
+
+The output suggests that the partial fraction expansion is:
+
+$$ \label{easydec}
+\dfrac{3s+1}{\left(2s-1\right)\left(s+2\right)^2} = \dfrac{-0.2}{s+2} +
+\dfrac{1}{(s+2)^2}+ \dfrac{0.2}{s-1/2}
+$$
+
+\emphasis{**Exercise:** Verify the partial fractions in \eqref{easy} and
+\eqref{easydec} are the same.}
+
+A similar exercise in coding shows that the second example from above can be
+formulated as follows:
+
+\input{matlab}{matlab_bad.m}
+
+with output:
+
+\output{matlab_bad}
+
+But here we run into trouble because MATLAB factored the $s^2-3$ term further
+using $(s - \sqrt{3})(s+\sqrt{3})$ (see footnote 1). 
+
+\collaps{**Question:** Can you fix the above code to get the answer we
+want?}{**Answer:** Left as an exercise.}
+
+One (particularly unsatisfactory) way around this limitation is to use the
+[`partfrac`](https://www.mathworks.com/help/symbolic/sym.partfrac.html) from
+MATLAB's Symbolic Toolbox (which might cost additional):
+
+```matlab
+syms s 
+partfrac((s^2+15)/((s+3)^2*(s^2-3)))
+```
+
+The above gives:
+
 
 ## Solving ODE's in the presence of nonzero initial conditions
 
+## Final and initial value theorems
 
+
+[^1]: ... with a few caveats. More specifically, the answer MATLAB gives you may not always be the answer you want. 
