@@ -15,7 +15,7 @@ begin
 end
 
 # ╔═╡ 1295444e-3cdb-4a37-8e5a-8782d8b0f93d
-p11() = plot(ts1, sin.(2π*2*ts1), label=false, title="Original = 2 Hz")
+p11l9() = plot(ts1, sin.(2π*2*ts1), label=false, title="Original = 2 Hz")
 
 # ╔═╡ 08b308a4-dc1e-432f-874a-bb0976f08703
 function make_signal(f::Integer)
@@ -35,14 +35,14 @@ anim = @animate for f in 80:-2:10
 	psd = abs.(sF).^2/(f*length(sF))
 	p22 = plot(fftshift(freqs), psd, xlim=(0, 40), ylim=(0,1), label=false, 
 		title="Power Spectral Density")
-	plot(p11(), p12, p21, p22, layout=(2,2), size=(800, 600))
+	plot(p11l9(), p12, p21, p22, layout=(2,2), size=(800, 600))
 end
 
 # ╔═╡ 1fa08b5c-8ff6-4bf7-8cc7-155febc15611
 gif(anim,joinpath(@__DIR__, "output/psd_anim.gif"), fps=5)
 
 # ╔═╡ b77c3ce1-4ab2-4dd0-b9f9-a569d284fef0
-df = CSV.read("/Users/itabrah2/Documents/Teaching/BIOE205/car_engine.csv", DataFrame);
+df = CSV.read(joinpath(@__DIR__, "car_engine.csv"), DataFrame);
 
 # ╔═╡ 073b6c09-ab2a-4336-85fa-bd44536d8b49
 begin

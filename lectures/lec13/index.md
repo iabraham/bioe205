@@ -29,6 +29,7 @@ hyperbolic sin for which the Fourier transform did not exist. However, there
 is far simpler and more ubiquitous signal whose Fourier transform doesn't exist
 but the Laplace transform does. This is the so called "on" signal or _step_
 signal (recall [Lecture 04](/lectures/lec04/#step_signal)) defined as
+
 \nonumber{
 $$
 u (t) = \begin{cases} &0, \quad t < t_0 \\ &c,\quad t \geq t_0 \end{cases} 
@@ -37,7 +38,7 @@ $$
 A simple exercise shows that the Laplace transform of the step input is given
 as $\mathcal{L}\left(u(t)\right)$. 
 
-\collaps{**Exercise** Derive the Laplace transform of the step input
+\collaps{**Exercise:** Derive the Laplace transform of the step input
 function}{**Solution:** Left as an exercise.}
 
 However if the only advantage of defining the Laplace transform were to simply
@@ -51,12 +52,14 @@ more utility with this generalization as we will shortly see.
 
 ### Mathematical operations & Laplace transforms 
 Consider the derivative of a function $f(t)$ given as 
+
 \nonumber{
 $$
 f'(t) = \dfrac{d}{dt} f(t) 
 $$
 }
 and consider its Laplace transform (and apply integration by parts):
+
 \nonumber{
 $$
 \mathcal{L}\left(f'(t)\right) = \int \limits _{0} ^{\infty} \dfrac{dx(t)}{dt}
@@ -64,11 +67,12 @@ e^{-st} dt = \left. x(t) e^{-st}\right|_{0}^{\infty} + s \int \limits _{0}
 ^{\infty} x(t) e^{-st} dt 
 $$
 }
-The quantity on the right being integrated is nothing but the Laplace transform of $x(t)$ (which we will denote by $X(s)$). This gives (applying the limits)
-\nonumber{
-$$
+The quantity on the right being integrated is nothing but the Laplace transform
+of $x(t)$ (which we will denote by $X(s)$). This gives (applying the limits)
+$$ \label{lapldiff}
 \mathcal{L}\dfrac{dx(t)}{dt} = s X(s) - x(0^{-})
-$$}
+$$
+
 where $x(0^{-})$ is used to denote the value of the signal at time $t=0$. The negative
 sign $t=0^{-}$ is used to indicate that the negative time history of the signal
 up till $t=0$ has been lumped together into the value at $t=0$. When the
@@ -98,7 +102,7 @@ IVPs of higher orders, say for example a second order system.}
 Now if differentiation in the time domain is represented in the Laplace domain as
 multiplication by $s$ then one can guess that the natural counterpart of
 differentiation being integration, the multiplication must be replaced by ...
-you guessed it: division. (Isn't mathematics beautiful & orderly?). In fact
+you guessed it: division! Isn't mathematics beautiful & orderly?. In fact
 that particular bit of math works out to look like:
 
 
@@ -107,7 +111,7 @@ that particular bit of math works out to look like:
 X(s) + \dfrac{1}{s} \int \limits_{-\infty} ^{0} x(t) dt
 $$}
 
-Therefore in the presence of all zero initial conditions we can equate
+Therefore, in the presence of all zero initial conditions we can equate
 integration in time domain with division by $s$ in the Laplace domain - often
 called multiplication by $\frac{1}{s}$ for obvious reasons. 
 
@@ -190,8 +194,8 @@ quantity on the right and then equating the numerators gives:
 = 1
 $$
 }
-The equation on the extreme right should hold for all values of $s$. In
-particular, using $s=0$ and $s=-2$ we get that
+The equation on the extreme right should hold for _all values_ of $s$. In
+particular, plugging $s=0$ and $s=-2$ we can easily get that:
 \nonumber{$$
 2A = 1 \quad \implies \quad A = 1/2 $$}
 and
@@ -202,7 +206,8 @@ Therefore,
 \nonumber{$$
 \dfrac{1}{s(s+2)} = \dfrac{1}{2s} - \dfrac{1}{2(s+2)} 
 $$}
-These fractions can be commonly found in tables: for example [here.](https://tutorial.math.lamar.edu/pdf/laplace_table.pdf)
+These fractions can be commonly found in tables: for example
+[here.](https://tutorial.math.lamar.edu/pdf/laplace_table.pdf)
 
 Taking the inverse Laplace transform gives:
 \nonumber{$$
@@ -214,7 +219,17 @@ which we plot below along with the original functions.
 \emphasis{**Exercise:** Verify that the above claim is true using a Laplace
 transform table.}
 
+Now we turn our attention to the general procedure for finding partial fraction
+expansions (PFE). 
+
+
 ## General method of partial fractions
+
+
+\warn{Note: Skip the exercises and verification steps in the following
+section at your own risk: PFEs tend to be popular on exams and if you have been
+sourcing rather than solving homework or have become accustomed to using MATLAB
+all the time, you **need** to work out every step here.} 
 
 The basic objective in the method of partial fractions is to decompose a
 _proper_ rational fraction (a rational fraction is proper only if the degree of
@@ -222,8 +237,8 @@ the numerator is lower than the degree of the denominator) into simpler
 constituents. Here is the general strategy:
 
 1. Start with a proper rational fraction. If improper, then perform polynomial
-   long division first. 
-2. Factor the denominator into linear and irreducible higher order term. A term
+   long division first and focus on the part that is proper. 
+2. Factor the denominator into linear and irreducible higher order terms. A term
    or factor is called irreducible if it cannot be factored further using
    rational numbers: e.g. $s^2+36s+25$ is irreducible because factoring it
    requires writing:
@@ -231,22 +246,25 @@ constituents. Here is the general strategy:
    s^2 + 36s + 25 = -\left(\left(-s+\sqrt{299}-18\right)
    \left(s+\sqrt{299}+18\right)\right)
    $$}
-3. Write out a sum of partial fractions for each factor (and every exponent of each
-   factor). 
-4. Multiply the whole equation by the bottom and solve for the coefficients. 
+   which involves an irrational: $\sqrt{299}$. 
+3. Next, write out a sum of partial fractions for each factor (and every
+   exponent of each factor) using the forms/rules for PFEs (see table below). 
+4. Multiply the whole equation by the bottom/denominator and solve for the
+   coefficients. 
 
 The form of the partial fraction written in Step 3 depends on the form of the
 factor in the denominator as elucidated in the following table:
 
 
-
 |           Type                | Partial Fraction Decomposition |
-| ------------------------------| -------------------------- | 
-| Non-repeated linear factor    | $\dfrac{A_1}{ax+b}$          |  
+| ------------------------------| ------------------------------ | 
+| Non-repeated linear factor    | $\dfrac{A_1}{ax+b}$            |  
 | Repeated linear factor        | $\dfrac{A_1}{ax+b} + \dfrac{A_2}{(ax+b)^2} + \dots + \dfrac{A_n}{(ax+b)^n}$ |
-| Non-repeated quadratic factor | $\dfrac{B_1x+C_1}{ax^2+bx+c}$ | 
+| Non-repeated quadratic factor | $\dfrac{B_1x+C_1}{ax^2+bx+c}$  | 
 | Repeated quadratic factor     | $\dfrac{B_1x+C_1}{ax^2+bx+c} + \dfrac{B_2x+C_2}{(ax^2+bx+c)^2} + \dots + \dfrac{B_nx+C_n}{(ax^2+bx+c)^n}$ |
 
+As you can see, when we have a repeated factor we have to write a partial
+fraction for it as many times as it repeats (with different powers as well). 
 We now do an example to illustrate the above steps. 
 
 #### Partial fractions example:
@@ -268,20 +286,29 @@ Multiply throughout by $(2s-1)(s+2)^2$ to get rid of the denominator. We get
 3s+1 = A_1(s+2)^2 + A_2(s+2)(2s-1) + A_3(2s-1)
 $$}
 Now we can solve for the uppercase coefficients by plugging in different values
-of $s$. For example $s=-2$ gives us $A_3 = 1$. Similarly, $s=1/2$ gives us that
-$A_1 = \dfrac{2}{5}$. Using the values of $A_3$ and $A_1$ with $s=0$ gives us
-that $A_2 = -\dfrac{1}{5}$. Thus, 
+of $s$ (because the equation should hold of _any_ value of $s$). 
+
+ - For example $s=-2$ gives us $A_3 = 1$ because:
+
+ 	\nonumber{$$
+	3 (-2) + 1 = A_3 \left(2(-2) -1 \right) \quad \implies \quad -5 =
+	-5A_3
+	$$}
+ - Similarly, one can (and you should) verify that $s=1/2$ gives us that $A_1 = \dfrac{2}{5}$. 
+ - Using the values of $A_3$ and $A_1$ with $s=0$ gives us that $A_2 = -\dfrac{1}{5}$ (again verify this). 
+
+Thus, 
 $$ \label{easy}
 \dfrac{3s+1}{\left(2s-1\right)\left(s+2\right)^2}  = \dfrac{2/5}{2s-1} -
 \dfrac{1/5}{s+2} + \dfrac{1}{(s+2)^2}
 $$
 
-\emphasis{**Exercise:** Verify that the equality above holds!}
+\emphasis{**Exercise:** Again ... verify that the equality above holds!}
 
-It may not always be the case that the method of partial fractions will be
+Now it may not always be the case that the method of partial fractions will be
 solvable by trying different values of $s$ as in \eqref{simple}. Sometimes we
 may need to set up a system of linear equations to solve for the coefficients
-or resort to using software. 
+or resort to using software. Below follows an example where this happens:
 
 #### Example redux 
 
@@ -293,8 +320,8 @@ $$
 
 **Solution:**
 Again the denominator is already factored for us and consists of a twice
-repeated linear terms and a single quadratic term. Therefore as per the table
-above we get that 
+repeated linear terms and a single quadratic term (why?). Therefore as per the table
+above we get that: 
 
 \nonumber{$$
 \dfrac{s^2+15}{(s+3)^2(s^2-3)} = \dfrac{A_1}{s+3} + \dfrac{A_2}{(s+3)^2} +
@@ -375,11 +402,12 @@ But here we run into trouble because MATLAB factored the $s^2-3$ term further
 using $(s - \sqrt{3})(s+\sqrt{3})$ (see footnote 1). 
 
 \collaps{**Question:** Can you fix the above code to get the answer we
-want?}{**Answer:** Left as an exercise.}
+want?}{**Answer:** Left as an exercise (and please inform me if you do fix it).}
 
 One (particularly unsatisfactory) way around this limitation is to use the
 [`partfrac`](https://www.mathworks.com/help/symbolic/sym.partfrac.html) from
-MATLAB's Symbolic Toolbox (which might cost additional):
+MATLAB's Symbolic Toolbox (which might involve paying for yet another add-on to
+MATLAB):
 
 ```matlab
 syms s 
@@ -388,8 +416,17 @@ partfrac((s^2+15)/((s+3)^2*(s^2-3)))
 
 The above gives:
 
+\output{matlab_sym}
 
 ## Solving ODE's in the presence of nonzero initial conditions
+
+As remarked previously, the one-sided Laplace transform (when properly taken)
+ends up having a $s(0^-)$ term (see Eq. \eqref{lapldiff} for example). In
+the following we will make use of this to see how we can solve initial value
+problems. Consider our mass-spring and damper system from [Lecture
+12](/lecture/lec12):
+
+
 
 ## Final and initial value theorems
 

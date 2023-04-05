@@ -36,7 +36,7 @@ end
 # ╔═╡ 69b04b78-1a36-4ed1-b229-8347c83c22f2
 begin 
 baseplot(t) = scatter(tp, cos.(2*π*tp), label=false, ylim=(-1.1, 1.1), title=t)
-f1, f4, f6, f9 = map(f-> cos.(2*π*f*t), [1, 4, 6, 9])
+f1a, f4, f6, f9 = map(f-> cos.(2*π*f*t), [1, 4, 6, 9])
 xlim, ylim = (0, 2.1), (-1.1, 1.1)
 animplot(t, x, y) =  plot!(baseplot("Freq: $t Hz"), x, y, 
 	label=false, xlim=xlim, ylim=ylim)
@@ -45,7 +45,7 @@ end
 # ╔═╡ f3d1080c-d08f-44cf-aab2-1df75343917d
 begin
 anim = @animate for i in 1:1:length(t)
-	@views x, y1, y4, y6, y9 = t[1:i], f1[1:i], f4[1:i], f6[1:i], f9[1:i]
+	@views x, y1, y4, y6, y9 = t[1:i], f1a[1:i], f4[1:i], f6[1:i], f9[1:i]
 	plots = map(animplot, [1, 4, 6, 9], [x, x, x, x], [y1, y4, y6, y9])
 	plot(plots..., layout=(2,2), size=(800,500))
 end every 25
@@ -56,12 +56,12 @@ end
 # savefig(baseplot("Sampled points"),  pwd()*"/output/talk/base.pdf")
 
 # ╔═╡ 992c7ecc-a9e3-4505-920a-4df7fd0bae4b
-gif(anim, pwd()*"/output/test.gif")
+gif(anim, joinpath(@__DIR__, "output/test.gif"))
 
 # ╔═╡ c9374d39-70b6-4bc8-89e9-98c10c98117f
 begin
 	p1 = baseplot("Sampled points")
-	p2 = plot!(baseplot("1 Hz sinusoid"),t, f1, label=false)
+	p2 = plot!(baseplot("1 Hz sinusoid"),t, f1a, label=false)
 	pp = plot(p1, p2, layout=(1,2), size=(800,350))
 	savefig(pp, joinpath(@__DIR__, "output", "sampled.pdf"))
 end
