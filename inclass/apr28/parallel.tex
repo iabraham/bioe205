@@ -1,0 +1,27 @@
+\documentclass[convert={density=300,outext=.png}]{standalone}
+\usepackage[oldvoltagedirection]{circuitikz}
+\usetikzlibrary{patterns,decorations.pathmorphing,positioning}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}},
+point/.style = {draw, fill=black, circle, scale=0.5}
+}
+
+\begin{document}
+
+\begin{circuitikz}
+\node [sground] (g1) at (0,0) {};
+\draw (0,0) to[american current source, l=${10\cos(10t+\pi/4)}$] (0,2);
+\draw (0,2)  -- (3, 2);
+\draw (3,2) to[resistor, l=${R=1K\Omega} $] (3,0);
+\draw (3,2)  -- (6, 2) ;
+\draw (6,2) to[inductor, l=${L=20H}$] (6,0);
+\draw (0,0) -- (6,0);
+\end{circuitikz}
+
+\end{document}

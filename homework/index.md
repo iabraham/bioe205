@@ -23,21 +23,27 @@ Read about how to submit assignments on Gradescope [here](https://help.gradescop
 Also note:
 
 * The standard expectations on [academic integrity](/syllabus#academic_conduct) apply. Your work must be your own.
+
+\note{**Note:** A word of caution to the wise; the course motto with regards to
+the homework is - _**solve not source**_. Real and lasting understanding of
+course topics **requires** you to _truly_ solve the homework yourself. Failure
+to do so, in our experience, reflects on exam performance.}
+
 * **The deadline is before class on the due date.**
 * Deadlines will be set for each assignment on Gradescope. **No late submission will be accepted.**
 
 # Assignments
 
-| Homework #	     	     | Assigned	     | Due Date	|
-|----------------------------|---------------|----------|
-| [Problem Set 01](hw01.pdf) | 01/20	     | 01/30	|
-| [Problem Set 02](hw02.pdf) | 01/25	     | 02/03	|
-| [Problem Set 03](hw03.pdf) | 02/01	     | 02/10	|
-| [Problem Set 04](hw04.pdf) | 02/08	     | 02/15	|
-| [Problem Set 05](hw05.pdf) | 02/20	     | 03/01	|
-| [Problem Set 06](hw06.pdf) | 03/01	     | 03/10	|
-| [Problem Set 07](hw07.pdf) | 03/15	     | 03/24	|
-| [Problem Set 08](hw08.pdf) | 03/22	     | 03/30	|
-| Problem Set 09             | TBD	     | TBD	|
-| Problem Set 10             | TBD	     | TBD	|
-| Problem Set 11             | TBD	     | TBD	|
+| Homework #	     	     | Assigned	 | Due Date	|
+|----------------------------|-----------|--------------|
+| [Problem Set 01](hw01.pdf) | 01/20     | 01/30	|
+| [Problem Set 02](hw02.pdf) | 01/25     | 02/03	|
+| [Problem Set 03](hw03.pdf) | 02/01     | 02/10	|
+| [Problem Set 04](hw04.pdf) | 02/08     | 02/15	|
+| [Problem Set 05](hw05.pdf) | 02/20     | 03/01	|
+| [Problem Set 06](hw06.pdf) | 03/01     | 03/10	|
+| [Problem Set 07](hw07.pdf) | 03/15     | 03/24	|
+| [Problem Set 08](hw08.pdf) | 03/22     | 03/30	|
+| [Problem Set 09](hw09.pdf) | 04/05     | 04/14	|
+| [Problem Set 10](hw10.pdf) | 04/12     | 04/21 	|
+| [Problem Set 11](hw11.pdf) | 04/21	 | 05/01 	|

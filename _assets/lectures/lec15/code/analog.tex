@@ -1,0 +1,28 @@
+\documentclass[convert={density=300,outext=.png}]{standalone}
+\usepackage[oldvoltagedirection]{circuitikz}
+\usetikzlibrary{patterns,decorations.pathmorphing,positioning}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}},
+point/.style = {draw, fill=black, circle, scale=0.5}
+}
+
+\begin{document}
+\begin{circuitikz}
+\node [sground](g1) at (0,0) {};
+\draw (0,0) to[sinusoidal voltage source, l=$V$] (0,4);
+\draw (0,4) -- (2, 4); 
+\draw (2,0) to[resistor, l=$R_1$] (2, 4);
+\draw (2,4) -- (4,4);
+\draw (4,4) -- (6,4);
+\draw (4,0) to[resistor, l=$R_2$] (4,2);
+\draw (4,2) to[capacitor, l=$C$] (4,4);
+\draw (6,4) to[cute inductor, l=$L$] (6, 0);
+\draw (6, 0) -- (0,0);
+\end{circuitikz}
+\end{document}

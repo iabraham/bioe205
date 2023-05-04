@@ -159,8 +159,7 @@ recommend watching this excellent video by Grant Sanderson which was released
 after we covered this lecture:
 
 ~~~
-<iframe width="760" height="500" src="https://www.youtube.com/watch?v=zeJD6dqJ5lo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-</iframe>
+<iframe width="755" height="500" src="https://www.youtube.com/embed/zeJD6dqJ5lo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ~~~
 
 ## Types of systems

@@ -1,8 +1,10 @@
 +++
-title = "Lecture Notes"
+title = "Project Details"
 hascode = true
 hastex = true
 +++
+
+\toc 
 
 
 # Group project details
@@ -40,7 +42,7 @@ In your project you should try to answer the following:
 - Compare the two filters.
   * Which one presents important information better? How do you know?
 - Compare the filters on at least 5 trials/participants/runs.
-  * Within the dataset select, four additional trials or subjects where at least
+  * Within the dataset, select four additional trials or subjects where at least
     one variable of the experiment changed. How do the outputs compare?
 
 ## Deliverables
@@ -82,7 +84,7 @@ text document that includes references used in the presentation and a list of
 the contributions of each team member to the project. The references should
 include all sources used from journals, the internet, discussions, etc. The
 references should be documented using the IEEE citation format. See [this
-gude](https://owl.purdue.edu/owl/research_and_citation/ieee_style/ieee_overview.html)
+guide](https://owl.purdue.edu/owl/research_and_citation/ieee_style/ieee_overview.html)
 or our library [reference](https://guides.library.illinois.edu/citingsources)
 and the [official
 documentation](https://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE-Reference-Guide.pdf)

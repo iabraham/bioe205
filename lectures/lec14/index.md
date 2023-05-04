@@ -7,7 +7,7 @@ hastex = true
 
 # Lecture 14
 
-> **Reading material:** Chapter 7 of CSSB
+> **Reading material:** Chapter 7 and 9 of CSSB
 
 In the last lecture we talked about using the Laplace transform to solve
 convolutions, ODEs, and IVPs and along the way we encountered partial fraction
@@ -34,7 +34,7 @@ where
 By the quadratic formula we get that the denominator has roots (called _poles_):
 
 \nonumber{$$
-s = - \zeta \omega_n \pm \omega_n \sqrt{\zeta^1 - 1}
+s = - \zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1}
 $$}
 
 Therefore the nature of the poles depend on $\zeta$. 
@@ -54,7 +54,7 @@ s &= -\zeta \omega_n \pm j \omega_n \sqrt{1 - \zeta^2} \\
 we can plot the complex valued poles in the complex
 plane as follows:
 
-\input{plot}{sos_poles}
+\figstyled{/assets/lectures/lec14/code/output/sos_poles.png}{width:70%}
 
 If we compute the time domain system response to an impulse we get:
 
@@ -88,5 +88,23 @@ frequency_. The other cases are also discussed in detail in the demonstration.
 
 ## Simulink 
 
-Simulink will be covered in Class. See [Homework 10](/homework)
+Simulink will be covered in Class. See [Homework 10](/homework) and also see
+the [activity](/inclass/apr17) below.  
+
+[\input{plot}{activity}](/inclass/apr17)
+
+Some other useful links are:
+
+1. [Simulink
+   Onramp](https://matlabacademy.mathworks.com/details/simulink-onramp/simulink)
+   which is part of homework. 
+1. [A tutorial from
+   Michigan.](https://ctms.engin.umich.edu/CTMS/index.php?aux=Basics_Simulink)
+1. [A dated tutorial from
+   Nevada](https://eelabs.faculty.unlv.edu/docs/guides/Simulink_Basics_Tutorial.pdf)
+1. [A less dated one from
+   Florida](https://www.cs.ucf.edu/~czou/CDA6530-10/matlab/simulink.pdf)
+~~~
+<p align="center"><a href="/lectures/">[back]</a></p>
+~~~
 
