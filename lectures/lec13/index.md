@@ -36,7 +36,7 @@ u (t) = \begin{cases} &0, \quad t < t_0 \\ &c,\quad t \geq t_0 \end{cases}
 $$
 }
 A simple exercise shows that the Laplace transform of the step input is given
-as $\mathcal{L}\left(u(t)\right)$. 
+as $\mathcal{L}\left(u(t)\right) = 1/s$. 
 
 \collaps{**Exercise:** Derive the Laplace transform of the step input
 function}{**Solution:** Left as an exercise.}
@@ -87,8 +87,8 @@ Thus we get that as must be true of any generalization, the generalization must
 respect or uphold truths or results established by whatever mathematical object
 or concept was being generalized. The precise result being preserved here is
 the fact that the Laplace domain representation of the impulse function is
-still $1$. Indeed, recall that the derivative of the step function is the
-impulse function and thus we see that we can multiply $\mathcal{L}(s)$ with $s$
+still $1$ since $s\times 1/s = 1$. Indeed, recall that the derivative of the step function is the
+impulse function and thus we see that we can multiply $\mathcal{L}(u(t))$ with $s$
 to get 1. 
 
 \collaps{**Exercise:** What happens to higher order derivatives?}{**Answer:**
@@ -102,7 +102,7 @@ IVPs of higher orders, say for example a second order system.}
 Now if differentiation in the time domain is represented in the Laplace domain as
 multiplication by $s$ then one can guess that the natural counterpart of
 differentiation being integration, the multiplication must be replaced by ...
-you guessed it: division! Isn't mathematics beautiful & orderly?. In fact
+you guessed it: division! Isn't mathematics beautiful & orderly? In fact
 that particular bit of math works out to look like:
 
 
@@ -113,7 +113,7 @@ $$}
 
 Therefore, in the presence of all zero initial conditions we can equate
 integration in time domain with division by $s$ in the Laplace domain - often
-called multiplication by $\frac{1}{s}$ for obvious reasons. 
+called multiplication by $\dfrac{1}{s}$ for obvious reasons. 
 
 \collaps{**Exercise:** What is the Laplace transform of the ramp
 function?}{**Solution:** Recall that the integration of the step function gives
@@ -177,7 +177,7 @@ us to convert our functions into the forms given in the tables.
 
 One particular technique that is useful here is to be able to break apart
 complex fractions like the above into their constituents. This is called the
-technique of _partial fractions_ which is powerful and very useful one to have
+technique of _partial fractions_ which is a powerful and very useful one to have
 under our repertoire. Here we will show the technique in action for now but
 relegate the general treatment to the next section. 
 
@@ -211,7 +211,7 @@ These fractions can be commonly found in tables: for example
 
 Taking the inverse Laplace transform gives:
 \nonumber{$$
-y(t) = = \frac{1}{2}\left(1- e^{-2t}\right) - u(t-1) \frac{1}{2}\left(1- e^{-2(t-1)}\right)
+y(t) = \frac{1}{2}\left(1- e^{-2t}\right) - u(t-1) \frac{1}{2}\left(1- e^{-2(t-1)}\right)
 $$}
 
 which we plot below along with the original functions. 
@@ -418,17 +418,125 @@ The above gives:
 
 \output{matlab_sym}
 
+Things are a bit simpler in Python (for those of you interested) but requires
+the use of the [SymPy
+package](https://docs.sympy.org/latest/index.html)
+
+\input{python}{sym_py.py}
+
+which results in:
+
+\output{sympy}
+
 ## Solving ODE's in the presence of nonzero initial conditions
 
 As remarked previously, the one-sided Laplace transform (when properly taken)
 ends up having a $s(0^-)$ term (see Eq. \eqref{lapldiff} for example). In
 the following we will make use of this to see how we can solve initial value
-problems. Consider our mass-spring and damper system from [Lecture
-12](/lecture/lec12):
+problems. Consider a mass-spring and damper system from our in-class lectures:
 
+\input{plot}{mass_spring}
 
+We have derived that the dynamical equations for such a system are:
 
-## Final and initial value theorems
+$$ \label{masspring}
+m \ddot{x} + b\dot{x} + kx = f(t)
+$$
+
+where $x$ is the displacement of the mass from its equilibrium position, 
+$k$ is the spring constant, $b$ is the damper coefficient and $m$ is the
+mass in kilos of the attachment. Here $f(t)$ is the forcing function or _input_
+into the system. Then
+if we take the Laplace transform of \eqref{masspring} above we get:
+$$ \label{lapmass}
+\left[ms^2 + bs + k \right] X(s) - \left[ms+b\right] x(0^-) - mx'(0^-) = F(s) 
+$$
+In \eqref{lapmass} above we have used the following fact (stated without proof
+but alluded to above):
+
+\theorem{Higher derivatives in Laplace domain}{
+\\
+Suppose that $f$, $f'$, $f'',\dots, f^{(n-1)}, f^{(n)}$ are all continuous
+functions whose Laplace transforms exist. 
+
+Then:
+\nonumber{$$
+\mathcal{L}\left(f^{(n)}\right) = s^nF(s) - s^{n-1}f(0) -s^{n-2}f'(0) - \dots -
+sf^{(n-2)}(0) - f^{(n-1)}(0)
+$$
+}}
+
+Now consider the two cases:
+
+#### Zero initial conditions
+If the mass was at rest in its equilibrium position then we have
+$x(0^-)=0=x'(0^-)$. Suppose for simplicity $m=1$ kg and $b=8$ Ns/m and $k=25$ N/m. 
+Thus \eqref{lapmass} above reduces to:
+\nonumber{$$
+\dfrac{X(s)}{F(s)} = \dfrac{1}{s^2+8s+25}
+$$}
+which is simply a second order transfer function. 
+
+\collaps{**Exercise:** Suppose $f(t)=3\delta(t)$. Solve for $x(t)$
+using the inverse Laplace transform.}{**Solution:** The steps are left as an
+exercise. The final answer is
+\nonumber{$$
+x(t) = e^{-4 t} \sin (3 t)
+$$
+which looks like:
+
+\input{plot}{massol}
+
+Does the plot make sense? 
+
+A 1 kilo mass was attached to a spring that requires 25N to compress it 1 meter
+and a damper that produces 8N of force of if you try to move it at 1m/s speed.
+Then this system was hit with a force equal to three times the standard impulse. 
+While it moved, the relatively strong damping and spring meant it didn't move
+much and returned quickly to equilibrium. 
+}}
+#### Non-zero initial conditions
+Suppose instead the mass was displaced $a$ units from its equilibrium position
+and released at time $t=0$ with velocity $v$ m/s. This means $x(0^-)=a$ and
+$x'(0^-)=v$. Then \eqref{lapmass} above becomes:
+\nonumber{$$
+X(s) = \dfrac{F(s) + a(ms + b) + mv}{ms^2+bs+k}
+$$}
+which while not in the form of a transfer function, we can still take into the
+time domain by using the inverse Laplace transform and getting $x(t)$ - which
+is the solution of a second order ODE with initial conditions!!
+
+\collaps{**Exercise:** Suppose the system is released from its displacement of
+$a=1$ unit with a velocity of $v=+1$ m/s at time $t=0$. Let $b=m=1$ (in
+appropriate units), $k=0.25$ N/m and $f(t) \equiv 0$ (i.e. no external force). 
+Solve for the motion $x(t)$ using Inverse Laplace Transform
+method.}{**Solution:** Left as an exercise. The rational fraction whose Inverse
+Laplace Transform you must find is:
+\nonumber{$$
+X(s) = \dfrac{4(s+2)}{2(s+1)^2}
+$$}
+
+If you plot the answer it should look like this:
+
+\input{plot}{massol_ivp}
+
+Does the plot make sense? 
+
+The plot starts at $x=1$ so the initial condition was respected. The mass had
+an initial displacement of $+1$ units and also was released with an initial
+velocity $+1$ m/s (hence in same direction as the displacement). So ... it actually
+ends up moving away from its equilibrium position (of $x=0$) initially until the spring
+starts pulling it back. The relatively heavy damping then smoothly (but also
+slowly) brings it to rest at $x=0$ in about 20 seconds. 
+}
+
+Clearly from the plots above, the values of damping coefficient in second order
+systems has a huge effect on the solution profiles. We will investigate this in
+depth in the next lecture. 
+
+~~~
+<p align="center"><a href="/lectures/">[back]</a></p>
+~~~
 
 
 [^1]: ... with a few caveats. More specifically, the answer MATLAB gives you may not always be the answer you want. 
