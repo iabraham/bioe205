@@ -35,9 +35,9 @@ information on how to [edit](https://franklinjl.org/syntax/markdown/) and
 **Note:** For all the pictures/plots/figures used in the Website to be
 generated it is necessary to run the file:
 
-`./_assets/lectures/generate_results.jl`
+```./_assets/lectures/generate_results.jl```
 
-in/using Julia 
+using Julia.
 
 
 ## Spring 2023
