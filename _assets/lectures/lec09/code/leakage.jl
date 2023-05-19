@@ -40,22 +40,22 @@ periodic_triang(t) = triang(mod(t+1, 2)-1)
 # ╔═╡ 272a12e1-fba6-4700-be77-85359022b1c8
 begin
 	Fs = 1000
-	t = -10:(1/Fs):10
-	f = -3:(1/20):3
+	l9t = -10:(1/Fs):10
+	l9f = -3:(1/20):3
 end
 
 # ╔═╡ 1a0ba762-0838-41ab-b00b-21d3b9601034
 begin
-	local p1 = plot(t, triang.(t), label=false, title="Aperiodic signal")
-	local p2 = plot(f, abs.(cft(triang, f)), label=false, title="CFT Spectrum")
+	local p1 = plot(l9t, triang.(l9t), label=false, title="Aperiodic signal")
+	local p2 = plot(l9f, abs.(cft(triang, l9f)), label=false, title="CFT Spectrum")
 	local pp = plot(p1, p2, layout=(1,2), size=(800,350))
 	savefig(pp, joinpath(@__DIR__,"output/leakage_aper"))
 end
 
 # ╔═╡ edce8b51-e33d-4e5a-82d6-a3c81103b7de
 begin
-local sig =  periodic_triang.(t)
-local p1 = plot(t,sig, label=false, title="Periodic signal")
+local sig =  periodic_triang.(l9t)
+local p1 = plot(l9t, sig, label=false, title="Periodic signal")
 local sigF = fftshift(fft(sig))/(Fs*10)
 local freqs = fftshift(fftfreq(length(sig), Fs))
 local p2 = plot(freqs, abs.(sigF), label=false, 
@@ -85,7 +85,7 @@ anim = @animate for ϕ in 0:0.025:3
 end
 
 # ╔═╡ 8b9a75f0-13ba-4052-a84b-e6157615ee40
-gif(anim, "output/window_anim.gif")
+gif(anim, joinpath(@__DIR__, "output/window_anim.gif"))
 
 # ╔═╡ 38cad4bd-1208-4719-80ed-3c7fb3a4d4df
 myanim = @animate for ϕ in 0:0.025:3
@@ -97,12 +97,12 @@ myanim = @animate for ϕ in 0:0.025:3
 	temp = myfun.(t).*window.(t)
 	idx = (temp .> 0) 
 	dft_seen = repeat(temp[idx], 6)
-	p3 = plot(dft_seen, linestyle=:dot, marker=:o, markersize=1, label=false)
+	local p3 = plot(dft_seen, linestyle=:dot, marker=:o, markersize=1, label=false)
 	plot(p1, p2, p3, layout=(1,3), size=(700,250), ylim=(0,1))
 end
 
 # ╔═╡ 5d8c306a-690a-42e4-9d3e-d015cb70872c
-gif(myanim, "output/window_dft_seen.gif")
+gif(myanim, joinpath(@__DIR__, "output/window_dft_seen.gif"))
 
 # ╔═╡ 1caf8db0-6a1d-4880-a952-bc71b310c37e
 @bind ϕ Slider(-3:0.25:3, default=0)
@@ -120,7 +120,7 @@ begin
 	yticks=(hvals, hlabel), ylabel=L"\textrm{Magnitude}^2")
 	hline!(hvals, label=false)
 	vline!(vvals, label=false)
-	savefig("output/bandwidth")
+  savefig(joinpath(@__DIR__, "output/bandwidth"))
 end
 
 # ╔═╡ 36557b4c-cd79-40be-8788-79e4d10d9924

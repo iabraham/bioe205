@@ -20,12 +20,12 @@ end;
 
 # ╔═╡ 5a80e259-eda8-462c-88f4-ba6666cc157f
 begin
-	ans(t) = 1/2*(1 .- exp.(-2*t)) .- 1/2*(1 .- exp.(-2*(t-1))) .* u.(t .- 1)
+	l13ans(t) = 1/2*(1 .- exp.(-2*t)) .- 1/2*(1 .- exp.(-2*(t-1))) .* u.(t .- 1)
 	nonneg(f) = t -> t < 0 ? 0 : f(t)
 	plot(t, f.(t), label="f(t)")
 	pp = plot!(t, h.(t), label="h(t)")
 	# savefig(pp, joinpath(@__DIR__, "output/conv.png"))
-	pp = plot!(t, nonneg(ans).(t),label="(f★h)(t)")
+	pp = plot!(t, nonneg(l13ans).(t),label="(f★h)(t)")
 	savefig(pp, joinpath(@__DIR__, "output/conv_ans.png"))
 end
 
