@@ -513,7 +513,7 @@ Solve for the motion $x(t)$ using Inverse Laplace Transform
 method.}{**Solution:** Left as an exercise. The rational fraction whose Inverse
 Laplace Transform you must find is:
 \nonumber{$$
-X(s) = \dfrac{4(s+2)}{2(s+1)^2}
+X(s) = \dfrac{4(s+2)}{(2s+1)^2}
 $$}
 
 If you plot the answer it should look like this:

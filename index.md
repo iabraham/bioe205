@@ -9,6 +9,10 @@ mathematical models of signals & systems, specifically biological systems,
 as well as techniques for their analysis using tools like MATLAB & Simulink.
 Use the menu elements above to navigate through the website. 
 
+\note{**Final Exam:** As per the
+[Registrar's](https://courses.illinois.edu/schedule/2023/spring/BIOE/205)
+office the final exam will be held in Loomis 151 on Friday, 12th May from 1330 - 1630 hrs.}
+
 ## Course Information 
 
 **Lecture Time:** 1000 $-$ 1050 hrs on MWF\\
