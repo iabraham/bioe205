@@ -4,141 +4,306 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
-macro bind(def, element)
-    quote
-        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
-        local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
-        el
-    end
+# ╔═╡ 7d6888e0-a940-11ed-096a-5956c79594e5
+# ╠═╡ show_logs = false
+using Plots, WAV, FFTW, PlutoUI
+
+# ╔═╡ 6bce3ee4-936a-44ab-beb3-1d2de11df7d1
+md"""## Simple programs, scripts, debugging"""
+
+# ╔═╡ 630478f8-24a8-4991-b9dc-36c3091699e3
+md"""First we look at ... 
+
+- Accessing MATLAB
+  * Locally 
+  * Via Citrix
+  * Via Terminal/Command Line
+- Getting used to the different windows in MATLAB
+- Simple commands and the command window 
+- Scripts vs. functions vs. function files
+"""
+
+# ╔═╡ 4b5c0628-25dd-4d68-91af-1b4b500a5369
+md""" Then we demonstrate/practice some examples. Recall that the Fibonacci recurrences is given as:
+```math 
+\begin{align}
+F_0 &= 0\\
+F_1 &= 1 \\
+F_n &= F_{n-1} + F_{n-2}
+\end{align}
+```
+
+Can we write a function that returns the n-th term in this sequence?
+"""
+
+# ╔═╡ 9fc4e71c-c14b-4821-a6ee-652afc624803
+md"""#### Simple Fibonacci"""
+
+# ╔═╡ 11998a2f-ec2a-4f2d-8ad5-489357022201
+fib_simple(n) = n < 2 ? n : fib_simple(n-1) + fib_simple(n-2)
+
+# ╔═╡ 0d230ac8-2726-43a9-b404-6903e2d20722
+md"""Implement the above function in MATLAB. Then click on the arrow in the below cell to expand it. Compare."""
+
+# ╔═╡ 75a6a847-a476-4a14-a9bb-06ecf32503b7
+md""" There is a  problem with the above function ... it is slow. 
+
+In the version above, the function calls itself twice to calculate the two previous terms, which are then added to find the current term. This process continues until the n-th term is calculated. However, this version has exponential time complexity and can be quite slow for larger values of n, especially since it recalculates the same terms multiple times.
+
+#### Better Fibonacci
+
+A better approach would be an iterative one. 
+
+"""
+
+# ╔═╡ df41d608-e0cb-49a4-9c4a-bfaee32ab1fc
+function fibonacci(n)
+	n_minus2, n_minus1 = 0,1
+	for i=1:n
+		n_minus2, n_minus1 = n_minus1, n_minus1 + n_minus2
+	end
+	return n_minus2
 end
 
-# ╔═╡ 6dfb529b-b8ac-4509-8fea-2ecb96e87afe
-using Plots, PlutoUI
-
-# ╔═╡ 28e7b4c8-ccdb-4ad7-960b-e88ce3bc8725
-md"""#### Demonstrating a typical second order system
-
-A typical second order system has the following form:
-
-```math
-
-\ddot x + 2 \zeta \omega_n \dot x + \omega_n^2 = 0 
-```
-
-where $\omega_n$ is the natural frequency of the system and $\zeta$ is the damping ratio. Depending on the $\zeta$ we can observe four distinct behaviors for any given initial dispalcement $x_0$ and velocity $v_0$. See the textbook or lecture note 13. 
-"""
-
-# ╔═╡ 666fb788-51ba-453f-8187-a3992699ef9a
-md""" Set the value of the natural frequency and damping coefficient of the system using the slider below:
-
-ωₙ:   $(@bind freq Slider(2:1:50, default=10, show_value=true))
-
-ζ:    $(@bind damp Slider([0,0.001,0.01, 0.1, 1, 1.5], default=1, show_value =true))
-"""
-
-# ╔═╡ 2add7868-7adb-4487-bcde-b14b4fe85fd2
-md""" 
-**Undamped:** If $\zeta=0$ we say that the system is undamped and its solution is 
-```math
-x(t) = x_0 \cos (\omega_n t) + \dfrac{v_0}{\omega_n} \sin (\omega_n t)
-```
-which oscillates forever (a pure sinsoid) which corresponds to purely imaginary roots for the characteristic equation. 
-
-```math 
-s^2 + 2 \omega_n \zeta s + \omega_n^2 = 0 
-```
-**Underdamped:** If $\zeta \in (0, 1)$, the system is said to be under-damped and we get 
-```math
-x(t) = \left[ x_0 \cos (\omega_d t) + \dfrac{v_0 + \zeta \omega_n x_0}{\omega_d} \sin(\omega_d t) \right] e^{-\zeta \omega_nt}
-```
-
-where $\omega_d = \omega_n \sqrt{1-\zeta^2}$ is called the damped frequency. In this case the oscillations eventually die out because we have an exponentially decay term multiplying the sinusoid. This corresponds the case of general complex roots. 
-"""
-
-# ╔═╡ aef56c8e-ec02-4349-b308-2e7ad287e0fa
-md"""Set the value of the initial displacement & initial velocity below:
-
-
-x₀: $(@bind initdisp Slider(-1:0.1:1, default=0.5, show_value=true))
-
-v₀: $(@bind initvel Slider(-70:1:70, default=0, show_value=true))
-"""
-
-# ╔═╡ d57ec346-7920-4f8e-8ad2-9089519778a1
+# ╔═╡ eec1243e-0c1a-4628-aa6a-bf9db67937bc
 md"""
-**Overdamped:** If $\zeta>1$ the system is called over-damped and the solution is 
-```math 
-x(t) = \left[ x_0 \cos(\beta t) + \dfrac{v_0 + \zeta \omega_d x_0}{\omega_d}\sin (\beta t)\right]e^{-\zeta \omega_n t}
-```
-where $\beta = \omega_n \sqrt{\zeta^1-1}$. In this case the system never oscillates and corresponds to having no complex roots, i.e. purely real roots. 
+Can you implement the above in MATLAB? 
 
 
-**Critically damped:** Finally the system is called critically damped when $\zeta=1$ and in this case
-```math
-x(t) = \left( x_0 +\omega_n x_0 t +v_0t\right)e^{-\omega_n t}
-```
-This is an interesting case because this is the case in which the system reaches steady state fastest. This occurs when the charactersistic equation only has a single repeated root. 
+**Note:** MATLAB doesn't do swap assignments like above, so will need to make use of a temporary variable"""
+
+# ╔═╡ 6562c7ec-3628-45b9-a7c5-0de7417c58f8
+md"""
+
+The above function uses a loop to iteratively calculate each term in the sequence. The first two terms, 0 and 1, are handled as special cases. For each subsequent term, the function adds the two previous terms to find the current term.
+
+_Advanced topic_
+
+If you still want to implement recursive Fibonacci, you can make use of memoization. this is the process of storing already calculated values in memory so we can reuse them instead of performing the computation again. 
+
+
+#### Memoized Fibonacci"""
+
+# ╔═╡ 9156ad85-9486-48fc-bf40-6fe83f70932a
+md"""
+In this version, an additional argument memo is added to the function. The memo argument is a vector that stores the results of previous calculations. Before calculating a term, the function checks if the result is already stored in memo. If so, it returns the stored result. If not, it calculates the result and stores it in memo for future use.
+
+To use this function, you would call `fibonacci(n, zeros(1, n))`, where `n` is the desired term and `zeros(1, n)` is the initial memo vector of zeros. The size of memo is set to `n` because the maximum term that needs to be calculated is `n`.
 """
 
-# ╔═╡ 14f8df3d-3eda-41f0-8e33-40958940979a
-const t = 0.:1e-3:2;
+# ╔═╡ 984d54bc-0952-4279-8d02-e23b9d7830ba
+md"""## Plots & FFT"""
 
-# ╔═╡ 753ca6ba-0fec-45f7-ac05-b0afed625e79
-function response(f₀ = 10., ξ = 0.01, x₀ = 1., v₀ = 1.)
-    ω₀ = 2π*f₀     # Natural angular frequency
-    if 0. ≤ ξ < 1. # Undamped/Under-damped response
-       Ω₀ = ω₀*√(1. - ξ^2)
-      x = (x₀*cos.(Ω₀*t) + (v₀ + ξ*ω₀*x₀)*sin.(Ω₀*t)/Ω₀).*exp.(-ξ*ω₀*t)
-    elseif ξ == 1.  # Critically damped response
-      x = @. (x₀ + ω₀*x₀*t + v₀*t)*exp(-ω₀*t)
-    else # Over-damped response
-      β = ω₀*√(ξ^2 - 1.)
-      x = @. (x₀*cosh(β*t) + (v₀ + ξ*ω₀*x₀*sinh(β*t))/β)*exp(-ξ*ω₀*t)
-    end
-end
+# ╔═╡ 4a6dcc46-ab01-4f1c-ad9d-b13959696f78
+md"""
+In this section we transition to talking about the `fft` function. For this we will use audio files as our signals. 
 
-# ╔═╡ 203d24a9-cea7-461b-8fb0-262680dfbe99
+Load up an audio file and plot its waveform. Download the audios file from Ed. They are called `sound_t.wav` and `sound_b.wav`. 
+"""
+
+# ╔═╡ d257c769-8366-4fe4-af4d-86fa8d2dadb7
+y, fs, nbits, opt = wavread("files/sound_b.wav");
+
+# ╔═╡ cc597fcd-1512-4175-ba24-894de5876fed
+plot(y, label=false, title="Plot of the waveform")
+
+# ╔═╡ 661fa071-2df8-4345-88ae-4772a261879f
+md""" Here
+
+ * `y` - Waveform
+ * `fs` - Sampling frequency
+ * `nbits` and `opts` - Encoding options. 
+
+As you can see from examining the `fs=` $(Int32(fs)) Hz
+"""
+
+# ╔═╡ 380643f8-4742-4136-b2f2-ff6ebc832fb6
+md""" Take the Fourier Transform and plot the magnitude and phase components"""
+
+# ╔═╡ 23fa78df-edf7-46bf-8def-1903654fabd9
 begin
-	plot(t, response(freq, damp, initdisp, initvel), label=false, ylim=(-5, 5))
+YF = fft(y)
+freqs = fftfreq(length(y), fs)
+mags = abs.(YF)
+phase = angle.(YF);
+end;
+
+# ╔═╡ 7983722e-0bcb-42de-846f-2bee6de3928a
+md""" In the above `fftfreq` is a function in Julia that will generate the frequency vector for us. MATLAB doesn't have an equivalent so you must generate the frequency vector yourself and in addition use the `fftshift` function!!
+"""
+
+# ╔═╡ 6720e1fa-6466-4bc9-875e-03d9bba08e37
+begin
+	p_mags = plot(freqs, mags, title = "Magnitude spectrum", label=false)
+	p_phase = plot(freqs, phase, title = "Phase spectrum", label=false)
+	plot(p_mags, p_phase, layout=(1, 2), size=(800,300))
 end
 
-# ╔═╡ 9fe23cb9-cec6-4eed-9f2d-220b6e199790
-function damping(value)
-    if value == 1
-        return 0.
-    elseif value == 2
-        return 0.001
-    elseif value == 3
-        return 0.01
-    elseif value == 4
-        return 0.1
-    elseif value == 5
-        return 1.
-    else
-        return 1.5
+# ╔═╡ 058c4f40-bc38-4ec8-a269-2ecb19a95e71
+md""" As we can see the phase plot isn't all that informative. But what is this negative frequency?
+
+**Check:** [Lecture note 8](https://courses.grainger.illinois.edu/bioe205/sp2023/lectures/lec08/#computing_the_fourier_transform) for details.
+
+We are interested in the portion 0 to 8 kHz because we only have reliable information at up to half the sampling frequency (here 16 kHz). So let us redo the plot. 
+"""
+
+# ╔═╡ 0f229e51-9ed3-4252-99c3-3cd02586482f
+plot(freqs, mags, title="Magnitude spectrum", xlim=(0, 8000), label=false)
+
+# ╔═╡ e38001ee-b7c6-4299-aa05-ea1d1b7fade2
+md""" ### Audio engineering? 
+
+In the next bit we are going to zero out the complex coefficients corresponding to a few frequencies and then reconstruct the wave form use the Inverse Fourier Transform.
+
+Specifically we are zero-ing out the coefficients above 800 Hz. 
+"""
+
+# ╔═╡ 64a7f66e-10ab-428a-ab6a-8e00bcd63c5c
+begin
+	pos_zero_indices = (freqs .> 800)
+	neg_zero_indices = (freqs .< -800)
+	Fcopy = deepcopy(YF)
+	Fcopy[pos_zero_indices] .= 0
+	Fcopy[neg_zero_indices] .= 0
+end;
+
+# ╔═╡ b16cc696-7ad4-461e-9542-ecc846b7306c
+md""" Now we reconstruct the signal"""
+
+# ╔═╡ c4ceeaf0-4a09-4b82-a297-977643990a59
+begin
+	modded_y = real(ifft(Fcopy))
+	filename = "files/zeroed_5th.wav"
+	wavwrite(modded_y, filename, Fs=fs)	
+end
+
+# ╔═╡ b6b4b5d8-e9a7-4f8d-a620-f7329d9a2a0f
+DownloadButton(read(filename),basename(filename))
+
+# ╔═╡ 185f7dc8-3c81-4eb1-baf1-ac17f6d29980
+md"""##### Exercise: can you do the same in MATLAB?"""
+
+# ╔═╡ ee8eb445-58dc-4ed3-b888-66383cebfe7c
+begin
+	struct Foldable{C}
+	    title::String
+	    content::C
+	end
+	
+	function Base.show(io, mime::MIME"text/html", fld::Foldable)
+	    write(io,"<details><summary>$(fld.title)</summary><p>")
+	    show(io, mime, fld.content)
+	    write(io,"</p></details>")
+	end
+	md"""`Folding code`"""
+end
+
+# ╔═╡ 315e690f-b0d2-47f9-b3c1-d0f956d7414f
+Foldable("Simple Fibonacci - MATLAB", md"""
+```octave
+function fib = my_fib(n)
+% Generates the n-th term in the Fibonacci sequence
+
+if n < 2
+    fib = n ;
+else
+    fib = my_fib(n-1) + my_fib(n-2);
+end
+end
+```
+""")
+
+# ╔═╡ 55a57b15-5e44-467f-9342-9ed6cb53ac52
+Foldable("Better Fibonacci - MATLAB", md"""
+```matlab
+function fib = my_fib(n)
+% Generates the n-th term in the Fibonacci sequence
+
+if n < 2
+    fib = n;
+else
+    n_minus1 = 1;
+    n_minus2 = 0;
+    for i = 2:n
+        fib = n_minus1 + n_minus2;
+        n_minus2 = n_minus1;
+        n_minus1 = fib;
     end
 end
+end
+```
+""")
+
+# ╔═╡ 9ef26e79-3874-4d5a-ab81-31a40480b784
+Foldable("Memoized Fibonacci - MATLAB",md"""
+```matlab
+function fib = fibonacci(n, memo)
+% Generates the n-th term in the Fibonacci sequence using memoization
+
+if n <= 0
+    fib = 0;
+elseif n == 1
+    fib = 1;
+elseif n <= length(memo) && memo(n) ~= 0
+    fib = memo(n);
+else
+    memo(n) = fibonacci(n-1, memo) + fibonacci(n-2, memo);
+    fib = memo(n);
+end
+```
+""")
+
+# ╔═╡ edcc8e2d-c965-45c3-946f-5ebeee75b02d
+Foldable("MATLAB Version", md"""
+```octave
+% READ the file sound_t.wave after downloading it from EdStem. 
+% Below code intentionally leaves out generating the frequency vector. 
+% Exercise!!
+
+[y, Fs] = audioread("sound_b.wav");
+
+FY = fft(y);
+figure
+subplot(2, 2, [1 2])
+plot(y)
+title("Waveform")
+subplot(2, 2, 3)
+plot(fftshift(abs(FY)))
+title("Magnitude spectrum")
+subplot(2, 2, 4)
+plot(fftshift(angle(FY)))
+title("Phase spectrum")
+```
+""")
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+WAV = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"
 
 [compat]
-Plots = "~1.38.9"
-PlutoUI = "~0.7.50"
+FFTW = "~1.5.0"
+Plots = "~1.38.5"
+PlutoUI = "~0.7.49"
+WAV = "~1.2.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.5"
+julia_version = "1.9.0"
 manifest_format = "2.0"
-project_hash = "007fbb57db0277a809224fb92fc2c3ad5ea07613"
+project_hash = "4774c6c3ea5acd198cd067528c8d46fbe68e4168"
+
+[[deps.AbstractFFTs]]
+deps = ["ChainRulesCore", "LinearAlgebra"]
+git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
+uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
+version = "1.2.1"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -179,12 +344,6 @@ git-tree-sha1 = "c6d890a52d2c4d55d326439580c3b8d0875a77d9"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 version = "1.15.7"
 
-[[deps.ChangesOfVariables]]
-deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "485193efd2176b88e6622a39a246f8c5b600e74e"
-uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.6"
-
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
 git-tree-sha1 = "9c209fb7536406834aa938fb149964b985de6c83"
@@ -217,14 +376,14 @@ version = "0.12.10"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
-git-tree-sha1 = "7a60c856b9fa189eb34f5f8a6f6b5529b7942957"
+git-tree-sha1 = "61fdd77467a5c3ad071ef8277ac6bd6af7dd4c04"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.6.1"
+version = "4.6.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "1.0.2+0"
 
 [[deps.Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -248,7 +407,9 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
+git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+version = "1.9.1"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -278,6 +439,24 @@ deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers",
 git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
+
+[[deps.FFTW]]
+deps = ["AbstractFFTs", "FFTW_jll", "LinearAlgebra", "MKL_jll", "Preferences", "Reexport"]
+git-tree-sha1 = "90630efff0894f8142308e334473eba54c433549"
+uuid = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+version = "1.5.0"
+
+[[deps.FFTW_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "c6033cc3892d0ef5bb9cd29b7f2f0331ea5184ea"
+uuid = "f5851436-0d7a-5f13-b9de-f02708fd171a"
+version = "3.3.10+0"
+
+[[deps.FileIO]]
+deps = ["Pkg", "Requires", "UUIDs"]
+git-tree-sha1 = "7be5f99f7d15578798f338f5433b6c432ea8037b"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.16.0"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -320,15 +499,15 @@ version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "0635807d28a496bb60bc15f465da0107fb29649c"
+git-tree-sha1 = "350c974a2fc6c73792cc337be3ea6a37e5fe5f44"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.72.0"
+version = "0.71.6"
 
 [[deps.GR_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "99e248f643b052a77d2766fe1a16fb32b661afd4"
+deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "b23a8733e5b294a49351b419cb54ff4e5279c330"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.72.0+0"
+version = "0.71.6+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -388,20 +567,20 @@ git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
 version = "0.5.1"
 
+[[deps.IntelOpenMP_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "d979e54b71da82f3a65b62553da4fc3d18c9004c"
+uuid = "1d5cc7b8-4909-519e-a0f8-d0f5ad9712d0"
+version = "2018.0.3+2"
+
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
-[[deps.InverseFunctions]]
-deps = ["Test"]
-git-tree-sha1 = "49510dfcb407e572524ba94aeae2fced1f3feb0f"
-uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.8"
-
 [[deps.IrrationalConstants]]
-git-tree-sha1 = "630b497eafcc20001bba38a4651b327dcfc491d2"
+git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
 uuid = "92d709cd-6900-40b7-9082-c6be49f344b6"
-version = "0.2.2"
+version = "0.1.1"
 
 [[deps.JLFzf]]
 deps = ["Pipe", "REPL", "Random", "fzf_jll"]
@@ -422,10 +601,10 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.3"
 
 [[deps.JpegTurbo_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "6f2675ef130a300a112286de91973805fcc5ffbc"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
-version = "2.1.91+0"
+version = "2.1.2+0"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -455,6 +634,10 @@ deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdow
 git-tree-sha1 = "2422f47b34d4b127720a18f86fa7b1aa2e141f29"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 version = "0.15.18"
+
+[[deps.LazyArtifacts]]
+deps = ["Artifacts", "Pkg"]
+uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -527,14 +710,24 @@ uuid = "38a345b3-de98-5d2b-a5d3-14cd9215e700"
 version = "2.36.0+0"
 
 [[deps.LinearAlgebra]]
-deps = ["Libdl", "libblastrampoline_jll"]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
-deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "0a1b7c2863e44523180fdb3146534e265a91870b"
+deps = ["DocStringExtensions", "IrrationalConstants", "LinearAlgebra"]
+git-tree-sha1 = "680e733c3a0a9cea9e935c8c2184aea6a63fa0b5"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.23"
+version = "0.3.21"
+
+    [deps.LogExpFunctions.extensions]
+    ChainRulesCoreExt = "ChainRulesCore"
+    ChangesOfVariablesExt = "ChangesOfVariables"
+    InverseFunctionsExt = "InverseFunctions"
+
+    [deps.LogExpFunctions.weakdeps]
+    ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
+    ChangesOfVariables = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
+    InverseFunctions = "3587e190-3f89-42d0-90ee-14403ec27112"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
@@ -549,6 +742,12 @@ version = "1.0.0"
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
 version = "0.1.4"
+
+[[deps.MKL_jll]]
+deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
+git-tree-sha1 = "2ce8695e1e699b68702c03402672a69f54b8aca9"
+uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
+version = "2022.2.0+0"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -569,7 +768,7 @@ version = "1.1.7"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.0+0"
+version = "2.28.2+0"
 
 [[deps.Measures]]
 git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
@@ -587,13 +786,13 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2022.2.1"
+version = "2022.10.11"
 
 [[deps.NaNMath]]
 deps = ["OpenLibm_jll"]
-git-tree-sha1 = "0877504529a3e5c3343c6f8b4c0381e57e4387e4"
+git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "1.0.2"
+version = "1.0.1"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
@@ -608,7 +807,7 @@ version = "1.3.5+1"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.20+0"
+version = "0.3.21+4"
 
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -640,20 +839,20 @@ uuid = "91d4177d-7536-5919-b921-800302f37372"
 version = "1.3.2+0"
 
 [[deps.OrderedCollections]]
-git-tree-sha1 = "d321bf2de576bf25ec4d3e4360faca399afca282"
+git-tree-sha1 = "85f8e6578bf1f9ee0d11e7bb1b1456435479d47c"
 uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
-version = "1.6.0"
+version = "1.4.1"
 
 [[deps.PCRE2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
-version = "10.40.0+0"
+version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "SnoopPrecompile"]
-git-tree-sha1 = "478ac6c952fddd4399e71d4779797c538d0ff2bf"
+git-tree-sha1 = "946b56b2135c6c10bbb93efad8a78b699b6383ab"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.5.8"
+version = "2.5.6"
 
 [[deps.Pipe]]
 git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
@@ -667,9 +866,9 @@ uuid = "30392449-352a-5448-841d-b1acce4e97dc"
 version = "0.40.1+0"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.8.0"
+version = "1.9.0"
 
 [[deps.PlotThemes]]
 deps = ["PlotUtils", "Statistics"]
@@ -685,15 +884,15 @@ version = "1.3.4"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Preferences", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SnoopPrecompile", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "186d38ea29d5c4f238b2d9fe6e1653264101944b"
+git-tree-sha1 = "8ac949bd0ebc46a44afb1fdca1094554a84b086e"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.38.9"
+version = "1.38.5"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
-git-tree-sha1 = "5bb5129fdd62a2bbbe17c2756932259acf467386"
+git-tree-sha1 = "eadad7b14cf046de6eb41f13c9275e5aa2711ab6"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.50"
+version = "0.7.49"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -754,9 +953,9 @@ version = "0.7.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
-git-tree-sha1 = "30449ee12237627992a99d5e30ae63e4d78cd24a"
+git-tree-sha1 = "f94f779c94e58bf9ea243e77a37e16d9de9126bd"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
-version = "1.2.0"
+version = "1.1.1"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -788,24 +987,25 @@ uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
 version = "1.1.0"
 
 [[deps.SparseArrays]]
-deps = ["LinearAlgebra", "Random"]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "ef28127915f4229c971eb43f3fc075dd3fe91880"
+git-tree-sha1 = "d75bda01f8c31ebb72df80a46c88b25d1c79c56d"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.2.0"
+version = "2.1.7"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.9.0"
 
 [[deps.StatsAPI]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "45a7769a04a3cf80da1c1c7c60caf932e6f4c9f7"
+git-tree-sha1 = "f9af7f195fb13589dd2e2d57fdb401717d2eb1f6"
 uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.6.0"
+version = "1.5.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
@@ -813,15 +1013,20 @@ git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.33.21"
 
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "Pkg", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "5.10.1+6"
+
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-version = "1.0.0"
+version = "1.0.3"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -840,14 +1045,14 @@ uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 version = "0.9.11"
 
 [[deps.Tricks]]
-git-tree-sha1 = "aadb748be58b492045b4f56166b5188aa63ce549"
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
 uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
-version = "0.1.7"
+version = "0.1.6"
 
 [[deps.URIs]]
-git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
+git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.4.2"
+version = "1.4.1"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -866,6 +1071,12 @@ version = "0.4.1"
 git-tree-sha1 = "ca0969166a028236229f63514992fc073799bb78"
 uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
 version = "0.2.0"
+
+[[deps.WAV]]
+deps = ["Base64", "FileIO", "Libdl", "Logging"]
+git-tree-sha1 = "7e7e1b4686995aaf4ecaaf52f6cd824fa6bd6aa5"
+uuid = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"
+version = "1.2.0"
 
 [[deps.Wayland_jll]]
 deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
@@ -1020,13 +1231,13 @@ version = "1.4.0+3"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+3"
+version = "1.2.13+0"
 
 [[deps.Zstd_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "49ce682769cd5de6c72dcf1b94ed7790cd08974c"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.5+0"
+version = "1.5.2+0"
 
 [[deps.fzf_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1047,9 +1258,9 @@ uuid = "0ac62f75-1d6f-5e53-bd7c-93b484bb37c0"
 version = "0.15.1+0"
 
 [[deps.libblastrampoline_jll]]
-deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.1+0"
+version = "5.7.0+0"
 
 [[deps.libfdk_aac_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1099,15 +1310,39 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═6dfb529b-b8ac-4509-8fea-2ecb96e87afe
-# ╟─28e7b4c8-ccdb-4ad7-960b-e88ce3bc8725
-# ╟─666fb788-51ba-453f-8187-a3992699ef9a
-# ╟─2add7868-7adb-4487-bcde-b14b4fe85fd2
-# ╟─aef56c8e-ec02-4349-b308-2e7ad287e0fa
-# ╟─203d24a9-cea7-461b-8fb0-262680dfbe99
-# ╟─d57ec346-7920-4f8e-8ad2-9089519778a1
-# ╟─14f8df3d-3eda-41f0-8e33-40958940979a
-# ╟─753ca6ba-0fec-45f7-ac05-b0afed625e79
-# ╟─9fe23cb9-cec6-4eed-9f2d-220b6e199790
+# ╠═7d6888e0-a940-11ed-096a-5956c79594e5
+# ╟─6bce3ee4-936a-44ab-beb3-1d2de11df7d1
+# ╟─630478f8-24a8-4991-b9dc-36c3091699e3
+# ╟─4b5c0628-25dd-4d68-91af-1b4b500a5369
+# ╟─9fc4e71c-c14b-4821-a6ee-652afc624803
+# ╠═11998a2f-ec2a-4f2d-8ad5-489357022201
+# ╟─0d230ac8-2726-43a9-b404-6903e2d20722
+# ╟─315e690f-b0d2-47f9-b3c1-d0f956d7414f
+# ╟─75a6a847-a476-4a14-a9bb-06ecf32503b7
+# ╠═df41d608-e0cb-49a4-9c4a-bfaee32ab1fc
+# ╟─eec1243e-0c1a-4628-aa6a-bf9db67937bc
+# ╟─55a57b15-5e44-467f-9342-9ed6cb53ac52
+# ╟─6562c7ec-3628-45b9-a7c5-0de7417c58f8
+# ╟─9ef26e79-3874-4d5a-ab81-31a40480b784
+# ╟─9156ad85-9486-48fc-bf40-6fe83f70932a
+# ╟─984d54bc-0952-4279-8d02-e23b9d7830ba
+# ╟─4a6dcc46-ab01-4f1c-ad9d-b13959696f78
+# ╠═d257c769-8366-4fe4-af4d-86fa8d2dadb7
+# ╟─cc597fcd-1512-4175-ba24-894de5876fed
+# ╟─661fa071-2df8-4345-88ae-4772a261879f
+# ╟─380643f8-4742-4136-b2f2-ff6ebc832fb6
+# ╠═23fa78df-edf7-46bf-8def-1903654fabd9
+# ╟─7983722e-0bcb-42de-846f-2bee6de3928a
+# ╠═6720e1fa-6466-4bc9-875e-03d9bba08e37
+# ╟─058c4f40-bc38-4ec8-a269-2ecb19a95e71
+# ╠═0f229e51-9ed3-4252-99c3-3cd02586482f
+# ╟─edcc8e2d-c965-45c3-946f-5ebeee75b02d
+# ╟─e38001ee-b7c6-4299-aa05-ea1d1b7fade2
+# ╠═64a7f66e-10ab-428a-ab6a-8e00bcd63c5c
+# ╟─b16cc696-7ad4-461e-9542-ecc846b7306c
+# ╠═c4ceeaf0-4a09-4b82-a297-977643990a59
+# ╟─b6b4b5d8-e9a7-4f8d-a620-f7329d9a2a0f
+# ╟─185f7dc8-3c81-4eb1-baf1-ac17f6d29980
+# ╟─ee8eb445-58dc-4ed3-b888-66383cebfe7c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

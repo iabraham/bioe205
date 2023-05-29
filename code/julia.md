@@ -29,7 +29,7 @@ course](https://computationalthinking.mit.edu/) from MIT.
 \input{julia}{/_assets/julia/ex1_2.jl}
 \input{plot}{/_assets/julia/ex1_2.jl}
 
-## Example 1.3 - MATLAB Code)
+## Example 1.3 - MATLAB Code
 \input{matlab}{/_assets/matlab/ex1_3.m}
 
 ## Example 1.3 - Julia Code
