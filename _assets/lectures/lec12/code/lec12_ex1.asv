@@ -1,0 +1,11 @@
+den = @(w) (w.*1i).*(w*.1i+10).*(w*.1i+50);
+num = @(w) 2000.*(w.*1i + 0.5);
+tf = @(w) num(w)./den(w);
+
+
+w = logspace(-1.5,2.5, 1000);
+% subplot(1, 2, 1)
+slog(w, abs(tf(w)));
+semilogx(w, angle(tf(w)));
+grid on
+
